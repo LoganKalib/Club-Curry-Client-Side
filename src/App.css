@@ -1,3 +1,26 @@
+/* General Styles */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.container {
+  flex: 1;
+}
+
+.footer {
+  background-color: #f8f9fa;
+  padding: 10px 0;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+}
+
+/* App Styles */
 .App {
   text-align: center;
 }
@@ -24,30 +47,6 @@
   color: white;
 }
 
-/* App.css */
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  margin: 0;
-}
-
-.container {
-  flex: 1;
-}
-
-.footer {
-  background-color: #f8f9fa;
-  padding: 10px 0;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  text-align: center;
-}
-
-
 .App-link {
   color: #61dafb;
 }
@@ -61,41 +60,205 @@ body {
   }
 }
 
-.menu-container {
+/* Centering only the menu container */
+.menu-wrapper {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
+  padding: 20px;
+}
+
+.menu-container {
+  width: 100%;
+  max-width: 1200px; /* Adjust the max-width as needed */
+}
+
+.category-section {
+  margin-bottom: 30px;
+  padding: 10px;
+  border-bottom: 2px solid #ddd; /* Divider between sections */
+}
+
+.category-section h2 {
+  margin-bottom: 15px;
 }
 
 .menu-button {
-  width: 150px;
-  height: 150px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.2em;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  text-align: left;
+  width: calc(50% - 10px); /* Half width with some margin */
+  height: 120px; /* Fixed height for buttons */
+  box-sizing: border-box; /* Ensure padding and border are included in the width */
+  margin-right: 10px; /* Space between buttons */
 }
 
-.menu-item {
+.menu-button:nth-child(even) {
+  margin-right: 0; /* Remove right margin for even buttons to align properly */
+}
+
+.menu-button img {
+  width: 80px; /* Fixed width */
+  height: 80px; /* Fixed height */
+  object-fit: cover; /* Ensure the image fits within the given dimensions without distortion */
+  margin-right: 15px;
+  float: left; /* Float the image to the left */
+}
+
+.menu-button .menu-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribute space between items */
+  height: 100%; /* Ensure the text container fills the height of the button */
+}
+
+.menu-button span {
+  flex: 1;
+}
+
+.item-price {
+  margin-top: 5px;
+}
+
+.alert-info {
   margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-left: 5px solid #007bff;
+  font-weight: bold;
 }
 
-.item-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
+/* Styling for modal */
+.modal-dialog {
+  max-width: 600px; /* Adjust the max-width of the modal */
+}
+
+.modal-content {
+  padding: 20px; /* Add padding inside the modal */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.modal-header {
+  border-bottom: none; /* Remove border at the bottom of the header */
+}
+
+.modal-title {
+  font-size: 1.5em; /* Increase font size for the title */
+}
+
+.modal-body {
+  padding: 20px 0; /* Add padding to top and bottom of the modal body */
+}
+
+.modal-body img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+  border-radius: 10px; /* Rounded corners for the image */
+}
+
+.modal-body p {
+  font-size: 1.1em; /* Increase font size for description */
+  line-height: 1.5; /* Add line height for better readability */
+}
+
+.modal-body .form-group {
+  margin-bottom: 20px; /* Add margin at the bottom of form groups */
+}
+
+.modal-body .form-control {
+  margin-bottom: 10px; /* Add margin at the bottom of form controls */
 }
 
 .item-quantity {
   display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  margin-bottom: 20px; /* Add margin at the bottom of quantity section */
 }
 
-.item-controls .item-quantity span {
+.item-quantity button {
+  width: 40px;
+  height: 40px;
+  font-size: 1.2em; /* Adjust font size of buttons */
+}
+
+.item-quantity span {
   margin: 0 10px;
+  font-size: 1.2em;
 }
 
+.modal-footer {
+  border-top: none; /* Remove border at the top of the footer */
+  padding: 10px 0; /* Add padding to top and bottom of the footer */
+  display: flex;
+  justify-content: center;
+}
+
+.modal-footer button {
+  padding: 10px 20px; /* Add padding inside footer buttons */
+}
+
+.cart-container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cart-item-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.cart-item-details {
+  flex: 1;
+}
+
+.cart-item h4 {
+  margin: 0;
+}
+
+.cart-item p {
+  margin: 5px 0;
+}
+
+.cart-item-divider {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+}
+
+.cart-summary {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.cart-summary h3 {
+  margin-bottom: 15px;
+}
+
+.cart-summary button {
+  padding: 10px 20px;
+}
+
+.cart-item .remove-button {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.cart-item .remove-button .fa-trash-alt {
+  margin-right: 5px; /* Space between icon and text */
+}

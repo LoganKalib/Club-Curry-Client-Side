@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 
-const Header = ({ isLoggedIn, onShowLogin, onShowSignup, onLogout }) => {
+const Header = ({ isLoggedIn, onShowLogin, onShowSignup, onLogout, onShowCart }) => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Navbar.Brand href="#">Club Curry</Navbar.Brand>
@@ -25,6 +25,9 @@ const Header = ({ isLoggedIn, onShowLogin, onShowSignup, onLogout }) => {
               </Button>
             </>
           )}
+          <Nav.Link href="#cart" onClick={onShowCart}>
+            <i className="fas fa-shopping-cart"></i> Cart
+          </Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
