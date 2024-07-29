@@ -19,7 +19,7 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
   };
 
   return (
-    <Modal show={showCart} onHide={onCloseCart} centered>
+    <Modal show={showCart} onHide={onCloseCart} centered size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Cart</Modal.Title>
       </Modal.Header>
@@ -30,14 +30,17 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
               <div key={`${item.id}-${item.specialNote}`} className="cart-item">
                 <img src={item.image} alt={item.name} />
                 <div className="cart-item-details">
-                  <h5>{item.name}</h5>
-                  <p>Spice Level: {item.spiceLevel}</p>
-                  <p>Price: R{item.price.toFixed(2)}</p>
+                  <span>{item.name}</span>
+                  <span>{item.spiceLevel}</span>
+                  <span>Special Instructions: {item.specialNote}</span>
+                  <span>R{item.price.toFixed(2)}</span>
+                </div>
+                <div className="cart-item-actions">
                   <div className="item-quantity">
                     <Button
                       variant="secondary"
                       onClick={() => handleQuantityChange(item.id, item.specialNote, -1)}
-                      disabled={item.quantity <= 1} // Disable decrement if quantity is 1
+                      disabled={item.quantity <= 1}
                     >
                       -
                     </Button>
@@ -49,29 +52,30 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
                       +
                     </Button>
                   </div>
-                  <p>Special Note: {item.specialNote}</p>
                   <Button
                     variant="danger"
                     onClick={() => handleRemove(item.id, item.specialNote)}
                     className="remove-button"
                   >
-                    <FaTrashAlt /> {/* Delete icon */}
+                    <FaTrashAlt />
                   </Button>
                 </div>
               </div>
             ))}
-            <div className="cart-footer">
-              <h4>Total: R{getTotal()}</h4>
-              <p><i>A tip would be appreciated!</i></p>
-              <Button variant="success" onClick={onCheckout}>
-                Checkout
-              </Button>
-            </div>
           </div>
         ) : (
           <p>Your cart is empty.</p>
         )}
       </Modal.Body>
+      <Modal.Footer>
+        <div className="cart-footer">
+          <h4>Total: R{getTotal()}</h4>
+          <p><i>A tip would be appreciated!</i></p>
+          <Button variant="success" onClick={onCheckout}>
+            Checkout
+          </Button>
+        </div>
+      </Modal.Footer>
     </Modal>
   );
 };

@@ -106,7 +106,7 @@ const handleUpdateQuantity = (itemId, specialNote, change) => {
         ) : (
           <div>
             <h1>Welcome to Club Curry</h1>
-            <p>Please login or sign up to continue.</p>
+            
           </div>
         )}
       </Container>
