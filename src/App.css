@@ -358,4 +358,10 @@ body {
     height: 50px; /* Adjust image height */
     margin-bottom: 10px; /* Space between image and text */
   }
+  
+  .dropdown-menu-custom {
+    max-height: 200px; /* Adjust as needed */
+    overflow-y: auto;
+  }
+  
 }
