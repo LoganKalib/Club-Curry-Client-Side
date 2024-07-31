@@ -1,0 +1,101 @@
+.cart-icon {
+    margin-left: 10px;
+    font-size: 1.5rem;
+  }
+  
+  .notification {
+    position: fixed;
+    bottom: 40px;
+    left: 55%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  
+  /* Cart Styles */
+  .cart-items {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
+  
+  .cart-item {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    border-bottom: 1px solid #ddd;
+    padding: 20px 0; /* Increased padding for more spacing */
+  }
+  
+  .cart-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px; /* Add margin to the right of the image */
+  }
+  
+  .cart-item-details {
+    display: flex;
+    flex-direction: column; /* Arrange details vertically */
+    flex: 1;
+    padding: 0 20px; /* Increased padding for more spacing */
+  }
+  
+  .cart-item-details span {
+    display: block; /* Ensure each detail is displayed as a block element */
+    margin-bottom: 10px; /* Add bottom margin for spacing between details */
+  }
+  
+  .cart-item-actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Push actions to the far right */
+  }
+  
+  .item-quantity {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; /* Add margin to the right of the quantity section */
+    margin-bottom: 0px;
+  }
+  
+  .item-quantity button,
+  .remove-button {
+    width: 40px; /* Ensure remove button is the same width as increment buttons */
+    height: 40px; /* Ensure remove button is the same height as increment buttons */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em; /* Adjust font size for consistency */
+  }
+  
+  .item-quantity span {
+    margin: 0 10px;
+    font-size: 1.1em;
+  }
+  
+  .remove-button {
+    cursor: pointer;
+  }
+  
+  .cart-footer {
+    text-align: center;
+    width: 100%;
+    padding: 20px 0; /* Add padding to center the footer */
+  }
+  
+  .cart-footer h4 {
+    margin: 10px 0;
+    font-size: 1.2em;
+  }
+  
+  .cart-footer p {
+    font-style: italic;
+    margin-bottom: 15px;
+  }
+  
+  .cart-footer button {
+    margin-top: 10px;
+  }

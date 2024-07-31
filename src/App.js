@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Menu from './components/Menu';
+import HomePage from './components/HomePage';
 import LoginModal from './components/LoginModal';
 import SignupModal from './components/SignupModal';
 import Cart from './components/Cart';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import './App.css';
+import './CSS/App.css';
+import './CSS/Menu.css';
+import './CSS/Cart.css';
+import './CSS/Footer.css';
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,8 +44,6 @@ function App() {
   const addToCart = (item) => {
     setCartItems(prevItems => {
       const newItem = { ...item, spiceLevel: item.spiceLevel, specialNote: item.notes };
-  
-      // Create a unique identifier based on item ID, spice level, and notes
       const existingItemIndex = prevItems.findIndex(
         i => i.id === item.id && i.spiceLevel === item.spiceLevel && i.specialNote === item.specialNote
       );
@@ -57,18 +61,25 @@ function App() {
     });
   };
   
-  
-  const removeFromCart = (itemId, specialNote) => {
+  const removeFromCart = (itemId, specialNote, spiceLevel) => {
     setCartItems(prevItems => {
-      // Remove item with matching id and specialNote
+      // Remove item with matching id, specialNote, and spiceLevel
       const updatedItems = prevItems.filter(item =>
-        !(item.id === itemId && item.specialNote === specialNote)
+        !(item.id === itemId && item.specialNote === specialNote && item.spiceLevel === spiceLevel)
       );
       return updatedItems;
     });
   };
   
-  
+  const handleUpdateQuantity = (itemId, specialNote, spiceLevel, change) => {
+    setCartItems(prevItems => prevItems.map(item => {
+      if (item.id === itemId && item.specialNote === specialNote && item.spiceLevel === spiceLevel) {
+        // Update quantity
+        return { ...item, quantity: Math.max(item.quantity + change, 1) };
+      }
+      return item;
+    }));
+  };
   
 
   const toggleCart = () => {
@@ -78,50 +89,47 @@ function App() {
   const handleCheckout = () => {
     alert('Checkout is not yet implemented.');
   };
-// Example of updating quantity in App.js or your main component
-const handleUpdateQuantity = (itemId, specialNote, change) => {
-  setCartItems(prevItems => prevItems.map(item => {
-    if (item.id === itemId && item.specialNote === specialNote) {
-      // Update quantity
-      return { ...item, quantity: Math.max(item.quantity + change, 1) };
-    }
-    return item;
-  }));
-};
+
   return (
-    <div className="App">
-      <Header
-        isLoggedIn={isLoggedIn}
-        onShowLogin={() => setShowLogin(true)}
-        onShowSignup={() => setShowSignup(true)}
-        onLogout={handleLogout}
-        onShowCart={toggleCart}
-      />
-      <Container>
-        {isLoggedIn ? (
-          <div>
-            <h1>Welcome, {user.email}</h1>
-            <Menu addToCart={addToCart} />
-          </div>
-        ) : (
-          <div>
-            <h1>Welcome to Club Curry</h1>
+    <Router>
+      <div className="App">
+        <Header
+          isLoggedIn={isLoggedIn}
+          onShowLogin={() => setShowLogin(true)}
+          onShowSignup={() => setShowSignup(true)}
+          onLogout={handleLogout}
+          onShowCart={toggleCart}
+        />
+        <Container>
+          <Routes>
+            <Route path="/" element={
+              isLoggedIn ? (
+                <div>
+                  <h1>Welcome, {user.email}</h1>
+                  <Menu addToCart={addToCart} />
+                </div>
+              ) : (
+                <HomePage />
+              )
+            } />
+            <Route path="/menu" element={<Menu addToCart={addToCart} />} />
             
-          </div>
-        )}
-      </Container>
-      <Footer />
-      <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} onLogin={handleLogin} />
-      <SignupModal show={showSignup} handleClose={() => setShowSignup(false)} onSignup={handleSignup} />
-      <Cart
-        cartItems={cartItems}
-        onRemoveItem={removeFromCart}
-        onUpdateQuantity={handleUpdateQuantity}
-        onCheckout={handleCheckout}
-        showCart={showCart}
-        onCloseCart={toggleCart}
-      />
-    </div>
+            <Route path="*" element={<div>Page Not Found</div>} />
+          </Routes>
+        </Container>
+        <Footer />
+        <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} onLogin={handleLogin} />
+        <SignupModal show={showSignup} handleClose={() => setShowSignup(false)} onSignup={handleSignup} />
+        <Cart
+          cartItems={cartItems}
+          onRemoveItem={removeFromCart}
+          onUpdateQuantity={handleUpdateQuantity}
+          onCheckout={handleCheckout}
+          showCart={showCart}
+          onCloseCart={toggleCart}
+        />
+      </div>
+    </Router>
   );
 }
 

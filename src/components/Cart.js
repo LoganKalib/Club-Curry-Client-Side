@@ -1,19 +1,16 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { FaTrashAlt } from 'react-icons/fa'; // Import delete icon from react-icons
+import { FaTrashAlt } from 'react-icons/fa';
 
 const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart, onCloseCart }) => {
-  // Function to handle quantity change
-  const handleQuantityChange = (itemId, specialNote, change) => {
-    onUpdateQuantity(itemId, specialNote, change); // Adjust quantity
+  const handleQuantityChange = (itemId, specialNote, spiceLevel, change) => {
+    onUpdateQuantity(itemId, specialNote, spiceLevel, change);
   };
 
-  // Function to handle item removal
-  const handleRemove = (itemId, specialNote) => {
-    onRemoveItem(itemId, specialNote); // Remove entire item
+  const handleRemove = (itemId, specialNote, spiceLevel) => {
+    onRemoveItem(itemId, specialNote, spiceLevel);
   };
 
-  // Calculate total price
   const getTotal = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
   };
@@ -27,7 +24,7 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
         {cartItems.length > 0 ? (
           <div className="cart-items">
             {cartItems.map(item => (
-              <div key={`${item.id}-${item.specialNote}`} className="cart-item">
+              <div key={`${item.id}-${item.specialNote}-${item.spiceLevel}`} className="cart-item">
                 <img src={item.image} alt={item.name} />
                 <div className="cart-item-details">
                   <span>{item.name}</span>
@@ -39,7 +36,7 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
                   <div className="item-quantity">
                     <Button
                       variant="secondary"
-                      onClick={() => handleQuantityChange(item.id, item.specialNote, -1)}
+                      onClick={() => handleQuantityChange(item.id, item.specialNote, item.spiceLevel, -1)}
                       disabled={item.quantity <= 1}
                     >
                       -
@@ -47,14 +44,14 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
                     <span>{item.quantity}</span>
                     <Button
                       variant="secondary"
-                      onClick={() => handleQuantityChange(item.id, item.specialNote, 1)}
+                      onClick={() => handleQuantityChange(item.id, item.specialNote, item.spiceLevel, 1)}
                     >
                       +
                     </Button>
                   </div>
                   <Button
                     variant="danger"
-                    onClick={() => handleRemove(item.id, item.specialNote)}
+                    onClick={() => handleRemove(item.id, item.specialNote, item.spiceLevel)}
                     className="remove-button"
                   >
                     <FaTrashAlt />
