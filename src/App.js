@@ -1,6 +1,8 @@
+// src/App.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import { v4 as uuidv4 } from 'uuid'; // Import uuid
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Menu from './components/Menu';
@@ -13,7 +15,6 @@ import './CSS/App.css';
 import './CSS/Menu.css';
 import './CSS/Cart.css';
 import './CSS/Footer.css';
-
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -42,45 +43,24 @@ function App() {
   };
 
   const addToCart = (item) => {
-    setCartItems(prevItems => {
-      const newItem = { ...item, spiceLevel: item.spiceLevel, specialNote: item.notes };
-      const existingItemIndex = prevItems.findIndex(
-        i => i.id === item.id && i.spiceLevel === item.spiceLevel && i.specialNote === item.specialNote
-      );
-  
-      if (existingItemIndex > -1) {
-        // Update quantity if item already exists
-        return prevItems.map((i, index) =>
-          index === existingItemIndex
-            ? { ...i, quantity: i.quantity + item.quantity }
-            : i
-        );
-      }
-      // Add new item to the cart
-      return [...prevItems, { ...newItem, quantity: item.quantity }];
-    });
+    setCartItems(prevItems => [
+      ...prevItems,
+      { ...item, spiceLevel: item.spiceLevel, specialNote: item.notes, quantity: item.quantity, uniqueId: uuidv4() }
+    ]);
   };
-  
-  const removeFromCart = (itemId, specialNote, spiceLevel) => {
-    setCartItems(prevItems => {
-      // Remove item with matching id, specialNote, and spiceLevel
-      const updatedItems = prevItems.filter(item =>
-        !(item.id === itemId && item.specialNote === specialNote && item.spiceLevel === spiceLevel)
-      );
-      return updatedItems;
-    });
+
+  const removeFromCart = (uniqueId) => {
+    setCartItems(prevItems => prevItems.filter(item => item.uniqueId !== uniqueId));
   };
-  
-  const handleUpdateQuantity = (itemId, specialNote, spiceLevel, change) => {
+
+  const handleUpdateQuantity = (uniqueId, change) => {
     setCartItems(prevItems => prevItems.map(item => {
-      if (item.id === itemId && item.specialNote === specialNote && item.spiceLevel === spiceLevel) {
-        // Update quantity
+      if (item.uniqueId === uniqueId) {
         return { ...item, quantity: Math.max(item.quantity + change, 1) };
       }
       return item;
     }));
   };
-  
 
   const toggleCart = () => {
     setShowCart(prevState => !prevState);
@@ -113,13 +93,12 @@ function App() {
               )
             } />
             <Route path="/menu" element={<Menu addToCart={addToCart} />} />
-            
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>
         </Container>
         <Footer />
-        <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} onLogin={handleLogin} />
-        <SignupModal show={showSignup} handleClose={() => setShowSignup(false)} onSignup={handleSignup} />
+        <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} handleLogin={handleLogin} />
+        <SignupModal show={showSignup} handleClose={() => setShowSignup(false)} handleSignup={handleSignup} />
         <Cart
           cartItems={cartItems}
           onRemoveItem={removeFromCart}

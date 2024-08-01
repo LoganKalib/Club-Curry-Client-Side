@@ -1,14 +1,15 @@
+// src/components/Cart.js
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 
 const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart, onCloseCart }) => {
-  const handleQuantityChange = (itemId, specialNote, spiceLevel, change) => {
-    onUpdateQuantity(itemId, specialNote, spiceLevel, change);
+  const handleQuantityChange = (uniqueId, change) => {
+    onUpdateQuantity(uniqueId, change);
   };
 
-  const handleRemove = (itemId, specialNote, spiceLevel) => {
-    onRemoveItem(itemId, specialNote, spiceLevel);
+  const handleRemove = (uniqueId) => {
+    onRemoveItem(uniqueId);
   };
 
   const getTotal = () => {
@@ -24,7 +25,7 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
         {cartItems.length > 0 ? (
           <div className="cart-items">
             {cartItems.map(item => (
-              <div key={`${item.id}-${item.specialNote}-${item.spiceLevel}`} className="cart-item">
+              <div key={item.uniqueId} className="cart-item">
                 <img src={item.image} alt={item.name} />
                 <div className="cart-item-details">
                   <span>{item.name}</span>
@@ -36,7 +37,7 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
                   <div className="item-quantity">
                     <Button
                       variant="secondary"
-                      onClick={() => handleQuantityChange(item.id, item.specialNote, item.spiceLevel, -1)}
+                      onClick={() => handleQuantityChange(item.uniqueId, -1)}
                       disabled={item.quantity <= 1}
                     >
                       -
@@ -44,14 +45,14 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
                     <span>{item.quantity}</span>
                     <Button
                       variant="secondary"
-                      onClick={() => handleQuantityChange(item.id, item.specialNote, item.spiceLevel, 1)}
+                      onClick={() => handleQuantityChange(item.uniqueId, 1)}
                     >
                       +
                     </Button>
                   </div>
                   <Button
                     variant="danger"
-                    onClick={() => handleRemove(item.id, item.specialNote, item.spiceLevel)}
+                    onClick={() => handleRemove(item.uniqueId)}
                     className="remove-button"
                   >
                     <FaTrashAlt />
