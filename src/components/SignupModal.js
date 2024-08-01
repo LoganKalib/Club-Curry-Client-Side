@@ -1,3 +1,4 @@
+// src/components/SignupModal.js
 import React, { useState } from 'react';
 import { Modal, Button, Form, Dropdown } from 'react-bootstrap';
 

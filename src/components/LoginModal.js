@@ -1,17 +1,14 @@
+// src/components/LoginModal.js
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-const LoginModal = ({ show, handleClose, onLogin }) => {
+const LoginModal = ({ show, handleClose, handleLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const userRole = 'Admin'; // Dummy role for example purposes
-    const empNum = '12345';   // Dummy employee number for example purposes
-
-    onLogin({ email, userRole, empNum, password });
-    handleClose();
+    handleLogin({ email, password });
   };
 
   return (
@@ -30,8 +27,7 @@ const LoginModal = ({ show, handleClose, onLogin }) => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
-
-          <Form.Group controlId="formBasicPassword">
+          <Form.Group controlId="formBasicPassword" className="mt-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
@@ -40,8 +36,7 @@ const LoginModal = ({ show, handleClose, onLogin }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
-
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" className="mt-3">
             Login
           </Button>
         </Form>

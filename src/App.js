@@ -98,7 +98,7 @@ function App() {
         </Container>
         <Footer />
         <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} handleLogin={handleLogin} />
-        <SignupModal show={showSignup} handleClose={() => setShowSignup(false)} handleSignup={handleSignup} />
+        <SignupModal show={showSignup} handleClose={() => setShowSignup(false)} onSignup={handleSignup} />
         <Cart
           cartItems={cartItems}
           onRemoveItem={removeFromCart}
