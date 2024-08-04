@@ -1,7 +1,8 @@
 // src/components/Menu.js
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { FaShoppingCart } from 'react-icons/fa'; // Import cart icon
+import axios from 'axios';
 
 const Menu = ({ addToCart }) => {
   const categories = ['Starters', 'Mains', 'Desserts', 'Drinks', 'Sides', 'Specials'];
@@ -12,6 +13,19 @@ const Menu = ({ addToCart }) => {
   const [quantity, setQuantity] = useState(1);
   const [notification, setNotification] = useState('');
   
+  const [menuItems, setMenuItems] = useState([]);
+
+    useEffect(()=>{
+      loadItems();
+    },[]);
+
+    const loadItems=async()=>{
+      const results = await axios.get("http://localhost:8080/ClubCurry/menuItem/getAll");
+      setMenuItems(results);
+    }
+
+    console.log(menuItems);
+
 
   const initialItems = {
     Starters: [
