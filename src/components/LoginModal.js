@@ -1,14 +1,21 @@
-// src/components/LoginModal.js
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-const LoginModal = ({ show, handleClose, handleLogin }) => {
+const LoginModal = ({ show, handleClose, handleLogin, setIsAdmin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isAdminLogin, setIsAdminLogin] = useState(false); // Track admin login
+  const navigate = useNavigate(); // Create a navigate instance
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleLogin({ email, password });
+    handleLogin({ email, password }, isAdminLogin); // Pass admin status
+    if (isAdminLogin) {
+      navigate('/admin'); // Redirect to Admin page if admin
+    } else {
+      navigate('/'); // Redirect to HomePage for regular users
+    }
   };
 
   return (
@@ -36,6 +43,13 @@ const LoginModal = ({ show, handleClose, handleLogin }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
+          <Form.Check
+            type="checkbox"
+            label="Admin Login"
+            checked={isAdminLogin}
+            onChange={(e) => setIsAdminLogin(e.target.checked)}
+            className="mt-3"
+          />
           <Button variant="primary" type="submit" className="mt-3">
             Login
           </Button>

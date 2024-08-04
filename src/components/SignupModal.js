@@ -1,6 +1,7 @@
 // src/components/SignupModal.js
 import React, { useState } from 'react';
 import { Modal, Button, Form, Dropdown } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const countryOptions = [
   { code: '+27', name: 'South Africa' },
@@ -44,6 +45,7 @@ const SignupModal = ({ show, handleClose, onSignup }) => {
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [selectedCountry, setSelectedCountry] = useState(countryOptions[0]); // Default to South Africa
+  const navigate = useNavigate(); // Create a navigate instance
 
   const handleCountrySelect = (countryCode) => {
     const country = countryOptions.find(c => c.code === countryCode);
@@ -55,7 +57,7 @@ const SignupModal = ({ show, handleClose, onSignup }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSignup({ name, surname, email, password, phoneNumber: `${selectedCountry.code}${phoneNumber}` });
-    handleClose();
+    navigate('/'); // Redirect to HomePage after signup
   };
 
   return (

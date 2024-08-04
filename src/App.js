@@ -2,36 +2,57 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import { v4 as uuidv4 } from 'uuid'; // Import uuid
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Menu from './components/Menu';
+import MenuAdmin from './components/MenuAdmin'; // Import MenuAdmin
 import HomePage from './components/HomePage';
 import LoginModal from './components/LoginModal';
 import SignupModal from './components/SignupModal';
 import Cart from './components/Cart';
+import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
 import './CSS/Menu.css';
 import './CSS/Cart.css';
 import './CSS/Footer.css';
 
+const ADMIN_CREDENTIALS = {
+  username: 'admin@email.com',
+  password: 'admin123'
+};
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false); // Add state for admin
   const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]); // Initialize as an empty array
   const [showCart, setShowCart] = useState(false);
+  const [menuItems, setMenuItems] = useState([]); // Initialize as an empty array
 
-  const handleLogin = (userData) => {
-    setUser(userData);
+  const handleLogin = (userData, admin = false) => {
+    if (admin) {
+      if (userData.email === ADMIN_CREDENTIALS.username && userData.password === ADMIN_CREDENTIALS.password) {
+        setIsLoggedIn(true);
+        setIsAdmin(true);
+        setUser(userData);
+        setShowLogin(false);
+        return; // Successful admin login
+      } else {
+        alert('Invalid admin credentials');
+        return; // Prevent further action
+      }
+    }
+
     setIsLoggedIn(true);
+    setIsAdmin(false);
+    setUser(userData);
     setShowLogin(false);
   };
 
   const handleSignup = (userData) => {
-    console.log('User signed up:', userData);
     setIsLoggedIn(true);
     setUser(userData);
     setShowSignup(false);
@@ -40,6 +61,7 @@ function App() {
   const handleLogout = () => {
     setUser(null);
     setIsLoggedIn(false);
+    setIsAdmin(false); // Reset admin status
   };
 
   const addToCart = (item) => {
@@ -86,18 +108,27 @@ function App() {
               isLoggedIn ? (
                 <div>
                   <h1>Welcome, {user.email}</h1>
-                  <Menu addToCart={addToCart} />
+                  <Menu addToCart={addToCart} items={menuItems} />
                 </div>
               ) : (
                 <HomePage />
               )
             } />
-            <Route path="/menu" element={<Menu addToCart={addToCart} />} />
+            <Route path="/menu" element={<Menu addToCart={addToCart} items={menuItems} />} />
+            <Route path="/admin" element={isAdmin ? (
+              <MenuAdmin initialItems={menuItems} onUpdateItems={setMenuItems} />
+            ) : (
+              <div>Access Denied</div>
+            )} />
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>
         </Container>
         <Footer />
-        <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} handleLogin={handleLogin} />
+        <LoginModal
+          show={showLogin}
+          handleClose={() => setShowLogin(false)}
+          handleLogin={handleLogin}
+        />
         <SignupModal show={showSignup} handleClose={() => setShowSignup(false)} onSignup={handleSignup} />
         <Cart
           cartItems={cartItems}
@@ -106,6 +137,9 @@ function App() {
           onCheckout={handleCheckout}
           showCart={showCart}
           onCloseCart={toggleCart}
+          isLoggedIn={isLoggedIn}
+          onShowLogin={() => setShowLogin(true)}
+          onShowSignup={() => setShowSignup(true)}
         />
       </div>
     </Router>

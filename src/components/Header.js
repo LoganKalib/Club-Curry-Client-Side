@@ -1,8 +1,15 @@
 import React from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Header = ({ isLoggedIn, onShowLogin, onShowSignup, onLogout, onShowCart }) => {
+  const navigate = useNavigate(); // Create a navigate instance
+
+  const handleLogout = () => {
+    onLogout(); // Call the logout function passed from props
+    navigate('/'); // Redirect to HomePage after logout
+  };
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
       <Navbar.Brand href="#">Club Curry</Navbar.Brand>
@@ -13,7 +20,7 @@ const Header = ({ isLoggedIn, onShowLogin, onShowSignup, onLogout, onShowCart })
             Home
           </Nav.Link>
           {isLoggedIn ? (
-            <Button variant="outline-light" onClick={onLogout}>
+            <Button variant="outline-light" onClick={handleLogout}>
               Logout
             </Button>
           ) : (

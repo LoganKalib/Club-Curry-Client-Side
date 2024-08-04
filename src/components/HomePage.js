@@ -6,12 +6,12 @@ function HomePage() {
   return (
     <div className="home-page">
       <div className="about-section">
-        <h1 className="display-4 mb-4">About Curry Club</h1>
+        <h1 className="display-4 mb-4">About Club Curry</h1>
         <p className="lead mb-4">
-          Welcome to the Curry Club. We offer a variety of delicious curries...
+          Welcome to the Club Curry. We offer a variety of delicious curries...
         </p>
         <Button variant="primary" as={Link} to="/menu" className="buttonmen">
-          View Menu
+          View Menu & Order
         </Button>
       </div>
     </div>
