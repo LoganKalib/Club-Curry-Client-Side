@@ -5,12 +5,13 @@ import { Container } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Menu from './components/Menu';
-import MenuAdmin from './components/MenuAdmin'; // Import MenuAdmin
+import MenuAdmin from './components/MenuAdmin';
 import HomePage from './components/HomePage';
 import LoginModal from './components/LoginModal';
 import SignupModal from './components/SignupModal';
 import Cart from './components/Cart';
-import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
+import BookingModal from './components/BookingModal'; // Import BookingModal
+import { v4 as uuidv4 } from 'uuid';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
 import './CSS/Menu.css';
@@ -24,13 +25,14 @@ const ADMIN_CREDENTIALS = {
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false); // Add state for admin
+  const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
-  const [cartItems, setCartItems] = useState([]); // Initialize as an empty array
+  const [cartItems, setCartItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
-  const [menuItems, setMenuItems] = useState([]); // Initialize as an empty array
+  const [menuItems, setMenuItems] = useState([]);
+  const [showBooking, setShowBooking] = useState(false);
 
   const handleLogin = (userData, admin = false) => {
     if (admin) {
@@ -39,10 +41,10 @@ function App() {
         setIsAdmin(true);
         setUser(userData);
         setShowLogin(false);
-        return; // Successful admin login
+        return;
       } else {
         alert('Invalid admin credentials');
-        return; // Prevent further action
+        return;
       }
     }
 
@@ -61,7 +63,7 @@ function App() {
   const handleLogout = () => {
     setUser(null);
     setIsLoggedIn(false);
-    setIsAdmin(false); // Reset admin status
+    setIsAdmin(false);
   };
 
   const addToCart = (item) => {
@@ -92,6 +94,11 @@ function App() {
     alert('Checkout is not yet implemented.');
   };
 
+  const handleBooking = (bookingData) => {
+    console.log('Booking Data:', bookingData);
+    alert('Booking Confirmed!');
+  };
+
   return (
     <Router>
       <div className="App">
@@ -101,6 +108,7 @@ function App() {
           onShowSignup={() => setShowSignup(true)}
           onLogout={handleLogout}
           onShowCart={toggleCart}
+          onShowBooking={() => setShowBooking(true)} // Add onShowBooking handler
         />
         <Container>
           <Routes>
@@ -137,6 +145,14 @@ function App() {
           onCheckout={handleCheckout}
           showCart={showCart}
           onCloseCart={toggleCart}
+          isLoggedIn={isLoggedIn}
+          onShowLogin={() => setShowLogin(true)}
+          onShowSignup={() => setShowSignup(true)}
+        />
+        <BookingModal
+          show={showBooking}
+          handleClose={() => setShowBooking(false)}
+          handleBooking={handleBooking}
           isLoggedIn={isLoggedIn}
           onShowLogin={() => setShowLogin(true)}
           onShowSignup={() => setShowSignup(true)}

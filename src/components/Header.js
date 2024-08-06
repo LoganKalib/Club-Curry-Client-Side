@@ -1,13 +1,14 @@
+// src/components/Header.js
 import React from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 
-const Header = ({ isLoggedIn, onShowLogin, onShowSignup, onLogout, onShowCart }) => {
-  const navigate = useNavigate(); // Create a navigate instance
+const Header = ({ isLoggedIn, onShowLogin, onShowSignup, onLogout, onShowCart, onShowBooking }) => {
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    onLogout(); // Call the logout function passed from props
-    navigate('/'); // Redirect to HomePage after logout
+    onLogout();
+    navigate('/');
   };
 
   return (
@@ -35,6 +36,9 @@ const Header = ({ isLoggedIn, onShowLogin, onShowSignup, onLogout, onShowCart })
           )}
           <Nav.Link href="#cart" onClick={onShowCart}>
             <i className="fas fa-shopping-cart"></i> Cart
+          </Nav.Link>
+          <Nav.Link href="#booking" onClick={onShowBooking}>
+            <i className="fas fa-calendar-alt"></i> Book a Table
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
