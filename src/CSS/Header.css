@@ -1,0 +1,19 @@
+/* src/CSS/Header.css */
+.navbar-nav .nav-link {
+    color: #ffffff; /* Default color */
+  }
+  
+  .navbar-nav .nav-link.active {
+    color: #ff8a8a; /* Highlight color for the active link */
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #ff5c56; /* Color on hover */
+  }
+  
+  .buttons-container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+  }
+  

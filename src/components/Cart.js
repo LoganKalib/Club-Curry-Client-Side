@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, Button, Accordion, Form, Alert } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+
 
 const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart, onCloseCart, isLoggedIn, onShowLogin, onShowSignup }) => {
   const [orderType, setOrderType] = useState('');
@@ -8,6 +10,8 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
   const [driverNote, setDriverNote] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+
+  const navigate = useNavigate(); // Use navigate to redirect to home page
 
   const handleQuantityChange = (uniqueId, change) => {
     onUpdateQuantity(uniqueId, change);
@@ -43,9 +47,15 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
     onShowSignup();
   };
 
+  const handleModalClose = () => {
+    onCloseCart();
+    navigate('/');
+  };
+
   return (
     <>
-      <Modal show={showCart} onHide={onCloseCart} centered size="lg">
+      <div className={`modal-overlay ${showCart ? 'active' : ''}`} onClick={handleModalClose}></div>
+      <Modal show={showCart} onHide={handleModalClose} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Cart</Modal.Title>
         </Modal.Header>

@@ -16,7 +16,9 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
 import './CSS/Menu.css';
 import './CSS/Cart.css';
+import './CSS/Header.css';
 import './CSS/Footer.css';
+import './CSS/Overlay.css'; // Import CSS for overlay
 
 const ADMIN_CREDENTIALS = {
   username: 'admin@email.com',
@@ -110,6 +112,7 @@ function App() {
           onShowCart={toggleCart}
           onShowBooking={() => setShowBooking(true)} // Add onShowBooking handler
         />
+        {(showCart || showBooking) && <div className="overlay"></div>}
         <Container>
           <Routes>
             <Route path="/" element={
@@ -144,7 +147,7 @@ function App() {
           onUpdateQuantity={handleUpdateQuantity}
           onCheckout={handleCheckout}
           showCart={showCart}
-          onCloseCart={toggleCart}
+          onCloseCart={() => setShowCart(false)}
           isLoggedIn={isLoggedIn}
           onShowLogin={() => setShowLogin(true)}
           onShowSignup={() => setShowSignup(true)}
