@@ -21,8 +21,11 @@ const Menu = ({ addToCart }) => {
 
     const loadItems=async()=>{
       const results = await axios.get("http://localhost:8080/ClubCurry/menuItem/getAll");
-      setMenuItems(results);
+      setMenuItems(results.data);
     }
+    const uniqueMenus = [...new Set( menuItems.map(obj => obj.menuId.name)) ];
+
+    console.log(uniqueMenus);
 
     console.log(menuItems);
 
