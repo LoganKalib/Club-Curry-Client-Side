@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid'; // Import uuid
 
@@ -15,6 +16,22 @@ const MenuAdmin = ({ initialItems, onUpdateItems }) => {
     category: 'Starters',
     available: true,
   });
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const loadItems = async () => {
+      try {
+        const results = await axios.get("http://localhost:8080/ClubCurry/menu/getAll");
+        // Extract categories from the results if available
+        const uniqueCategories = Array.from(new Set(results.data.map(item => item.name)));
+        setCategories(uniqueCategories);
+      } catch (error) {
+        console.error('Error loading items:', error);
+      }
+    };
+
+    loadItems();
+  }, []);
 
   const handleShow = (item = null) => {
     setEditMode(!!item);
@@ -93,8 +110,8 @@ const MenuAdmin = ({ initialItems, onUpdateItems }) => {
             <Form.Group controlId="formItemImage">
               <Form.Label>Image URL</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Enter image URL"
+                type="file"
+                placeholder="Enter image"
                 name="image"
                 value={newItem.image}
                 onChange={handleChange}
@@ -119,12 +136,15 @@ const MenuAdmin = ({ initialItems, onUpdateItems }) => {
                 value={newItem.category}
                 onChange={handleChange}
               >
-                <option>Starters</option>
-                <option>Mains</option>
-                <option>Desserts</option>
-                <option>Drinks</option>
-                <option>Sides</option>
-                <option>Specials</option>
+                {categories.length > 0 ? (
+                  categories.map((category, index) => (
+                    <option key={index} value={category}>
+                      {category}
+                    </option>
+                  ))
+                ) : (
+                  <option>Loading...</option>
+                )}
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="formItemAvailable">
