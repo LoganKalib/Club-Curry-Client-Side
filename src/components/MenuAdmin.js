@@ -147,15 +147,6 @@ const MenuAdmin = ({ initialItems, onUpdateItems }) => {
                 )}
               </Form.Control>
             </Form.Group>
-            <Form.Group controlId="formItemAvailable">
-              <Form.Check
-                type="checkbox"
-                label="Available"
-                name="available"
-                checked={newItem.available}
-                onChange={handleChange}
-              />
-            </Form.Group>
             <Button variant="primary" onClick={handleSave}>
               Save
             </Button>
