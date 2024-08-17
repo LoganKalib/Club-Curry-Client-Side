@@ -22,8 +22,9 @@ const MenuAdmin = () => {
         const itemsResponse = await axios.get("http://localhost:8080/ClubCurry/menuItem/getAll");
         structureMenuItems(itemsResponse.data); 
 
-        // Fetch categories distinctly from items or another endpoint
-        const uniqueCategories = Array.from(new Set(itemsResponse.data.map(item => item.menuId.name))); // Adjusting here to get name directly
+        const uniqueCategories = Array.from(new Set(itemsResponse.data.map(item => item.menuId.name)));
+        const uniqueCategories1 = Array.from(new Set(itemsResponse.data.map(item => item.menuId)));
+        console.log(uniqueCategories1);
         setCategories(uniqueCategories);
       } catch (error) {
         console.error('Error loading items or categories:', error);
@@ -36,7 +37,7 @@ const MenuAdmin = () => {
   const structureMenuItems = (items) => {
     const structured = {};
     items.forEach(item => {
-      const category = item.menuId.name; // Ensure this is the right path to get category names
+      const category = item.menuId.name; 
       if (!structured[category]) {
         structured[category] = [];
       }
@@ -56,7 +57,7 @@ const MenuAdmin = () => {
       name: '',
       description: '',
       price: '',
-      menuId: '', // Make sure category is reset
+      menuId: '', 
     });
     setImageFile(null);
     setShowAddModal(true);
@@ -75,20 +76,21 @@ const MenuAdmin = () => {
     const formData = new FormData();
     formData.append('image', imageFile);
     try {
+      console.log(newItem);
       await axios.post('http://localhost:8080/ClubCurry/menuItem/save', newItem);
-      formData.append("itemId", newItem.id);
-      await axios.post(`http://localhost:8080/ClubCurry/image/save`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      // await axios.get("http://localhost:8080/ClubCurry/menuItem/getIdByName")
+      // formData.append("itemId",);
+      // await axios.post(`http://localhost:8080/ClubCurry/image/save`, formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      // });
 
       const newItemWithImage = {
         ...newItem,
-        image: `http://localhost:8080/ClubCurry/image/getByMenuId/${newItem.category}`, // Update image URL if necessary
+        image: `http://localhost:8080/ClubCurry/image/getByMenuId/${newItem.category}`,
       };
       
-      // Update structured menu with the newly added item
       const updatedStructuredMenu = { ...structuredMenu };
       const category = newItem.category;
 
@@ -109,7 +111,7 @@ const MenuAdmin = () => {
     const { name, value } = e.target;
     setNewItem(prevItem => ({
       ...prevItem,
-      [name]: value, // No need for checking type here since all inputs are text and file
+      [name]: value,
     }));
   };
 
@@ -204,7 +206,7 @@ const MenuAdmin = () => {
                 name="category"
                 value={newItem.category}
                 onChange={handleChange}
-                required // Ensure category selection is mandatory
+                required
               >
                 {categories.length > 0 ? (
                   categories.map((category, index) => (

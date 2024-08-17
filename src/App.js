@@ -21,8 +21,8 @@ import './CSS/Footer.css';
 import './CSS/Overlay.css'; // Import CSS for overlay
 
 const ADMIN_CREDENTIALS = {
-  username: 'admin@email.com',
-  password: 'admin123'
+  username: '1@gmail.com',
+  password: '1'
 };
 
 function App() {
