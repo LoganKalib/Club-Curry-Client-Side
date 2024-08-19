@@ -9,7 +9,7 @@ const MenuAdmin = () => {
     name: '',
     description: '',
     price: '',
-    menuId: '',
+    menuId: ''
   });
   const [categories, setCategories] = useState([]);
   const [itemToDeleteId, setItemToDeleteId] = useState(null);
@@ -22,10 +22,14 @@ const MenuAdmin = () => {
         const itemsResponse = await axios.get("http://localhost:8080/ClubCurry/menuItem/getAll");
         structureMenuItems(itemsResponse.data); 
 
-        const uniqueCategories = Array.from(new Set(itemsResponse.data.map(item => item.menuId.name)));
-        const uniqueCategories1 = Array.from(new Set(itemsResponse.data.map(item => item.menuId)));
-        console.log(uniqueCategories1);
-        setCategories(uniqueCategories);
+        //const uniqueCategories = Array.from(new Set(itemsResponse.data.map(item => item.menuId.name)));
+        const uniqueCategoriesWithId = Array.from(new Set(itemsResponse.data.map(item => {
+          return {
+            id: item.menuId.id,
+            name: item.menuId.name
+          };
+        })));
+        setCategories(uniqueCategoriesWithId);
       } catch (error) {
         console.error('Error loading items or categories:', error);
       }
@@ -57,7 +61,7 @@ const MenuAdmin = () => {
       name: '',
       description: '',
       price: '',
-      menuId: '', 
+      menuId: {}, 
     });
     setImageFile(null);
     setShowAddModal(true);
@@ -75,40 +79,57 @@ const MenuAdmin = () => {
   const handleSave = async () => {
     const formData = new FormData();
     formData.append('image', imageFile);
-    try {
-      console.log(newItem);
-      await axios.post('http://localhost:8080/ClubCurry/menuItem/save', newItem);
-      // await axios.get("http://localhost:8080/ClubCurry/menuItem/getIdByName")
-      // formData.append("itemId",);
-      // await axios.post(`http://localhost:8080/ClubCurry/image/save`, formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      // });
+    
+    const itemToSave = {
+      name: newItem.name,
+      price: parseFloat(newItem.price),
+      description: newItem.description,
+      menuId: {id: newItem.menuId}
+        
+    };
 
-      const newItemWithImage = {
-        ...newItem,
-        image: `http://localhost:8080/ClubCurry/image/getByMenuId/${newItem.category}`,
-      };
+    try {
+      console.log(itemToSave);
+      await axios.post('http://localhost:8080/ClubCurry/menuItem/save', itemToSave);
+      //formData.append("itemId",Number(itemToSave.menuId.id));
+      try{
+        // something needs to happen here... I need to fetch the Id that gets generated on the back end
+        // the commented form data request needed to be fetched first....
+        // the question is how, getbyname? we dont know the ID so it going to be tricky
+        await axios.post(`http://localhost:8080/ClubCurry/image/save`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      }catch (error) {
+        console.error('Error uploading image:', error);
+      }
+
+      // const newItemWithImage = {
+      //   ...itemToSave,
+      //   image: `http://localhost:8080/ClubCurry/image/getByMenuId/${}`,
+      // };
+      
       
       const updatedStructuredMenu = { ...structuredMenu };
-      const category = newItem.category;
+      const category = newItem.menuId; 
 
       if (!updatedStructuredMenu[category]) {
         updatedStructuredMenu[category] = [];
       }
 
-      updatedStructuredMenu[category].push(newItemWithImage);
-      setStructuredMenu(updatedStructuredMenu);
+      // updatedStructuredMenu[category].push(newItemWithImage);
+      // setStructuredMenu(updatedStructuredMenu);
       
       handleAddClose();
     } catch (error) {
-      console.error('Error saving item or uploading image:', error);
+      console.error('Error saving item', error);
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name + " " + value);
     setNewItem(prevItem => ({
       ...prevItem,
       [name]: value,
@@ -134,6 +155,8 @@ const MenuAdmin = () => {
       console.error('Error deleting item:', error);
     }
   };
+
+  console.log(categories);
 
   return (
     <div>
@@ -203,15 +226,15 @@ const MenuAdmin = () => {
               <Form.Label>Category</Form.Label>
               <Form.Control
                 as="select"
-                name="category"
-                value={newItem.category}
+                name="menuId"
+                value={newItem.menuId}
                 onChange={handleChange}
                 required
               >
                 {categories.length > 0 ? (
-                  categories.map((category, index) => (
-                    <option key={index} value={category}>
-                      {category}
+                  categories.map(category => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
                     </option>
                   ))
                 ) : (
