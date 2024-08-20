@@ -23,6 +23,8 @@ const MenuAdmin = () => {
         structureMenuItems(itemsResponse.data); 
 
         //const uniqueCategories = Array.from(new Set(itemsResponse.data.map(item => item.menuId.name)));
+
+        //theses a problem here also, i need to filter by the unqiue values again, its giving the duplicate key error.
         const uniqueCategoriesWithId = Array.from(new Set(itemsResponse.data.map(item => {
           return {
             id: item.menuId.id,
@@ -89,18 +91,20 @@ const MenuAdmin = () => {
     };
 
     try {
-      console.log(itemToSave);
+      console.log("item: " +itemToSave.description + ", " +itemToSave.name+ ", " + itemToSave.price);
       await axios.post('http://localhost:8080/ClubCurry/menuItem/save', itemToSave);
       //formData.append("itemId",Number(itemToSave.menuId.id));
       try{
+        const result = await axios.get(`http://localhost:8080/ClubCurry/menuItem/getItemByDetails/${itemToSave.description}/${itemToSave.name}/${itemToSave.price}`, itemToSave);
+        console.log(result.data);
         // something needs to happen here... I need to fetch the Id that gets generated on the back end
         // the commented form data request needed to be fetched first....
         // the question is how, getbyname? we dont know the ID so it going to be tricky
-        await axios.post(`http://localhost:8080/ClubCurry/image/save`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        // await axios.post(`http://localhost:8080/ClubCurry/image/save`, formData, {
+        //   headers: {
+        //     'Content-Type': 'multipart/form-data',
+        //   },
+        // });
       }catch (error) {
         console.error('Error uploading image:', error);
       }
@@ -111,12 +115,12 @@ const MenuAdmin = () => {
       // };
       
       
-      const updatedStructuredMenu = { ...structuredMenu };
-      const category = newItem.menuId; 
+      // const updatedStructuredMenu = { ...structuredMenu };
+      // const category = newItem.menuId; 
 
-      if (!updatedStructuredMenu[category]) {
-        updatedStructuredMenu[category] = [];
-      }
+      // if (!updatedStructuredMenu[category]) {
+      //   updatedStructuredMenu[category] = [];
+      // }
 
       // updatedStructuredMenu[category].push(newItemWithImage);
       // setStructuredMenu(updatedStructuredMenu);
@@ -129,7 +133,6 @@ const MenuAdmin = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name + " " + value);
     setNewItem(prevItem => ({
       ...prevItem,
       [name]: value,
