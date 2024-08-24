@@ -23,15 +23,9 @@ const MenuAdmin = () => {
         structureMenuItems(itemsResponse.data); 
 
         //const uniqueCategories = Array.from(new Set(itemsResponse.data.map(item => item.menuId.name)));
-
+        const menuResponse = await axios.get("http://localhost:8080/ClubCurry/menu/getAll");
         //theses a problem here also, i need to filter by the unqiue values again, its giving the duplicate key error.
-        const uniqueCategoriesWithId = Array.from(new Set(itemsResponse.data.map(item => {
-          return {
-            id: item.menuId.id,
-            name: item.menuId.name
-          };
-        })));
-        setCategories(uniqueCategoriesWithId);
+        setCategories(menuResponse.data);
       } catch (error) {
         console.error('Error loading items or categories:', error);
       }
@@ -39,6 +33,8 @@ const MenuAdmin = () => {
 
     loadData();
   }, []);
+  
+  console.log(categories);
 
   const structureMenuItems = (items) => {
     const structured = {};
@@ -90,45 +86,46 @@ const MenuAdmin = () => {
         
     };
 
+    
+
     try {
-      console.log("item: " +itemToSave.description + ", " +itemToSave.name+ ", " + itemToSave.price);
-      await axios.post('http://localhost:8080/ClubCurry/menuItem/save', itemToSave);
-      //formData.append("itemId",Number(itemToSave.menuId.id));
+      console.log(itemToSave);
+      const results = await axios.post('http://localhost:8080/ClubCurry/menuItem/save', itemToSave);
+      var resultData = {...results.data}
+      formData.append("itemId", Number(resultData.id))
       try{
-        const result = await axios.get(`http://localhost:8080/ClubCurry/menuItem/getItemByDetails/${itemToSave.description}/${itemToSave.name}/${itemToSave.price}`, itemToSave);
-        console.log(result.data);
-        // something needs to happen here... I need to fetch the Id that gets generated on the back end
-        // the commented form data request needed to be fetched first....
-        // the question is how, getbyname? we dont know the ID so it going to be tricky
-        // await axios.post(`http://localhost:8080/ClubCurry/image/save`, formData, {
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data',
-        //   },
-        // });
-      }catch (error) {
-        console.error('Error uploading image:', error);
+        await axios.post(`http://localhost:8080/ClubCurry/image/save`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+      const newItemWithImage = {
+        ...itemToSave,
+        image: `http://localhost:8080/ClubCurry/image/getByMenuId/${resultData.id}`,
+      };
+      
+      
+      const updatedStructuredMenu = { ...structuredMenu };
+      const category = newItem.menuId; 
+
+      if (!updatedStructuredMenu[category]) {
+        updatedStructuredMenu[category] = [];
       }
 
-      // const newItemWithImage = {
-      //   ...itemToSave,
-      //   image: `http://localhost:8080/ClubCurry/image/getByMenuId/${}`,
-      // };
-      
-      
-      // const updatedStructuredMenu = { ...structuredMenu };
-      // const category = newItem.menuId; 
+      updatedStructuredMenu[category].push(newItemWithImage);
+      setStructuredMenu(updatedStructuredMenu);
 
-      // if (!updatedStructuredMenu[category]) {
-      //   updatedStructuredMenu[category] = [];
-      // }
-
-      // updatedStructuredMenu[category].push(newItemWithImage);
-      // setStructuredMenu(updatedStructuredMenu);
-      
-      handleAddClose();
+        handleAddClose();
+      }catch (error) {
+        alert("Unable to save Image to database, please check the details.")
+        console.error('Error uploading image:', error);
+      }
     } catch (error) {
+      alert("Unable to save Item to database, please check the details.")
       console.error('Error saving item', error);
     }
+   
   };
 
   const handleChange = (e) => {
@@ -158,8 +155,6 @@ const MenuAdmin = () => {
       console.error('Error deleting item:', error);
     }
   };
-
-  console.log(categories);
 
   return (
     <div>
@@ -234,6 +229,7 @@ const MenuAdmin = () => {
                 onChange={handleChange}
                 required
               >
+                <option selected>please select a category...</option>
                 {categories.length > 0 ? (
                   categories.map(category => (
                     <option key={category.id} value={category.id}>
