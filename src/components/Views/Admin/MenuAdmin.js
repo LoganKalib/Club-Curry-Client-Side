@@ -22,9 +22,7 @@ const MenuAdmin = () => {
         const itemsResponse = await axios.get("http://localhost:8080/ClubCurry/menuItem/getAll");
         structureMenuItems(itemsResponse.data); 
 
-        //const uniqueCategories = Array.from(new Set(itemsResponse.data.map(item => item.menuId.name)));
         const menuResponse = await axios.get("http://localhost:8080/ClubCurry/menu/getAll");
-        //theses a problem here also, i need to filter by the unqiue values again, its giving the duplicate key error.
         setCategories(menuResponse.data);
       } catch (error) {
         console.error('Error loading items or categories:', error);
@@ -33,8 +31,6 @@ const MenuAdmin = () => {
 
     loadData();
   }, []);
-  
-  console.log(categories);
 
   const structureMenuItems = (items) => {
     const structured = {};
@@ -82,51 +78,38 @@ const MenuAdmin = () => {
       name: newItem.name,
       price: parseFloat(newItem.price),
       description: newItem.description,
-      menuId: {id: newItem.menuId}
-        
+      menuId: { id: newItem.menuId }
     };
-
-    
 
     try {
       console.log(itemToSave);
       const results = await axios.post('http://localhost:8080/ClubCurry/menuItem/save', itemToSave);
-      var resultData = {...results.data}
-      formData.append("itemId", Number(resultData.id))
-      try{
+      var resultData = { ...results.data };
+      formData.append("itemId", Number(resultData.id));
+      
+      try {
         await axios.post(`http://localhost:8080/ClubCurry/image/save`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
 
-      const newItemWithImage = {
-        ...itemToSave,
-        image: `http://localhost:8080/ClubCurry/image/getByMenuId/${resultData.id}`,
-      };
-      
-      
-      const updatedStructuredMenu = { ...structuredMenu };
-      const category = newItem.menuId; 
+        const itemsResponse = await axios.get("http://localhost:8080/ClubCurry/menuItem/getAll");
+        structureMenuItems(itemsResponse.data); 
 
-      if (!updatedStructuredMenu[category]) {
-        updatedStructuredMenu[category] = [];
-      }
-
-      updatedStructuredMenu[category].push(newItemWithImage);
-      setStructuredMenu(updatedStructuredMenu);
-
+        const menuResponse = await axios.get("http://localhost:8080/ClubCurry/menu/getAll");
+        setCategories(menuResponse.data);
         handleAddClose();
-      }catch (error) {
-        alert("Unable to save Image to database, please check the details.")
+
+      } catch (error) {
+        alert("Unable to save Image to database, please check the details.");
         console.error('Error uploading image:', error);
       }
     } catch (error) {
-      alert("Unable to save Item to database, please check the details.")
+      alert("Unable to save Item to database, please check the details.");
       console.error('Error saving item', error);
     }
-   
-  };
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -142,7 +125,10 @@ const MenuAdmin = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8080/ClubCurry/menuItem/delete/${itemToDeleteId}`);
+      //A new method need to be created before delete can work
+      // const result = await axios.get(`http://localhost:8080/ClubCurry/image/getByMenuId/${itemToDeleteId}`);
+      // console.log(result.data);
+      // await axios.delete(`http://localhost:8080/ClubCurry/menuItem/delete/${result.data.id}`);
       setStructuredMenu(prevStructuredMenu => {
         const updatedMenu = { ...prevStructuredMenu };
         for (const category in updatedMenu) {
@@ -157,19 +143,27 @@ const MenuAdmin = () => {
   };
 
   return (
-    <div>
-      <Button variant="primary" onClick={handleAddShow}>
-        Add New Item
-      </Button>
+    <div className="menu-admin-container">
+      <div className="add-item-section">
+        <Button className="add-item-button" onClick={handleAddShow}>
+          Add New Item
+        </Button>
+        {/* need a function and modal for adding menus */}
+        <Button className="add-item-button" onClick="">
+          Add New Menu
+        </Button>
+      </div>
       <div className="menu-items">
         {Object.keys(structuredMenu).map(category => (
-          <div key={category}>
+          <div key={category} className="menu-category">
             <h4>{category}</h4>
             {structuredMenu[category].map(item => (
               <div key={item.id} className="menu-item">
-                <h5>{item.name}</h5>
-                <p>{item.description}</p>
-                <img src={item.image} alt={item.name} style={{ width: '100px', height: '100px' }} />
+                <img src={item.image} alt={item.name} />
+                <div>
+                  <h5>{item.name}</h5>
+                  <p>{item.description}</p>
+                </div>
                 <p>Price: ${item.price}</p>
                 <Button variant="danger" onClick={() => handleDeleteShow(item.id)}>
                   Delete

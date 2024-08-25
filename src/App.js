@@ -67,15 +67,6 @@ function App() {
       }
     }
 
-    if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
-      setIsLoggedIn(true);
-      setIsDriver(true);
-      setIsAdmin(false);
-      setUser(userData);
-      setShowLogin(false);
-      return;
-    } 
-
   setIsLoggedIn(true);
   setIsAdmin(false);
   setIsDriver(false);
