@@ -1,26 +1,20 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-const LoginModal = ({ show, handleClose, handleLogin }) => {
+const LoginModal = ({ show, handleClose, handleLogin, setIsAdmin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAdminLogin, setIsAdminLogin] = useState(false); // Track admin login
-  const [isDriverLogin, setIsDriverLogin] = useState(false); // Track driver login
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Create a navigate instance
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Determine login type
+    handleLogin({ email, password }, isAdminLogin); // Pass admin status
     if (isAdminLogin) {
-      handleLogin({ email, password, role: 'admin' }); // Pass role as admin
-      navigate('/admin'); // Redirect to Admin page
-    } else if (isDriverLogin) {
-      handleLogin({ email, password, role: 'driver' }); // Pass role as driver
-      navigate('/driver'); // Redirect to Driver Dashboard
+      navigate('/admin'); // Redirect to Admin page if admin
     } else {
-      handleLogin({ email, password, role: 'user' }); // Pass role as regular user
-      navigate('/'); // Redirect to HomePage
+      navigate('/'); // Redirect to HomePage for regular users
     }
   };
 
@@ -53,20 +47,7 @@ const LoginModal = ({ show, handleClose, handleLogin }) => {
             type="checkbox"
             label="Admin Login"
             checked={isAdminLogin}
-            onChange={(e) => {
-              setIsAdminLogin(e.target.checked);
-              setIsDriverLogin(false); // Ensure only one role is selected
-            }}
-            className="mt-3"
-          />
-          <Form.Check
-            type="checkbox"
-            label="Driver Login"
-            checked={isDriverLogin}
-            onChange={(e) => {
-              setIsDriverLogin(e.target.checked);
-              setIsAdminLogin(false); // Ensure only one role is selected
-            }}
+            onChange={(e) => setIsAdminLogin(e.target.checked)}
             className="mt-3"
           />
           <Button variant="primary" type="submit" className="mt-3">
