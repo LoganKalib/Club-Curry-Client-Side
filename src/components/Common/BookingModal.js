@@ -1,7 +1,6 @@
 // src/components/BookingModal.js
 import React, { useState } from 'react';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
-import '../../CSS/BookingModal.css'; // Import the CSS for BookingModal
 
 const BookingModal = ({ show, handleClose, handleBooking, isLoggedIn, onShowLogin, onShowSignup }) => {
   const [numPeople, setNumPeople] = useState(1);
