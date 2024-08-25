@@ -10,6 +10,7 @@ import LoginModal from './components/Common/LoginModal';
 import SignupModal from './components/Common/SignupModal';
 import Cart from './components/Views/Customer/Cart';
 import BookingModal from './components/Common/BookingModal';
+import DriverDashboardHeader from './components/Views/Driver/DriverDashboardHeader';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
 import EmployeeDashboard from './components/Views/GeneralEmployee/EmployeeDashboard';
 import { v4 as uuidv4 } from 'uuid';
@@ -48,7 +49,6 @@ function App() {
       if (userData.email === ADMIN_CREDENTIALS.username && userData.password === ADMIN_CREDENTIALS.password) {
         setIsLoggedIn(true);
         setIsAdmin(true);
-        setIsDriver(false);
         setUser(userData);
         setShowLogin(false);
         return;
@@ -62,7 +62,6 @@ function App() {
       if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
         setIsLoggedIn(true);
         setIsDriver(true);
-        setIsAdmin(false);
         setUser(userData);
         setShowLogin(false);
         return;
@@ -89,8 +88,9 @@ function App() {
     setUser(null);
     setIsLoggedIn(false);
     setIsAdmin(false);
-    setIsDriver(false);
+    setIsDriver(false); 
   };
+  
 
   const addToCart = (item) => {
     setCartItems((prevItems) => [
@@ -130,44 +130,47 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* Display the Header unless it's a driver */}
-        {!isDriver && (
-          <Header
-            isLoggedIn={isLoggedIn}
-            onShowLogin={() => setShowLogin(true)}
-            onShowSignup={() => setShowSignup(true)}
-            onLogout={handleLogout}
-            onShowCart={toggleCart}
-            onShowBooking={() => setShowBooking(true)}
-          />
-        )}
-        {(showCart || showBooking) && <div className="overlay"></div>}
-        <Container>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                isLoggedIn ? (
-                  isDriver ? (
-                    <DriverDashboardContainer onLogout={handleLogout} /> // Pass handleLogout here
-                  ) : (
-                    <Menu addToCart={addToCart} items={menuItems} />
-                  )
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                {isDriver ? (
+                  <DriverDashboardHeader isLoggedIn={isLoggedIn} onLogout={handleLogout} />
                 ) : (
-                  <HomePage />
-                )
-              }
-            />
-            <Route path="/menu" element={<Menu addToCart={addToCart} items={menuItems} />} />
-            <Route
-              path="/admin"
-              element={isAdmin ? <MenuAdmin initialItems={menuItems} onUpdateItems={setMenuItems} /> : <div>Access Denied</div>}
-            />
-            <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} /> // Pass handleLogout here
-            <Route path="/employee" element={<EmployeeDashboard />} />
-            <Route path="*" element={<div>Page Not Found</div>} />
-          </Routes>
-        </Container>
+                  <Header
+                    isLoggedIn={isLoggedIn}
+                    onShowLogin={() => setShowLogin(true)}
+                    onShowSignup={() => setShowSignup(true)}
+                    onLogout={handleLogout}
+                    onShowCart={toggleCart}
+                    onShowBooking={() => setShowBooking(true)}
+                  />
+                )}
+                {(showCart || showBooking) && <div className="overlay"></div>}
+                <Container>
+                  {isLoggedIn ? (
+                    isDriver ? (
+                      <DriverDashboardContainer />
+                    ) : (
+                      <Menu addToCart={addToCart} items={menuItems} />
+                    )
+                  ) : (
+                    <HomePage />
+                  )}
+                </Container>
+              </>
+            }
+          />
+          <Route path="/menu" element={<Menu addToCart={addToCart} items={menuItems} />} />
+          <Route
+            path="/admin"
+            element={isAdmin ? <MenuAdmin initialItems={menuItems} onUpdateItems={setMenuItems} /> : <div>Access Denied</div>}
+          />
+          <Route path="/driver" element={<DriverDashboardContainer />} />
+          <Route path='/employee' element={<EmployeeDashboard />} />
+          <Route path="*" element={<div>Page Not Found</div>} />
+        </Routes>
 
         <Footer />
         <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} handleLogin={handleLogin} />
