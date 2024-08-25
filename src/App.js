@@ -10,7 +10,6 @@ import LoginModal from './components/Common/LoginModal';
 import SignupModal from './components/Common/SignupModal';
 import Cart from './components/Views/Customer/Cart';
 import BookingModal from './components/Common/BookingModal';
-import DriverDashboardHeader from './components/Views/Driver/DriverDashboardHeader';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
 import EmployeeDashboard from './components/Views/GeneralEmployee/EmployeeDashboard';
 import { v4 as uuidv4 } from 'uuid';
@@ -45,17 +44,14 @@ function App() {
   const [showBooking, setShowBooking] = useState(false);
 
   const handleLogin = (userData, admin = false, driver = false) => {
-    if (admin) {
-      if (userData.email === ADMIN_CREDENTIALS.username && userData.password === ADMIN_CREDENTIALS.password) {
-        setIsLoggedIn(true);
-        setIsAdmin(true);
-        setUser(userData);
-        setShowLogin(false);
-        return;
-      } else {
-        alert('Invalid admin credentials');
-        return;
-      }
+
+    if (userData.email === ADMIN_CREDENTIALS.username && userData.password === ADMIN_CREDENTIALS.password) {
+      setIsLoggedIn(true);
+      setIsAdmin(true);
+      setIsDriver(false);
+      setUser(userData);
+      setShowLogin(false);
+      return;
     }
 
     if (driver) {
@@ -71,12 +67,21 @@ function App() {
       }
     }
 
-    setIsLoggedIn(true);
-    setIsAdmin(false);
-    setIsDriver(false);
-    setUser(userData);
-    setShowLogin(false);
-  };
+    if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
+      setIsLoggedIn(true);
+      setIsDriver(true);
+      setIsAdmin(false);
+      setUser(userData);
+      setShowLogin(false);
+      return;
+    } 
+
+  setIsLoggedIn(true);
+  setIsAdmin(false);
+  setIsDriver(false);
+  setUser(userData);
+  setShowLogin(false);
+};
 
   const handleSignup = (userData) => {
     setIsLoggedIn(true);
@@ -88,7 +93,7 @@ function App() {
     setUser(null);
     setIsLoggedIn(false);
     setIsAdmin(false);
-    setIsDriver(false); 
+    setIsDriver(false);
   };
   
 
@@ -130,47 +135,44 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                {isDriver ? (
-                  <DriverDashboardHeader isLoggedIn={isLoggedIn} onLogout={handleLogout} />
-                ) : (
-                  <Header
-                    isLoggedIn={isLoggedIn}
-                    onShowLogin={() => setShowLogin(true)}
-                    onShowSignup={() => setShowSignup(true)}
-                    onLogout={handleLogout}
-                    onShowCart={toggleCart}
-                    onShowBooking={() => setShowBooking(true)}
-                  />
-                )}
-                {(showCart || showBooking) && <div className="overlay"></div>}
-                <Container>
-                  {isLoggedIn ? (
-                    isDriver ? (
-                      <DriverDashboardContainer />
-                    ) : (
-                      <Menu addToCart={addToCart} items={menuItems} />
-                    )
+        {/* Display the Header unless it's a driver */}
+        {!isDriver && (
+          <Header
+            isLoggedIn={isLoggedIn}
+            onShowLogin={() => setShowLogin(true)}
+            onShowSignup={() => setShowSignup(true)}
+            onLogout={handleLogout}
+            onShowCart={toggleCart}
+            onShowBooking={() => setShowBooking(true)}
+          />
+        )}
+        {(showCart || showBooking) && <div className="overlay"></div>}
+        <Container>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                isLoggedIn ? (
+                  isDriver ? (
+                    <DriverDashboardContainer onLogout={handleLogout} /> // Pass handleLogout here
                   ) : (
-                    <HomePage />
-                  )}
-                </Container>
-              </>
-            }
-          />
-          <Route path="/menu" element={<Menu addToCart={addToCart} items={menuItems} />} />
-          <Route
-            path="/admin"
-            element={isAdmin ? <MenuAdmin initialItems={menuItems} onUpdateItems={setMenuItems} /> : <div>Access Denied</div>}
-          />
-          <Route path="/driver" element={<DriverDashboardContainer />} />
-          <Route path='/employee' element={<EmployeeDashboard />} />
-          <Route path="*" element={<div>Page Not Found</div>} />
-        </Routes>
+                    <Menu addToCart={addToCart} items={menuItems} />
+                  )
+                ) : (
+                  <HomePage />
+                )
+              }
+            />
+            <Route path="/menu" element={<Menu addToCart={addToCart} items={menuItems} />} />
+            <Route
+              path="/admin"
+              element={isAdmin ? <MenuAdmin initialItems={menuItems} onUpdateItems={setMenuItems} /> : <div>Access Denied</div>}
+            />
+            <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} /> // Pass handleLogout here
+            <Route path="/employee" element={<EmployeeDashboard />} />
+            <Route path="*" element={<div>Page Not Found</div>} />
+          </Routes>
+        </Container>
 
         <Footer />
         <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} handleLogin={handleLogin} />
