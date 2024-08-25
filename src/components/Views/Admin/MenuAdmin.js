@@ -142,37 +142,58 @@ const MenuAdmin = () => {
     }
   };
 
+  const handleDeleteCategory = async (categoryName) => {
+    try {
+      const categoryItems = structuredMenu[categoryName];
+  
+      // first need to delete all the menus that are associated with it
+      // await axios.delete(`http://localhost:8080/ClubCurry/menu/delete/${categoryId}`);
+  
+      setStructuredMenu(prevStructuredMenu => {
+        const updatedMenu = { ...prevStructuredMenu };
+        delete updatedMenu[categoryName]; // Removing the category
+        return updatedMenu;
+      });
+    } catch (error) {
+      console.error('Error deleting category:', error);
+    }
+  };
+
   return (
     <div className="menu-admin-container">
       <div className="add-item-section">
-        <Button className="add-item-button" onClick={handleAddShow}>
-          Add New Item
-        </Button>
-        {/* need a function and modal for adding menus */}
-        <Button className="add-item-button" onClick="">
-          Add New Menu
+  <Button className="add-item-button" onClick={handleAddShow}>
+    Add New Item
+  </Button>
+  <Button className="add-item-button" onClick={handleAddShow}>
+    Add New Menu
+  </Button>
+</div>
+<div className="menu-items">
+  {Object.keys(structuredMenu).map(category => (
+    <div key={category} className="menu-category">
+      <div style={{alignItems : `center`, paddingBottom : '20px'}}>
+        <h4>{category}</h4>
+        <Button variant="danger" onClick={() => handleDeleteCategory(category)}>
+          Delete whole menu
         </Button>
       </div>
-      <div className="menu-items">
-        {Object.keys(structuredMenu).map(category => (
-          <div key={category} className="menu-category">
-            <h4>{category}</h4>
-            {structuredMenu[category].map(item => (
-              <div key={item.id} className="menu-item">
-                <img src={item.image} alt={item.name} />
-                <div>
-                  <h5>{item.name}</h5>
-                  <p>{item.description}</p>
-                </div>
-                <p>Price: ${item.price}</p>
-                <Button variant="danger" onClick={() => handleDeleteShow(item.id)}>
-                  Delete
-                </Button>
-              </div>
-            ))}
+      {structuredMenu[category].map(item => (
+        <div key={item.id} className="menu-item">
+          <img src={item.image} alt={item.name} />
+          <div>
+            <h5>{item.name}</h5>
+            <p>{item.description}</p>
           </div>
-        ))}
-      </div>
+          <p>Price: ${item.price}</p>
+          <Button variant="danger" onClick={() => handleDeleteShow(item.id)}>
+            Delete
+          </Button>
+        </div>
+      ))}
+    </div>
+  ))}
+</div>
 
       <Modal show={showAddModal} onHide={handleAddClose} centered>
         <Modal.Header closeButton>
