@@ -1,31 +1,30 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import '../../CSS/LoginModal.css'; 
 
 const LoginModal = ({ show, handleClose, handleLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isAdminLogin, setIsAdminLogin] = useState(false); // Track admin login
-  const [isDriverLogin, setIsDriverLogin] = useState(false); // Track driver login
+  const [isAdminLogin, setIsAdminLogin] = useState(false);
+  const [isDriverLogin, setIsDriverLogin] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Determine login type
-    if (isAdminLogin) {
-      handleLogin({ email, password, role: 'admin' }); // Pass role as admin
-      navigate('/admin'); // Redirect to Admin page
-    } else if (isDriverLogin) {
-      handleLogin({ email, password, role: 'driver' }); // Pass role as driver
-      navigate('/driver'); // Redirect to Driver Dashboard
-    } else {
-      handleLogin({ email, password, role: 'user' }); // Pass role as regular user
-      navigate('/'); // Redirect to HomePage
-    }
+    let role = 'user';
+    if (isAdminLogin) role = 'admin';
+    else if (isDriverLogin) role = 'driver';
+
+    handleLogin({ email, password }, isAdminLogin, isDriverLogin);
+
+    if (role === 'admin') navigate('/admin');
+    else if (role === 'driver') navigate('/driver');
+    else navigate('/');
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} className="login-modal">
       <Modal.Header closeButton>
         <Modal.Title>Login</Modal.Title>
       </Modal.Header>
@@ -55,7 +54,7 @@ const LoginModal = ({ show, handleClose, handleLogin }) => {
             checked={isAdminLogin}
             onChange={(e) => {
               setIsAdminLogin(e.target.checked);
-              setIsDriverLogin(false); // Ensure only one role is selected
+              setIsDriverLogin(false);
             }}
             className="mt-3"
           />
@@ -65,9 +64,9 @@ const LoginModal = ({ show, handleClose, handleLogin }) => {
             checked={isDriverLogin}
             onChange={(e) => {
               setIsDriverLogin(e.target.checked);
-              setIsAdminLogin(false); // Ensure only one role is selected
+              setIsAdminLogin(false);
             }}
-            className="mt-3"
+            className="mt-2"
           />
           <Button variant="primary" type="submit" className="mt-3">
             Login

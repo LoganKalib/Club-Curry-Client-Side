@@ -1,6 +1,8 @@
+// src/components/HomePage.js
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
+import '../../../CSS/HomePage.css'
 
 function HomePage() {
   return (
@@ -8,9 +10,9 @@ function HomePage() {
       <div className="about-section">
         <h1 className="display-4 mb-4">About Club Curry</h1>
         <p className="lead mb-4">
-          Welcome to the Club Curry. We offer a variety of delicious curries...
+          Welcome to Club Curry, where we offer a variety of delicious curries...
         </p>
-        <Button variant="primary" as={Link} to="/menu" className="buttonmen">
+        <Button variant="primary" as={Link} to="/menu" className="button-menu">
           View Menu & Order
         </Button>
       </div>

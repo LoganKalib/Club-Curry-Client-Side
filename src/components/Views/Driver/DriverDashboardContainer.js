@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Tab, Tabs, Row, Col, Card } from 'react-bootstrap';
-import DriverDashboard from './DriverDashboard'; // Ensure this path is correct
+import DriverDashboard from './DriverDashboard';
 
-const DriverDashboardContainer = () => {
+const DriverDashboardContainer = ({ onLogout }) => {
   const [deliveries, setDeliveries] = useState([
+    // Sample delivery data
     {
       deliveryId: 1,
       orderId: 101,
@@ -22,29 +23,29 @@ const DriverDashboardContainer = () => {
       deliveryId: 2,
       orderId: 102,
       foodName: 'Burger',
-      price: 8.99,
+      price: 8.49,
       quantity: 1,
       customerName: 'Jane Smith',
       customerContact: '987-654-3210',
-      address: '456 Oak St',
+      address: '456 Elm St',
       estimatedDeliveryTime: '13:00',
-      status: 'pending',
+      status: 'in transit',
       deliveryTime: null,
-      deliveryNote: 'Leave at the front desk',
+      deliveryNote: 'Leave at the front door',
     },
     {
       deliveryId: 3,
       orderId: 103,
-      foodName: 'Sushi',
-      price: 18.99,
+      foodName: 'Pasta',
+      price: 15.99,
       quantity: 3,
-      customerName: 'Alice Johnson',
-      customerContact: '555-123-4567',
+      customerName: 'Emily Johnson',
+      customerContact: '555-6789',
       address: '789 Pine St',
-      estimatedDeliveryTime: '13:30',
+      estimatedDeliveryTime: '12:45',
       status: 'delivered',
-      deliveryTime: '13:15',
-      deliveryNote: 'Handle with care',
+      deliveryTime: '12:50',
+      deliveryNote: 'Knock gently',
     },
   ]);
 
@@ -72,13 +73,7 @@ const DriverDashboardContainer = () => {
 
   return (
     <div className="driver-dashboard-container">
-      <DriverDashboard
-        driverId={1}
-        isLoggedIn={true}
-        onLogout={() => console.log('Logged out')}
-        deliveries={deliveries}
-        onUpdateStatus={handleUpdateStatus}
-      />
+      <DriverDashboard isLoggedIn={true} onLogout={onLogout} />
       <Tabs defaultActiveKey="new-orders" id="uncontrolled-tab-example" className="mb-3">
         <Tab eventKey="profile" title="Driver Profile">
           <Row className="m-3">
