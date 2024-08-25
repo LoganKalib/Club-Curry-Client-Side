@@ -44,40 +44,31 @@ function App() {
   const [showBooking, setShowBooking] = useState(false);
 
   const handleLogin = (userData, admin = false, driver = false) => {
-    if (admin) {
-      if (userData.email === ADMIN_CREDENTIALS.username && userData.password === ADMIN_CREDENTIALS.password) {
-        setIsLoggedIn(true);
-        setIsAdmin(true);
-        setIsDriver(false);
-        setUser(userData);
-        setShowLogin(false);
-        return;
-      } else {
-        alert('Invalid admin credentials');
-        return;
-      }
+
+    if (userData.email === ADMIN_CREDENTIALS.username && userData.password === ADMIN_CREDENTIALS.password) {
+      setIsLoggedIn(true);
+      setIsAdmin(true);
+      setIsDriver(false);
+      setUser(userData);
+      setShowLogin(false);
+      return;
     }
 
-    if (driver) {
-      if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
-        setIsLoggedIn(true);
-        setIsDriver(true);
-        setIsAdmin(false);
-        setUser(userData);
-        setShowLogin(false);
-        return;
-      } else {
-        alert('Invalid driver credentials');
-        return;
-      }
-    }
+    if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
+      setIsLoggedIn(true);
+      setIsDriver(true);
+      setIsAdmin(false);
+      setUser(userData);
+      setShowLogin(false);
+      return;
+    } 
 
-    setIsLoggedIn(true);
-    setIsAdmin(false);
-    setIsDriver(false);
-    setUser(userData);
-    setShowLogin(false);
-  };
+  setIsLoggedIn(true);
+  setIsAdmin(false);
+  setIsDriver(false);
+  setUser(userData);
+  setShowLogin(false);
+};
 
   const handleSignup = (userData) => {
     setIsLoggedIn(true);
