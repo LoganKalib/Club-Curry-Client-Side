@@ -55,14 +55,18 @@ function App() {
       return;
     }
 
-    if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
-      setIsLoggedIn(true);
-      setIsDriver(true);
-      setIsAdmin(false);
-      setUser(userData);
-      setShowLogin(false);
-      return;
-    } 
+    if (driver) {
+      if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
+        setIsLoggedIn(true);
+        setIsDriver(true);
+        setUser(userData);
+        setShowLogin(false);
+        return;
+      } else {
+        alert('Invalid driver credentials');
+        return;
+      }
+    }
 
   setIsLoggedIn(true);
   setIsAdmin(false);
@@ -83,6 +87,7 @@ function App() {
     setIsAdmin(false);
     setIsDriver(false);
   };
+  
 
   const addToCart = (item) => {
     setCartItems((prevItems) => [
