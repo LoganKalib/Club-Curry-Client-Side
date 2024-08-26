@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+
 const Deliveries = ({ deliveries = [], onUpdateStatus }) => {
-  // Check if deliveries is defined and an array
   const outstandingDeliveries = Array.isArray(deliveries)
     ? deliveries.filter((delivery) => delivery.status !== 'delivered')
     : [];
 
   return (
-    <div>
+    <div className="deliveries-container">
       <h2>Outstanding Deliveries</h2>
-      <table className="table">
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>Order ID</th>
