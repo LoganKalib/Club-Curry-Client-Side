@@ -12,7 +12,7 @@ const Header = ({ isLoggedIn, onShowLogin, onShowSignup, onLogout, onShowCart, o
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
+    <Navbar bg="danger" variant="dark" expand="lg" fixed="top">
       <Navbar.Brand as={NavLink} to="/">
         Club Curry
       </Navbar.Brand>

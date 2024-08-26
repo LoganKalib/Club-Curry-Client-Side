@@ -76,8 +76,7 @@ const Menu = ({ addToCart }) => {
               >
                 <img src={item.image} alt={item.name} />
                 <span className="menu-text">
-                  <strong>{item.name}</strong><br />
-                  {item.description}
+                  <strong>{item.name}</strong>
                   <br/>
                   R{item.price.toFixed(2)}
                 </span>

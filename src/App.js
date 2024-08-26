@@ -20,6 +20,7 @@ import './CSS/Cart.css';
 import './CSS/Header.css';
 import './CSS/Footer.css';
 import './CSS/Overlay.css';
+import './CSS/HomePage.css';
 
 const ADMIN_CREDENTIALS = {
   username: 'admin@email.com',
@@ -154,7 +155,7 @@ function App() {
               path="/admin"
               element={isAdmin ? <MenuAdmin initialItems={menuItems} onUpdateItems={setMenuItems} /> : <div>Access Denied</div>}
             />
-            <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} /> // Pass handleLogout here
+            <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
             <Route path="/employee" element={<EmployeeDashboard />} />
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>

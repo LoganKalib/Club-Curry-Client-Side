@@ -5,7 +5,7 @@ body {
   min-height: 100vh;
   margin: 0;
   padding-top: 56px; /* Adjust this value based on the height of your header */
-  background-image: url('../images/indianbg.jpg'); /* Ensure the path is correct */
+  background-image: url('../images/mandala.jpg'); /* Ensure the path is correct */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -60,7 +60,7 @@ body {
   background-color: #ca6363 !important;
   color: white;
   text-align: center;
-  width: calc(16% - 10px); /* Adjust width to fit 5 or 6 in a row with some margin */
+  width: calc(25% - 10px);; /* Adjust width to fit 5 or 6 in a row with some margin */
   box-sizing: border-box; /* Ensure padding and border are included in the width */
 }
 
