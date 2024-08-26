@@ -4,31 +4,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap');
 
 .navbar {
-  background-color: #ffffff; /* White background for the navbar */
+  background-color: rgba(61, 14, 10, 0.); /* Background color with transparency */
   font-family: 'Baloo 2', cursive; /* Indian font for the navbar */
 }
 
 .navbar-nav .nav-link {
-  color: #b71c1c; /* Deep red color for nav links */
+  color: #ffffff; /* White color for nav links */
 }
 
 .navbar-nav .nav-link.active {
-  color: #d32f2f; /* Slightly darker deep red for the active link */
+  color: #ff5c56; /* Light red color for the active link */
   font-weight: bold; /* Make active link stand out */
 }
 
 .navbar-nav .nav-link:hover {
-  color: #d32f2f; /* Deep red color on hover */
+  color: #ff5c56; /* Light red color on hover */
 }
 
 /* Styling for buttons */
 .btn-outline-light {
-  border-color: #b71c1c; /* Deep red border color */
-  color: #b71c1c; /* Deep red text color */
+  border-color: #ffffff; /* White border color */
+  color: #ffffff; /* White text color */
 }
 
 .btn-outline-light:hover {
-  background-color: #ffd700; /* Gold background color on hover */
+  background-color: #ff5c56; /* Light red background color on hover */
   color: #ffffff; /* White text color on hover */
 }
 
