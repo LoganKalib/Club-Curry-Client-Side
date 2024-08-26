@@ -1,6 +1,6 @@
 /* src/CSS/Header.css */
 .navbar {
-  background: linear-gradient(45deg, #dc3545, #c82333) !important; /* Adjust the colors as needed */
+  background: linear-gradient(45deg, #741c25,#741c25) !important; /* Adjust the colors as needed */
 }
 
 .navbar-nav .nav-link {
