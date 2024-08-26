@@ -11,41 +11,85 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-  
-  .about-section {
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 40px;
-    border-radius: 15px;
-    text-align: center;
+.about-section {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.display-4 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+/* Typewriter Effect */
+.typewriter-title {
+  overflow: hidden; /* Ensures the text doesn't wrap */
+  white-space: nowrap; /* Prevents the text from wrapping to the next line */
+  border-right: 4px solid #fff; /* Cursor effect */
+  font-family: 'Courier New', Courier, monospace; /* Monospace font for typewriter effect */
+}
+
+/* Fade In Animation */
+.fade-in-text {
+  opacity: 0;
+  animation: fadeIn 2s ease-in-out forwards;
+  animation-delay: 2s; /* Delays to let the title finish typing */
+}
+
+/* Slide Up Animation */
+.fade-in-slide-up-text {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInSlideUp 2s ease-in-out forwards;
+  animation-delay: 2.5s;
+}
+
+/* Slide Down Animation */
+.fade-in-slide-down-text {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeInSlideDown 2s ease-in-out forwards;
+  animation-delay: 3s;
+}
+
+/* Keyframes for Animations */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
   }
-  
-  .display-4 {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    font-size: 3rem;
-    margin-bottom: 20px;
+}
+
+@keyframes fadeInSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .lead {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
-    font-size: 1.25rem;
-    margin-bottom: 30px;
+}
+
+@keyframes fadeInSlideDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .buttonmen {
-    background-color: #ff6347;
-    border-color: #ff6347;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.25rem;
-    padding: 10px 20px;
-    border-radius: 25px;
-    text-transform: uppercase;
-    transition: background-color 0.3s ease;
-  }
-  
-  .buttonmen:hover {
-    background-color: #ff4500;
-    border-color: #ff4500;
-  }
-  
+}
+
+/* Updated Button Styles */
+.buttonmen {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+.buttonmen:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+}
