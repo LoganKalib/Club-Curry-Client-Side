@@ -20,6 +20,7 @@ import './CSS/Cart.css';
 import './CSS/Header.css';
 import './CSS/Footer.css';
 import './CSS/Overlay.css';
+import './CSS/HomePage.css';
 
 const ADMIN_CREDENTIALS = {
   username: 'admin@email.com',
@@ -54,14 +55,18 @@ function App() {
       return;
     }
 
-    if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
-      setIsLoggedIn(true);
-      setIsDriver(true);
-      setIsAdmin(false);
-      setUser(userData);
-      setShowLogin(false);
-      return;
-    } 
+    if (driver) {
+      if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
+        setIsLoggedIn(true);
+        setIsDriver(true);
+        setUser(userData);
+        setShowLogin(false);
+        return;
+      } else {
+        alert('Invalid driver credentials');
+        return;
+      }
+    }
 
   setIsLoggedIn(true);
   setIsAdmin(false);
@@ -82,6 +87,7 @@ function App() {
     setIsAdmin(false);
     setIsDriver(false);
   };
+  
 
   const addToCart = (item) => {
     setCartItems((prevItems) => [
@@ -154,7 +160,7 @@ function App() {
               path="/admin"
               element={isAdmin ? <MenuAdmin initialItems={menuItems} onUpdateItems={setMenuItems} /> : <div>Access Denied</div>}
             />
-            <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} /> // Pass handleLogout here
+            <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
             <Route path="/employee" element={<EmployeeDashboard />} />
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>

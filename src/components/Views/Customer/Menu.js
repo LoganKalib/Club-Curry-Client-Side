@@ -37,7 +37,7 @@ const Menu = ({ addToCart }) => {
         id: item.id,
         name: item.name,
         description: item.description,
-        image: item.image,
+        image: `http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`,
         price: item.price,
       });
     });
@@ -56,7 +56,7 @@ const Menu = ({ addToCart }) => {
     setQuantity(1); // Reset quantity after adding to cart
     setNotes(''); // Reset notes after adding to cart
     setNotification(`Added ${quantity} ${selectedItem.name} to cart`);
-    setTimeout(() => setNotification(''), 1000); // Clear message after 0.5 seconds
+    setTimeout(() => setNotification(''), 1000); // Clear message after 1 second
   };
 
   return (
@@ -76,8 +76,7 @@ const Menu = ({ addToCart }) => {
               >
                 <img src={item.image} alt={item.name} />
                 <span className="menu-text">
-                  <strong>{item.name}</strong><br />
-                  {item.description}
+                  <strong>{item.name}</strong>
                   <br/>
                   R{item.price.toFixed(2)}
                 </span>
@@ -165,13 +164,11 @@ const Menu = ({ addToCart }) => {
                 onClick={handleAddToCart}
               >
                 Add to Cart
-                
               </Button>
               {notification && <div className="notification">{notification}</div>}
               <Button 
                 variant="link" 
                 className="cart-icon" 
-                
               >
                 <FaShoppingCart />
               </Button>

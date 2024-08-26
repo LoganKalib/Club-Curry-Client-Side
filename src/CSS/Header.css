@@ -1,19 +1,32 @@
 /* src/CSS/Header.css */
+.navbar {
+  background: linear-gradient(45deg, #dc3545, #c82333) !important; /* Adjust the colors as needed */
+}
+
 .navbar-nav .nav-link {
-    color: #ffffff; /* Default color */
-  }
-  
-  .navbar-nav .nav-link.active {
-    color: #ff8a8a; /* Highlight color for the active link */
-  }
-  
-  .navbar-nav .nav-link:hover {
-    color: #ff5c56; /* Color on hover */
-  }
-  
-  .buttons-container {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-  }
-  
+  color: #ffffff; /* Default color */
+}
+
+.navbar-nav .nav-link.active {
+  color: #000000 !important; /* Highlight color for the active link */
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ff5c56; /* Color on hover */
+}
+
+.buttons-container {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.navbar .btn-outline-light {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.navbar .btn-outline-light:hover {
+  color: #ff5c56;
+  border-color: #ff5c56;
+}
