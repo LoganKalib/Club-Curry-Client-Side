@@ -151,7 +151,7 @@ const MenuAdmin = () => {
   
       setStructuredMenu(prevStructuredMenu => {
         const updatedMenu = { ...prevStructuredMenu };
-        delete updatedMenu[categoryName]; // Removing the category
+        delete updatedMenu[categoryName]; 
         return updatedMenu;
       });
     } catch (error) {
@@ -165,8 +165,11 @@ const MenuAdmin = () => {
   <Button className="add-item-button" onClick={handleAddShow}>
     Add New Item
   </Button>
-  <Button className="add-item-button" onClick={handleAddShow}>
+  <Button className="add-item-button">
     Add New Menu
+  </Button>
+  <Button className="add-item-button">
+    Edit Menu
   </Button>
 </div>
 <div className="menu-items">
@@ -186,9 +189,16 @@ const MenuAdmin = () => {
             <p>{item.description}</p>
           </div>
           <p>Price: ${item.price}</p>
-          <Button variant="danger" onClick={() => handleDeleteShow(item.id)}>
+          {/* need to add functionality to these 2 buttons */}
+          <div >
+          <Button variant="danger" onClick={() => handleDeleteShow(item.id)} className='item-button'>
             Delete
           </Button>
+          <br></br>
+          <Button className='item-button'>
+            Edit
+          </Button>
+          </div>
         </div>
       ))}
     </div>
