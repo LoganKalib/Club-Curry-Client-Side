@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Tab, Tabs, Row, Col, Card } from 'react-bootstrap';
-import DriverDashboard from './DriverDashboard';
+import { Tab, Tabs, Row, Col, Card, Button, FormControl } from 'react-bootstrap';
+import DriverDashboardHeader from './DriverDashboardHeader';
+import './DriverDashboardContainer.css'; // Import the CSS file for styling
 
 const DriverDashboardContainer = ({ onLogout }) => {
   const [deliveries, setDeliveries] = useState([
-    // Sample delivery data
+    // Expanded sample delivery data
     {
       deliveryId: 1,
       orderId: 101,
@@ -23,7 +24,7 @@ const DriverDashboardContainer = ({ onLogout }) => {
       deliveryId: 2,
       orderId: 102,
       foodName: 'Burger',
-      price: 8.49,
+      price: 9.99,
       quantity: 1,
       customerName: 'Jane Smith',
       customerContact: '987-654-3210',
@@ -31,23 +32,54 @@ const DriverDashboardContainer = ({ onLogout }) => {
       estimatedDeliveryTime: '13:00',
       status: 'in transit',
       deliveryTime: null,
-      deliveryNote: 'Leave at the front door',
+      deliveryNote: 'Leave at the doorstep',
     },
     {
       deliveryId: 3,
       orderId: 103,
-      foodName: 'Pasta',
+      foodName: 'Sushi',
       price: 15.99,
       quantity: 3,
       customerName: 'Emily Johnson',
-      customerContact: '555-6789',
-      address: '789 Pine St',
-      estimatedDeliveryTime: '12:45',
+      customerContact: '555-123-4567',
+      address: '789 Oak St',
+      estimatedDeliveryTime: '13:30',
       status: 'delivered',
-      deliveryTime: '12:50',
-      deliveryNote: 'Knock gently',
+      deliveryTime: '13:25',
+      deliveryNote: '',
     },
+    {
+      deliveryId: 4,
+      orderId: 104,
+      foodName: 'Pasta',
+      price: 11.49,
+      quantity: 1,
+      customerName: 'Michael Brown',
+      customerContact: '321-654-9870',
+      address: '101 Pine St',
+      estimatedDeliveryTime: '14:00',
+      status: 'delivered',
+      deliveryTime: '14:05',
+      deliveryNote: '',
+    },
+    {
+      deliveryId: 5,
+      orderId: 105,
+      foodName: 'Salad',
+      price: 7.99,
+      quantity: 2,
+      customerName: 'Sarah Davis',
+      customerContact: '654-321-0987',
+      address: '202 Maple St',
+      estimatedDeliveryTime: '14:30',
+      status: 'pending',
+      deliveryTime: null,
+      deliveryNote: 'No dressing',
+    },
+    // Add more sample data as needed
   ]);
+
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleUpdateStatus = (deliveryId, newStatus) => {
     const currentTime = newStatus === 'delivered' ? new Date().toLocaleTimeString() : null;
@@ -60,6 +92,10 @@ const DriverDashboardContainer = ({ onLogout }) => {
     );
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   const outstandingDeliveries = deliveries.filter(
     (delivery) => delivery.status !== 'delivered'
   );
@@ -68,113 +104,146 @@ const DriverDashboardContainer = ({ onLogout }) => {
     (delivery) => delivery.status === 'delivered'
   );
 
+  const filteredDeliveredDeliveries = deliveredDeliveries.filter(delivery =>
+    delivery.orderId.toString().includes(searchTerm)
+  );
+
   const totalNewOrders = outstandingDeliveries.length;
   const totalCompletedOrders = deliveredDeliveries.length;
 
+  // Sample driver profile data
+  const driverProfile = {
+    name: 'Jane Smith',
+    vehicle: 'Toyota Prius',
+    licensePlate: 'XYZ 1234',
+    contact: '987-654-3210',
+  };
+
   return (
     <div className="driver-dashboard-container">
-      <DriverDashboard isLoggedIn={true} onLogout={onLogout} />
-      <Tabs defaultActiveKey="new-orders" id="uncontrolled-tab-example" className="mb-3">
-        <Tab eventKey="profile" title="Driver Profile">
-          <Row className="m-3">
-            <Col md={12}>
-              <Card className="dashboard-card mb-3">
-                <Card.Header>Driver Profile</Card.Header>
-                <Card.Body>
-                  <p><strong>Name:</strong> John Doe</p>
-                  <p><strong>Email:</strong> driver@example.com</p>
-                  <p><strong>Phone:</strong> 555-1234</p>
-                  <p><strong>Vehicle:</strong> Toyota Camry</p>
-                  <p><strong>License Plate:</strong> ABC123</p>
-                </Card.Body>
-              </Card>
-              <Card className="dashboard-card mb-3">
-                <Card.Header>Performance Summary</Card.Header>
-                <Card.Body>
-                  <p><strong>Total New Orders:</strong> {totalNewOrders}</p>
-                  <p><strong>Total Completed Orders:</strong> {totalCompletedOrders}</p>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Tab>
-        <Tab eventKey="new-orders" title="New Orders">
-          <Row className="m-3">
-            {outstandingDeliveries.length > 0 ? (
-              outstandingDeliveries.map((delivery) => (
-                <Col md={6} lg={4} key={delivery.deliveryId}>
-                  <Card className="dashboard-card mb-3">
-                    <Card.Header>Order ID: {delivery.orderId}</Card.Header>
-                    <Card.Body>
-                      <p><strong>Address:</strong> {delivery.address}</p>
-                      <p><strong>Status:</strong> {delivery.status}</p>
-                      <p><strong>Customer Contact:</strong> {delivery.customerContact}</p>
-                      <p><strong>Customer Name:</strong> {delivery.customerName}</p>
-                      <p><strong>Food Name:</strong> {delivery.foodName}</p>
-                      <p><strong>Price:</strong> ${delivery.price.toFixed(2)}</p>
-                      <p><strong>Quantity:</strong> {delivery.quantity}</p>
-                      <p><strong>Estimated Delivery Time:</strong> {delivery.estimatedDeliveryTime}</p>
-                      {delivery.status === 'pending' && (
-                        <button
-                          className="btn btn-warning"
-                          onClick={() =>
-                            handleUpdateStatus(delivery.deliveryId, 'in transit')
-                          }
-                        >
-                          In Transit
-                        </button>
-                      )}
-                      {delivery.status === 'in transit' && (
-                        <button
-                          className="btn btn-success"
-                          onClick={() =>
-                            handleUpdateStatus(delivery.deliveryId, 'delivered')
-                          }
-                        >
-                          Delivered
-                        </button>
-                      )}
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))
-            ) : (
-              <Col>
-                <p>No outstanding deliveries.</p>
+      <DriverDashboardHeader isLoggedIn={true} onLogout={onLogout} />
+      <div className="tabs-container">
+        <Tabs defaultActiveKey="profile" id="driver-dashboard-tabs">
+          <Tab eventKey="profile" title="Driver Profile">
+            <Row className="m-3">
+              <Col md={4}>
+                {/* Driver Profile Card */}
+                <Card className="dashboard-card mb-3">
+                  <Card.Header>Driver Profile</Card.Header>
+                  <Card.Body>
+                    <p><strong>Name:</strong> {driverProfile.name}</p>
+                    <p><strong>Vehicle:</strong> {driverProfile.vehicle}</p>
+                    <p><strong>License Plate:</strong> {driverProfile.licensePlate}</p>
+                    <p><strong>Contact:</strong> {driverProfile.contact}</p>
+                  </Card.Body>
+                </Card>
               </Col>
-            )}
-          </Row>
-        </Tab>
-        <Tab eventKey="completed-orders" title="Completed Orders">
-          <Row className="m-3">
-            {deliveredDeliveries.length > 0 ? (
-              deliveredDeliveries.map((delivery) => (
-                <Col md={6} lg={4} key={delivery.deliveryId}>
-                  <Card className="dashboard-card mb-3">
-                    <Card.Header>Order ID: {delivery.orderId}</Card.Header>
-                    <Card.Body>
-                      <p><strong>Address:</strong> {delivery.address}</p>
-                      <p><strong>Status:</strong> {delivery.status}</p>
-                      <p><strong>Customer Contact:</strong> {delivery.customerContact}</p>
-                      <p><strong>Customer Name:</strong> {delivery.customerName}</p>
-                      <p><strong>Food Name:</strong> {delivery.foodName}</p>
-                      <p><strong>Price:</strong> ${delivery.price.toFixed(2)}</p>
-                      <p><strong>Quantity:</strong> {delivery.quantity}</p>
-                      <p><strong>Estimated Delivery Time:</strong> {delivery.estimatedDeliveryTime}</p>
-                      <p><strong>Delivery Time:</strong> {delivery.deliveryTime}</p>
-                      <p><strong>Delivery Note:</strong> {delivery.deliveryNote}</p>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))
-            ) : (
-              <Col>
-                <p>No completed deliveries.</p>
+              <Col md={8}>
+                <Row>
+                  {/* Summary Cards */}
+                  <Col md={12} className="mb-3">
+                    <Card className="dashboard-card">
+                      <Card.Header>Total New Orders</Card.Header>
+                      <Card.Body>
+                        <p><strong>{totalNewOrders}</strong></p>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col md={12}>
+                    <Card className="dashboard-card">
+                      <Card.Header>Total Completed Orders</Card.Header>
+                      <Card.Body>
+                        <p><strong>{totalCompletedOrders}</strong></p>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                </Row>
               </Col>
-            )}
-          </Row>
-        </Tab>
-      </Tabs>
+            </Row>
+          </Tab>
+          <Tab eventKey="new-orders" title="New Orders">
+            <Row className="m-3">
+              {outstandingDeliveries.length > 0 ? (
+                outstandingDeliveries.map((delivery) => (
+                  <Col md={6} lg={4} key={delivery.deliveryId}>
+                    <Card className="dashboard-card mb-3">
+                      <Card.Header>Order ID: {delivery.orderId}</Card.Header>
+                      <Card.Body>
+                        <p><strong>Address:</strong> {delivery.address}</p>
+                        <p><strong>Status:</strong> {delivery.status}</p>
+                        <p><strong>Customer Contact:</strong> {delivery.customerContact}</p>
+                        <p><strong>Customer Name:</strong> {delivery.customerName}</p>
+                        <p><strong>Food Name:</strong> {delivery.foodName}</p>
+                        <p><strong>Price:</strong> ${delivery.price.toFixed(2)}</p>
+                        <p><strong>Quantity:</strong> {delivery.quantity}</p>
+                        <p><strong>Estimated Delivery Time:</strong> {delivery.estimatedDeliveryTime}</p>
+                        <p><strong>Delivery Note:</strong> {delivery.deliveryNote}</p>
+                        {delivery.status === 'pending' && (
+                          <Button
+                            className="btn btn-primary me-2"
+                            onClick={() => handleUpdateStatus(delivery.deliveryId, 'in transit')}
+                          >
+                            Mark as In Transit
+                          </Button>
+                        )}
+                        {delivery.status === 'in transit' && (
+                          <Button
+                            className="btn btn-success"
+                            onClick={() => handleUpdateStatus(delivery.deliveryId, 'delivered')}
+                          >
+                            Mark as Delivered
+                          </Button>
+                        )}
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))
+              ) : (
+                <Col>
+                  <p>No new deliveries.</p>
+                </Col>
+              )}
+            </Row>
+          </Tab>
+          <Tab eventKey="completed-orders" title="Completed Orders">
+            <Row className="m-3">
+              <Col md={12} className="mb-3">
+                <FormControl
+                  type="text"
+                  placeholder="Search by Order ID"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
+              </Col>
+              {filteredDeliveredDeliveries.length > 0 ? (
+                filteredDeliveredDeliveries.map((delivery) => (
+                  <Col md={6} lg={4} key={delivery.deliveryId}>
+                    <Card className="dashboard-card mb-3">
+                      <Card.Header>Order ID: {delivery.orderId}</Card.Header>
+                      <Card.Body>
+                        <p><strong>Address:</strong> {delivery.address}</p>
+                        <p><strong>Status:</strong> {delivery.status}</p>
+                        <p><strong>Customer Contact:</strong> {delivery.customerContact}</p>
+                        <p><strong>Customer Name:</strong> {delivery.customerName}</p>
+                        <p><strong>Food Name:</strong> {delivery.foodName}</p>
+                        <p><strong>Price:</strong> ${delivery.price.toFixed(2)}</p>
+                        <p><strong>Quantity:</strong> {delivery.quantity}</p>
+                        <p><strong>Estimated Delivery Time:</strong> {delivery.estimatedDeliveryTime}</p>
+                        <p><strong>Delivery Time:</strong> {delivery.deliveryTime}</p>
+                        <p><strong>Delivery Note:</strong> {delivery.deliveryNote}</p>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))
+              ) : (
+                <Col>
+                  <p>No completed deliveries.</p>
+                </Col>
+              )}
+            </Row>
+          </Tab>
+        </Tabs>
+      </div>
     </div>
   );
 };

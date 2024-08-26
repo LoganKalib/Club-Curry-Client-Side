@@ -1,63 +1,25 @@
-/* src/CSS/DriverDashboardContainer.css */
+/* Ensure spacing and layout for tabs */
+.tabs-container {
+  margin-top: 20px;
+}
 
-/* General container styles */
-.driver-dashboard-container {
-    padding-top: 56px; /* Adjust for fixed navbar */
-    background-color: #ffffff; /* White background for the entire container */
-  }
-  
-  /* Card styles */
-  .dashboard-card {
-    border: 1px solid #ddd; /* Light border for cards */
-    border-radius: 4px; /* Rounded corners for cards */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    background-color: #ffffff; /* White background for card body */
-  }
-  
-  .card-header {
-    background-color: #ffd700; /* Gold background for card headers */
-    color: #b71c1c; /* Deep red text color for card headers */
-    font-weight: bold;
-  }
-  
-  /* Tabs styles */
-  .nav-tabs .nav-link {
-    color: #b71c1c; /* Deep red color for tab links */
-  }
-  
-  .nav-tabs .nav-link.active {
-    color: #ffffff; /* White color for active tab */
-    background-color: #b71c1c; /* Deep red background for active tab */
-    font-weight: bold; /* Bold text for active tab */
-  }
-  
-  .nav-tabs .nav-link:hover {
-    color: #ffd700; /* Gold color on hover */
-  }
-  
-  /* Button styles */
-  .btn-warning {
-    background-color: #f1c40f; /* Gold background for 'In Transit' button */
-    border-color: #f1c40f; /* Gold border */
-    color: #ffffff; /* White text color */
-  }
-  
-  .btn-warning:hover {
-    background-color: #f39c12; /* Darker gold background on hover */
-  }
-  
-  .btn-success {
-    background-color: #28a745; /* Green background for 'Delivered' button */
-    border-color: #28a745; /* Green border */
-    color: #ffffff; /* White text color */
-  }
-  
-  .btn-success:hover {
-    background-color: #218838; /* Darker green background on hover */
-  }
-  
-  /* Optional: Add a transition effect */
-  .btn, .nav-link {
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
+.dashboard-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dashboard-card .card-header {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.dashboard-card .card-body {
+  background-color: #f9f9f9;
+  padding: 15px;
+}
+
+.btn {
+  margin-right: 10px;
+}
