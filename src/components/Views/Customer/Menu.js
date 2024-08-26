@@ -37,7 +37,7 @@ const Menu = ({ addToCart }) => {
         id: item.id,
         name: item.name,
         description: item.description,
-        image: `http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`, // Updated image URL
+        image: `http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`,
         price: item.price,
       });
     });
