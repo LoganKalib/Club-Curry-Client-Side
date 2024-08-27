@@ -45,7 +45,6 @@ function App() {
   const [showBooking, setShowBooking] = useState(false);
 
   const handleLogin = (userData, admin = false, driver = false) => {
-
     if (userData.email === ADMIN_CREDENTIALS.username && userData.password === ADMIN_CREDENTIALS.password) {
       setIsLoggedIn(true);
       setIsAdmin(true);
@@ -68,12 +67,12 @@ function App() {
       }
     }
 
-  setIsLoggedIn(true);
-  setIsAdmin(false);
-  setIsDriver(false);
-  setUser(userData);
-  setShowLogin(false);
-};
+    setIsLoggedIn(true);
+    setIsAdmin(false);
+    setIsDriver(false);
+    setUser(userData);
+    setShowLogin(false);
+  };
 
   const handleSignup = (userData) => {
     setIsLoggedIn(true);
@@ -88,7 +87,6 @@ function App() {
     setIsDriver(false);
   };
   
-
   const addToCart = (item) => {
     setCartItems((prevItems) => [
       ...prevItems,
@@ -127,7 +125,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* Display the Header unless it's a driver ,help*/}
         {!isDriver && (
           <Header
             isLoggedIn={isLoggedIn}
@@ -148,10 +145,10 @@ function App() {
                   isDriver ? (
                     <DriverDashboardContainer onLogout={handleLogout} /> // Pass handleLogout here
                   ) : (
-                    <Menu addToCart={addToCart} items={menuItems} />
+                    <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
                   )
                 ) : (
-                  <HomePage />
+                  <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
                 )
               }
             />
