@@ -3,10 +3,12 @@ import { Modal, Button, Accordion, Form, Alert } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-
 const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart, onCloseCart, isLoggedIn, onShowLogin, onShowSignup }) => {
   const [orderType, setOrderType] = useState('');
-  const [address, setAddress] = useState('');
+  const [streetName, setStreetName] = useState('');
+  const [streetNumber, setStreetNumber] = useState('');
+  const [suburbName, setSuburbName] = useState('');
+  const [postalCode, setPostalCode] = useState('');
   const [driverNote, setDriverNote] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
@@ -27,7 +29,7 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
 
   const handleCheckout = () => {
     if (isLoggedIn) {
-      if (!orderType || (orderType === 'Delivery' && (!address || !driverNote)) || !paymentMethod) {
+      if (!orderType || (orderType === 'Delivery' && (!streetName || !streetNumber || !suburbName || !postalCode || !driverNote)) || !paymentMethod) {
         alert('Please complete all fields before proceeding.');
         return;
       }
@@ -132,13 +134,40 @@ const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart,
                 <Accordion.Item eventKey="1">
                   <Accordion.Header>Delivery Details</Accordion.Header>
                   <Accordion.Body>
-                    <Form.Group controlId="address">
-                      <Form.Label>Address</Form.Label>
+                    <Form.Group controlId="streetName">
+                      <Form.Label>Street Name</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter your address"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        placeholder="Enter street name"
+                        value={streetName}
+                        onChange={(e) => setStreetName(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="streetNumber" className="mt-3">
+                      <Form.Label>Street Number</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter street number"
+                        value={streetNumber}
+                        onChange={(e) => setStreetNumber(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="suburbName" className="mt-3">
+                      <Form.Label>Suburb Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter suburb name"
+                        value={suburbName}
+                        onChange={(e) => setSuburbName(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="postalCode" className="mt-3">
+                      <Form.Label>Postal Code</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter postal code"
+                        value={postalCode}
+                        onChange={(e) => setPostalCode(e.target.value)}
                       />
                     </Form.Group>
                     <Form.Group controlId="driverNote" className="mt-3">

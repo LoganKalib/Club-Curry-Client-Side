@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import BookingModal from '../../Common/BookingModal';
+import '../../../CSS/HomePage.css';
 
 function HomePage({ setShowBooking, showBooking }) {
   return (
@@ -10,7 +11,7 @@ function HomePage({ setShowBooking, showBooking }) {
       <div className="about-section">
         <h1 className="display-4 mb-4 typewriter-title">A Symphony of Authentic Indian Flavors</h1>
         <h3 className="lead mb-4 fade-in-text">
-          Welcome to Club Curry. We offer a variety of delicious curries...
+          <b>Welcome to Club Curry. We offer a variety of delicious curries...</b>
         </h3>
         <p className="lead">
           At Club Curry, we are passionate about bringing the authentic taste of North Indian cuisine to you. 
@@ -25,8 +26,8 @@ function HomePage({ setShowBooking, showBooking }) {
       {/* About Us Section */}
       <div className="about-us-section">
         <div className="about-us-images">
-          <img src="path/to/your/image1.jpg" alt="Curry Dish 1" />
-          <img src="path/to/your/image2.jpg" alt="Curry Dish 2" />
+          <img src="/home/chefs.png" alt="chefs" />
+          <img src="/home/food.png" alt="food" />
         </div>
         <div className="about-us-content">
           <h2 className="about-us-heading">About Us</h2>
