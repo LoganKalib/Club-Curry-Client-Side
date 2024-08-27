@@ -1,6 +1,22 @@
 /* Ensure spacing and layout for tabs */
 .tabs-container {
   margin-top: 20px;
+  background-color: white; /* Set background color to white */
+  padding: 15px; /* Add padding for better spacing */
+  border-radius: 8px; /* Rounded corners for a modern look */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Style for tab titles */
+.nav-tabs .nav-link {
+  font-weight: bold; /* Make the tab titles bold */
+  color: #741c25; /* Match the tab titles color with the card-header background */
+}
+
+.nav-tabs .nav-link.active {
+  color: #fff; /* Change color for the active tab title */
+  background-color: #741c25; /* Match the active tab background with the card-header background */
+  border-color: #741c25; /* Match the active tab border with the background */
 }
 
 .dashboard-card {

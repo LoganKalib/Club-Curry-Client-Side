@@ -127,7 +127,7 @@ const DriverDashboardContainer = ({ onLogout }) => {
               </Col>
             </Row>
           </Tab>
-          <Tab eventKey="new-orders" title="New Orders">
+          <Tab eventKey="new-orders" title="New Deliveries">
             <Row className="m-3">
               {outstandingDeliveries.length > 0 ? (
                 outstandingDeliveries.map((delivery) => (
@@ -169,7 +169,7 @@ const DriverDashboardContainer = ({ onLogout }) => {
               )}
             </Row>
           </Tab>
-          <Tab eventKey="completed-orders" title="Completed Orders">
+          <Tab eventKey="completed-orders" title="Completed Deliveries">
             <Row className="m-3">
               <Col md={12} className="mb-3">
                 <FormControl
