@@ -9,13 +9,11 @@ const DriverDashboardContainer = ({ onLogout }) => {
     {
       deliveryId: 1,
       orderId: 101,
-      foodName: 'Pizza',
+      order: 'Pizza',
       price: 12.99,
-      quantity: 2,
       customerName: 'John Doe',
       customerContact: '123-456-7890',
       address: '123 Main St',
-      estimatedDeliveryTime: '12:30',
       status: 'pending',
       deliveryTime: null,
       deliveryNote: 'Please ring the doorbell',
@@ -23,13 +21,11 @@ const DriverDashboardContainer = ({ onLogout }) => {
     {
       deliveryId: 2,
       orderId: 102,
-      foodName: 'Burger',
+      order: 'Burger',
       price: 9.99,
-      quantity: 1,
       customerName: 'Jane Smith',
       customerContact: '987-654-3210',
       address: '456 Elm St',
-      estimatedDeliveryTime: '13:00',
       status: 'in transit',
       deliveryTime: null,
       deliveryNote: 'Leave at the doorstep',
@@ -37,44 +33,14 @@ const DriverDashboardContainer = ({ onLogout }) => {
     {
       deliveryId: 3,
       orderId: 103,
-      foodName: 'Sushi',
+      order: 'Sushi',
       price: 15.99,
-      quantity: 3,
       customerName: 'Emily Johnson',
       customerContact: '555-123-4567',
       address: '789 Oak St',
-      estimatedDeliveryTime: '13:30',
       status: 'delivered',
       deliveryTime: '13:25',
       deliveryNote: '',
-    },
-    {
-      deliveryId: 4,
-      orderId: 104,
-      foodName: 'Pasta',
-      price: 11.49,
-      quantity: 1,
-      customerName: 'Michael Brown',
-      customerContact: '321-654-9870',
-      address: '101 Pine St',
-      estimatedDeliveryTime: '14:00',
-      status: 'delivered',
-      deliveryTime: '14:05',
-      deliveryNote: '',
-    },
-    {
-      deliveryId: 5,
-      orderId: 105,
-      foodName: 'Salad',
-      price: 7.99,
-      quantity: 2,
-      customerName: 'Sarah Davis',
-      customerContact: '654-321-0987',
-      address: '202 Maple St',
-      estimatedDeliveryTime: '14:30',
-      status: 'pending',
-      deliveryTime: null,
-      deliveryNote: 'No dressing',
     },
     // Add more sample data as needed
   ]);
@@ -82,7 +48,7 @@ const DriverDashboardContainer = ({ onLogout }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleUpdateStatus = (deliveryId, newStatus) => {
-    const currentTime = newStatus === 'delivered' ? new Date().toLocaleTimeString() : null;
+    const currentTime = newStatus === 'delivered' ? new Date().toLocaleString() : null;
     setDeliveries((prevDeliveries) =>
       prevDeliveries.map((delivery) =>
         delivery.deliveryId === deliveryId
@@ -173,10 +139,8 @@ const DriverDashboardContainer = ({ onLogout }) => {
                         <p><strong>Status:</strong> {delivery.status}</p>
                         <p><strong>Customer Contact:</strong> {delivery.customerContact}</p>
                         <p><strong>Customer Name:</strong> {delivery.customerName}</p>
-                        <p><strong>Food Name:</strong> {delivery.foodName}</p>
+                        <p><strong>Order:</strong> {delivery.order}</p>
                         <p><strong>Price:</strong> ${delivery.price.toFixed(2)}</p>
-                        <p><strong>Quantity:</strong> {delivery.quantity}</p>
-                        <p><strong>Estimated Delivery Time:</strong> {delivery.estimatedDeliveryTime}</p>
                         <p><strong>Delivery Note:</strong> {delivery.deliveryNote}</p>
                         {delivery.status === 'pending' && (
                           <Button
@@ -225,10 +189,8 @@ const DriverDashboardContainer = ({ onLogout }) => {
                         <p><strong>Status:</strong> {delivery.status}</p>
                         <p><strong>Customer Contact:</strong> {delivery.customerContact}</p>
                         <p><strong>Customer Name:</strong> {delivery.customerName}</p>
-                        <p><strong>Food Name:</strong> {delivery.foodName}</p>
+                        <p><strong>Order:</strong> {delivery.order}</p>
                         <p><strong>Price:</strong> ${delivery.price.toFixed(2)}</p>
-                        <p><strong>Quantity:</strong> {delivery.quantity}</p>
-                        <p><strong>Estimated Delivery Time:</strong> {delivery.estimatedDeliveryTime}</p>
                         <p><strong>Delivery Time:</strong> {delivery.deliveryTime}</p>
                         <p><strong>Delivery Note:</strong> {delivery.deliveryNote}</p>
                       </Card.Body>

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 const Deliveries = ({ deliveries = [], onUpdateStatus }) => {
   const outstandingDeliveries = Array.isArray(deliveries)
     ? deliveries.filter((delivery) => delivery.status !== 'delivered')
@@ -18,7 +17,7 @@ const Deliveries = ({ deliveries = [], onUpdateStatus }) => {
             <th>Price</th>
             <th>Quantity</th>
             <th>Customer Name</th>
-            <th>Estimated Delivery Time</th>
+            {/* Removed Estimated Delivery Time column */}
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -26,7 +25,7 @@ const Deliveries = ({ deliveries = [], onUpdateStatus }) => {
         <tbody>
           {outstandingDeliveries.length === 0 ? (
             <tr>
-              <td colSpan="8">No outstanding deliveries</td>
+              <td colSpan="7">No outstanding deliveries</td> {/* Changed colSpan to 7 */}
             </tr>
           ) : (
             outstandingDeliveries.map((delivery) => (
@@ -36,7 +35,7 @@ const Deliveries = ({ deliveries = [], onUpdateStatus }) => {
                 <td>${delivery.price.toFixed(2)}</td>
                 <td>{delivery.quantity}</td>
                 <td>{delivery.customerName}</td>
-                <td>{delivery.estimatedDeliveryTime}</td>
+                {/* Removed Estimated Delivery Time cell */}
                 <td>{delivery.status}</td>
                 <td>
                   {delivery.status === 'pending' && (
