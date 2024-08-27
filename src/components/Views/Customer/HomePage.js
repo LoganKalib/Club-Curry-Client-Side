@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import BookingModal from '../../Common/BookingModal';
+import ReviewSection from './ReviewSection'; // Import the new component
 import '../../../CSS/HomePage.css';
+
+// Sample menu items (Replace with real data)
+const sampleMenuItems = [
+  { id: 1, name: 'Chicken Curry' },
+  { id: 2, name: 'Lamb Vindaloo' },
+  { id: 3, name: 'Vegetable Biryani' },
+  { id: 4, name: 'Paneer Butter Masala' },
+  { id: 5, name: 'Naan Bread' }
+];
 
 function HomePage({ setShowBooking, showBooking }) {
   return (
@@ -38,28 +48,16 @@ function HomePage({ setShowBooking, showBooking }) {
             the Ayurvedic blending of spice, carefully selected meats, organic veg and pulses creates 
             true food balance and wondrous healthy results.
           </p>
-          <Button
-            variant="danger"
-            onClick={() => setShowBooking(true)}
-            className="button-booking mt-3"
-          >
-            Make a Booking
+          <Button variant="danger" className="button-booking" onClick={() => setShowBooking(true)}>
+            Book a Table
           </Button>
         </div>
       </div>
 
-      {/* BookingModal component */}
-      <BookingModal
-        show={showBooking}
-        handleClose={() => setShowBooking(false)}
-        handleBooking={(bookingData) => {
-          console.log('Booking Data:', bookingData);
-          alert('Booking Confirmed!');
-        }}
-        isLoggedIn={true} // Replace with actual logged-in state
-        onShowLogin={() => alert('Show Login')}
-        onShowSignup={() => alert('Show Signup')}
-      />
+      {/* Reviews Section */}
+      <ReviewSection menuItems={sampleMenuItems} />
+
+      {showBooking && <BookingModal show={showBooking} onHide={() => setShowBooking(false)} />}
     </div>
   );
 }

@@ -121,3 +121,32 @@
   font-family: 'Poppins', sans-serif;
   margin-bottom: 15px;
 }
+
+/* HomePage.css */
+.review-section-card {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  max-width: 1000px; /* Adjust width as needed */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.existing-reviews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* Space between cards */
+}
+
+.review-card {
+  flex: 1 1 calc(33.33% - 1rem); /* Three cards per row with space in between */
+  margin-bottom: 1rem;
+}
+
+.encouragement-message {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+.review-section-card .btn {
+  margin-top: 1rem;
+}
