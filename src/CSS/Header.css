@@ -1,6 +1,5 @@
-/* src/CSS/Header.css */
 .navbar {
-  background: linear-gradient(45deg, #741c25,#741c25) !important; /* Adjust the colors as needed */
+  background: linear-gradient(45deg, #741c25, #741c25) !important; /* Adjust the colors as needed */
 }
 
 .navbar-nav .nav-link {
@@ -29,4 +28,9 @@
 .navbar .btn-outline-light:hover {
   color: #ff5c56;
   border-color: #ff5c56;
+}
+
+/* Add padding to the left of the logo image in the navbar */
+.navbar-brand img {
+  margin-left: 20px; /* Adjust this value to change the spacing */
 }

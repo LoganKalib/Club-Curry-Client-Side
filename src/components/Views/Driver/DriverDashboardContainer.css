@@ -1,4 +1,4 @@
-/* Ensure spacing and layout for tabs */
+/* Spacing for the tabs container */
 .tabs-container {
   margin-top: 20px;
   background-color: white; /* Set background color to white */
@@ -38,4 +38,9 @@
 
 .btn {
   margin-right: 10px;
+}
+
+/* Add padding to the left of the logo image in the navbar */
+.navbar-brand img {
+  margin-left: 20px; /* Adjust the value to increase or decrease spacing */
 }
