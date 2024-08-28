@@ -6,12 +6,16 @@ import Footer from './components/Common/Footer';
 import Menu from './components/Views/Customer/Menu';
 import MenuAdmin from './components/Views/Admin/MenuAdmin';
 import HomePage from './components/Views/Customer/HomePage';
+import CustomerDashboard from './components/Views/Customer/CustomerDashboard';
 import LoginModal from './components/Common/LoginModal';
 import SignupModal from './components/Common/SignupModal';
 import Cart from './components/Views/Customer/Cart';
 import BookingModal from './components/Common/BookingModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
 import EmployeeDashboard from './components/Views/GeneralEmployee/EmployeeDashboard';
+import OrderHistorySection from './components/Views/Customer/OrderHistorySection';
+import CustomerReviewSection from './components/Views/Customer/CustomerReviews';
+import ReviewSection from './components/Views/Customer/ReviewSection';
 import { v4 as uuidv4 } from 'uuid';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
@@ -21,6 +25,7 @@ import './CSS/Header.css';
 import './CSS/Footer.css';
 import './CSS/Overlay.css';
 import './CSS/HomePage.css';
+
 
 const ADMIN_CREDENTIALS = {
   username: 'admin@email.com',
@@ -43,6 +48,8 @@ function App() {
   const [showCart, setShowCart] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
   const [showBooking, setShowBooking] = useState(false);
+  const [orderHistorySection, setOrderHistorySection] = useState([]); // Add state for order history
+  const [reviews, setReviews] = useState([]); // Add state for reviews
 
   const handleLogin = (userData, admin = false, driver = false) => {
     if (userData.email === ADMIN_CREDENTIALS.username && userData.password === ADMIN_CREDENTIALS.password) {
@@ -144,8 +151,19 @@ function App() {
                 isLoggedIn ? (
                   isDriver ? (
                     <DriverDashboardContainer onLogout={handleLogout} /> // Pass handleLogout here
-                  ) : (
+                  ) : isAdmin ? (
                     <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
+                  ) : (
+                    <CustomerDashboard
+                      cartItems={cartItems}
+                      menuItems={menuItems}
+                      onAddToCart={addToCart}
+                      onShowCart={toggleCart}
+                      onShowBooking={() => setShowBooking(true)}
+                      onCheckout={handleCheckout}
+                      onRemoveFromCart={removeFromCart}
+                      onUpdateQuantity={handleUpdateQuantity}
+                    />
                   )
                 ) : (
                   <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
@@ -159,6 +177,8 @@ function App() {
             />
             <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
             <Route path="/employee" element={<EmployeeDashboard />} />
+            <Route path="/order-history" element={<OrderHistorySection orders={orderHistorySection} />} />
+            <Route path="/reviews" element={<ReviewSection existingReviews={reviews} />} />
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>
         </Container>
