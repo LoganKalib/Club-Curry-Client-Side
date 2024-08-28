@@ -1,0 +1,25 @@
+/* Ensure spacing and layout for tabs */
+.tabs-container {
+  margin-top: 20px;
+}
+
+.dashboard-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dashboard-card .card-header {
+  background-color: #741c25;
+  color: white;
+  font-weight: bold;
+}
+
+.dashboard-card .card-body {
+  background-color: #f9f9f9;
+  padding: 15px;
+}
+
+.btn {
+  margin-right: 10px;
+}

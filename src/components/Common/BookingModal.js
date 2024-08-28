@@ -29,7 +29,7 @@ const BookingModal = ({ show, handleClose, handleBooking, isLoggedIn, onShowLogi
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} className="booking-modal">
         <Modal.Header closeButton>
           <Modal.Title>Book a Table</Modal.Title>
         </Modal.Header>
@@ -64,15 +64,15 @@ const BookingModal = ({ show, handleClose, handleBooking, isLoggedIn, onShowLogi
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="outline-light" onClick={handleClose} className="modal-btn">
             Close
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
+          <Button variant="primary" onClick={handleSubmit} className="modal-btn">
             Book Now
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={showLoginPrompt} onHide={() => setShowLoginPrompt(false)} centered>
+      <Modal show={showLoginPrompt} onHide={() => setShowLoginPrompt(false)} centered className="login-prompt-modal">
         <Modal.Header closeButton>
           <Modal.Title>Please Log In or Sign Up</Modal.Title>
         </Modal.Header>
