@@ -1,16 +1,16 @@
+/* Home Page Styles */
 .home-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-
   background-size: cover;
   background-position: center;
   color: #fff;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
+/* About Section Styles */
 .about-section {
   background-color: rgba(0, 0, 0, 0.6);
   padding: 40px;
@@ -31,6 +31,8 @@
   white-space: nowrap; /* Prevents the text from wrapping to the next line */
   border-right: 4px solid #fff; /* Cursor effect */
   font-family: 'Courier New', Courier, monospace; /* Monospace font for typewriter effect */
+  width: 0; /* Initially set width to 0 for typewriting effect */
+  animation: typing 4s steps(40, end) forwards, blink-caret 0.75s step-end infinite; /* Apply typing animation */
 }
 
 /* Fade In Animation */
@@ -40,56 +42,119 @@
   animation-delay: 2s; /* Delays to let the title finish typing */
 }
 
-/* Slide Up Animation */
-.fade-in-slide-up-text {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInSlideUp 2s ease-in-out forwards;
-  animation-delay: 2.5s;
-}
-
-/* Slide Down Animation */
-.fade-in-slide-down-text {
-  opacity: 0;
-  transform: translateY(-20px);
-  animation: fadeInSlideDown 2s ease-in-out forwards;
-  animation-delay: 3s;
-}
-
 /* Keyframes for Animations */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%; /* Adjust based on actual content width */
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: white;
+  }
+}
+
 @keyframes fadeIn {
   to {
     opacity: 1;
   }
 }
 
-@keyframes fadeInSlideUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Button Styles */
+.buttonmen,
+.button-booking {
+  background-color: #dc3545; /* Red background color */
+  border-color: #dc3545; /* Matching border color */
+  font-family: 'Poppins', sans-serif; /* Consistent font */
+  font-size: 1.25rem; /* Font size */
+  padding: 10px 20px; /* Padding */
+  border-radius: 25px; /* Rounded corners */
+  text-transform: uppercase; /* Uppercase text */
+  transition: background-color 0.3s ease; /* Smooth color transition */
 }
 
-@keyframes fadeInSlideDown {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.buttonmen:hover,
+.button-booking:hover {
+  background-color: #c82333; /* Darker red for hover effect */
+  border-color: #c82333; /* Matching border color on hover */
 }
 
-/* Updated Button Styles */
-.buttonmen {
-  background-color: #dc3545;
-  border-color: #dc3545;
+/* About Us Section Styles */
+.about-us-section {
+  display: flex;
+  flex-direction: row;
+  /*align-items: flex-start;*/
+  margin-top: 50px;
+  width: 100%;
+  max-width: 1200px; /* Adjust based on your layout needs */
+}
+
+.about-us-images {
+  display: flex;
+  flex-direction: column; /* Ensure images stack vertically */
+  align-items: flex-start; /* Align images to the start (left) */
+  margin-right: 30px; /* Space between images and text */
+  justify-content: center;
+  width: 80%;
+}
+
+.about-us-images img {
+  overflow: clip;
+  width: 100%; /* Increase size as needed */
+  max-height: 40%;
+  object-fit: cover;
+  border-radius: 8px; /* Optional: Rounded corners */
+  margin-bottom: 5%; /* Space between stacked images */
+}
+
+.about-us-content {
+  display: flex;
+  text-align: left; /* Ensures text is left-aligned */
+  justify-content: center;
+  flex-direction: column;
+
+}
+
+.about-us-heading {
+  font-size: 2rem;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.25rem;
-  padding: 10px 20px;
-  border-radius: 25px;
-  text-transform: uppercase;
-  transition: background-color 0.3s ease;
+  margin-bottom: 15px;
 }
 
-.buttonmen:hover {
-  background-color: #c82333;
-  border-color: #c82333;
+/* HomePage.css */
+.review-section-card {
+  margin: 5rem auto;
+  padding: 1.5rem;
+  max-width: 1000px; /* Adjust width as needed */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.existing-reviews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* Space between cards */
+}
+
+.review-card {
+  flex: 1 1 calc(33.33% - 1rem); /* Three cards per row with space in between */
+  margin-bottom: 1rem;
+}
+
+.encouragement-message {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+.review-section-card .btn {
+  margin-top: 1rem;
+}
+
