@@ -7,15 +7,12 @@ import axios from 'axios';
 const Review = ({ review }) => (
   <Card className="review-card mb-3">
     <Card.Body>
-      <Card.Title>{review.customerName}</Card.Title>
+      <Card.Title>{review.customer.name}</Card.Title>
       <Card.Subtitle className="mb-2 text-muted">
-        Food Rating: {review.foodRating} | Service Rating: {review.serviceRating} | Atmosphere Rating: {review.atmosphereRating}
+        Food Rating: {review.rating.foodQuality} | Service Rating: {review.rating.serviceQuality} | Atmosphere Rating: {review.rating.atmosphereQuality} {/*I changed the review rating access*/}
       </Card.Subtitle>
       <Card.Text>
-        <strong>Recommended Dishes:</strong> {review.recommendedDishes.join(', ')}
-      </Card.Text>
-      <Card.Text>
-        <strong>Comments:</strong> {review.comments}
+        <strong>Comments:</strong> {review.note}
       </Card.Text>
     </Card.Body>
   </Card>
@@ -24,14 +21,11 @@ const Review = ({ review }) => (
 Review.propTypes = {
   review: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    customerName: PropTypes.string.isRequired,
-    foodRating: PropTypes.number.isRequired,
-    serviceRating: PropTypes.number.isRequired,
-    atmosphereRating: PropTypes.number.isRequired,
-    recommendedDishes: PropTypes.arrayOf(PropTypes.string).isRequired,
-    comments: PropTypes.string.isRequired,
+    note: PropTypes.string.isRequired,
+    customer: PropTypes.object,
+    rating: PropTypes.object.isRequired
   }).isRequired,
-};
+};{/*changed definition to be in line with the database */}
 
 const ReviewSection = () => {
   const [reviews, setReviews] = useState([]);
@@ -41,7 +35,8 @@ const ReviewSection = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get('/api/reviews'); // Replace with  API endpoint
+        const response = await axios.get('http://localhost:8080/ClubCurry/review/getAll');// Replace with  API endpoint
+        console.log(response);
         setReviews(response.data);
       } catch (err) {
         setError(err.message);
