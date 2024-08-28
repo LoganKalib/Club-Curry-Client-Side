@@ -162,7 +162,7 @@ const MenuAdmin = () => {
           axios.delete(`http://localhost:8080/ClubCurry/menuItem/delete/${item.id}`)
         ));
         // this needs to become a delete by name
-        //await axios.deletedelete(`http://localhost:8080/ClubCurry/menuItem/delete/${item.id}`)
+        //await axios.delete(`http://localhost:8080/ClubCurry/menuItem/delete/${item.id}`)
       }
 
       setStructuredMenu(prevStructuredMenu => {
