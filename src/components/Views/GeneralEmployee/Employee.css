@@ -6,7 +6,6 @@
     width: 20%;
     background-color: #f4f4f4;
     padding: 20px;
-    /* margin-left: -100px !important; */
 }
 
 .side-nav ul {
@@ -62,7 +61,7 @@
 
 .order-summary {
     margin-top: 20px;
-    background-color: #fff;
+    background-color: #f3f3f3;
     color: #000;
     padding: 20px;
     border-radius: 10px;
@@ -111,7 +110,7 @@
     border: 1px solid #ddd;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #fff;
+    background-color: #d1cfcf;
     color: #000;
     border-radius: 10px;
 }
@@ -183,14 +182,16 @@
 }
 
 .form-group {
-    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .form-group label {
-    display: block;
     margin-bottom: 5px;
     color: #000;
 }
+
 
 .form-group input {
     width: 100%;
@@ -198,6 +199,7 @@
     box-sizing: border-box;
     border: 1px solid #ddd;
     border-radius: 3px;
+    width: 100%;
 }
 
 .modal-content button {

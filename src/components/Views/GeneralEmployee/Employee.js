@@ -107,6 +107,8 @@ const Employee = () => {
         setShowModal(false);
     };
 
+    const todayDate = new Date().toISOString().split('T')[0];
+
     return (
         <div className="container">
             <nav className="side-nav">
@@ -209,10 +211,37 @@ const Employee = () => {
                                     <input type="email" required />
                                 </div>
                                 <div className="form-group">
-                                    <label>Address</label>
+                                    <label>Delivery Address</label>
                                     <input type="text" required />
                                 </div>
-                                <button type="button" onClick={handleConfirmTakeOrder}>Confirm</button>
+                                <div className="form-group">
+                                    <label>Order Note</label>
+                                    <input type="text" />
+                                </div>
+                                <div className="form-group">
+                                    <label>Driver</label>
+                                    <select required>
+                                        <option value="">Select Driver</option>
+                                        <option value="driver1">Driver 1</option>
+                                        <option value="driver2">Driver 2</option>
+                                        <option value="driver3">Driver 3</option>
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Delivery Date</label>
+                                    <input type="date" min={todayDate} required />
+                                </div>
+                                <div className="form-group">
+                                    <label>Estimated Delivery Time</label>
+                                    <select required>
+                                        <option value="">Select Time</option>
+                                        <option value="10:00-12:00">15 minutes</option>
+                                        <option value="12:00-14:00">30 minutes</option>
+                                        <option value="14:00-16:00">45 minutes</option>
+                                        <option value="14:00-16:00">60 minutes</option>
+                                    </select>
+                                </div>
+                                <button type="submit" onClick={handleConfirmTakeOrder}>Confirm</button>
                             </form>
                         ) : (
                             <form>
@@ -220,7 +249,27 @@ const Employee = () => {
                                     <label>Name</label>
                                     <input type="text" required />
                                 </div>
-                                <button type="button" onClick={handleConfirmTakeOrder}>Confirm</button>
+                                <div className="form-group">
+                                    <label>Email</label>
+                                    <input type="email" required />
+                                </div>
+                                <div className="form-group">
+                                    <label>Order Note</label>
+                                    <input type="text" />
+                                </div>
+                                <div className="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="text" />
+                                </div>
+                                <div className="form-group">
+                                    <label>Collection Date</label>
+                                    <input type="date" min={todayDate} required />
+                                </div>
+                                <div className="form-group">
+                                    <label>Collection Time</label>
+                                    <input type="time" required />
+                                </div>
+                                <button type="submit" onClick={handleConfirmTakeOrder}>Confirm</button>
                             </form>
                         )}
                     </div>
@@ -231,12 +280,15 @@ const Employee = () => {
                     <div className="modal-content">
                         <span className="close" onClick={() => setShowCategoryModal(false)}>&times;</span>
                         <h2>{selectedCategory}</h2>
-                        {menuItems[selectedCategory]?.map((item, index) => (
-                            <div key={index} className="menu-item">
-                                <span>{item.name} - R{item.price}</span>
-                                <button onClick={() => addToCart(item)}>Add to Cart</button>
-                            </div>
-                        ))}
+                        <div className="menu-items">
+                            {menuItems[selectedCategory].map((item) => (
+                                <div key={item.name} className="menu-item">
+                                    <span>{item.name}</span>
+                                    <span>R{item.price}</span>
+                                    <button onClick={() => addToCart(item)}>Add to Cart</button>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             )}
@@ -245,7 +297,15 @@ const Employee = () => {
                     <div className="modal-content">
                         <span className="close" onClick={() => setShowCheckoutModal(false)}>&times;</span>
                         <h2>Checkout</h2>
-                        <p>Total: R{calculateTotal()}</p>
+                        <div className="checkout-summary">
+                            {cart.map((item, index) => (
+                                <div key={index} className="checkout-item">
+                                    <span>{item.name} x{item.quantity}</span>
+                                    <span>R{item.price * item.quantity}</span>
+                                </div>
+                            ))}
+                            <div className="total">Total: R{calculateTotal()}</div>
+                        </div>
                         <button onClick={confirmOrder}>Confirm Order</button>
                     </div>
                 </div>
