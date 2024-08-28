@@ -262,12 +262,8 @@ const Employee = () => {
                                     <input type="text" />
                                 </div>
                                 <div className="form-group">
-                                    <label>Collection Date</label>
+                                    <label>Delivery Date</label>
                                     <input type="date" min={todayDate} required />
-                                </div>
-                                <div className="form-group">
-                                    <label>Collection Time</label>
-                                    <input type="time" required />
                                 </div>
                                 <button type="submit" onClick={handleConfirmTakeOrder}>Confirm</button>
                             </form>
