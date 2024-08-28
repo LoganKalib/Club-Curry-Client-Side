@@ -3,7 +3,6 @@ import React from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-
 const Header = ({ isLoggedIn, onShowLogin, onShowSignup, onLogout, onShowCart, onShowBooking }) => {
   const navigate = useNavigate();
 
@@ -15,13 +14,20 @@ const Header = ({ isLoggedIn, onShowLogin, onShowSignup, onLogout, onShowCart, o
   return (
     <Navbar bg="danger" variant="dark" expand="lg" fixed="top">
       <Navbar.Brand as={NavLink} to="/">
-        Club Curry
+        {/* Replace text with logo image */}
+        <img
+          src={`${process.env.PUBLIC_URL}/logo.png`}  // Path to the logo image
+          alt="Club Curry Logo"
+          height="40"  // Adjust the height as needed
+          className="d-inline-block align-top"
+        />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link as={NavLink} to="/" end>
-            Home
+            <i className="fas fa-home"></i>
+
           </Nav.Link>
           <Button variant="outline-light" onClick={onShowCart} className="ml-2">
             <i className="fas fa-shopping-cart"></i> Cart

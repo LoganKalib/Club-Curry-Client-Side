@@ -1,6 +1,7 @@
-/* src/CSS/Header.css */
+@import url('https://fonts.googleapis.com/css2?family=Chonburi&display=swap');
+
 .navbar {
-  background: linear-gradient(45deg, #741c25,#741c25) !important; /* Adjust the colors as needed */
+  background: linear-gradient(45deg, #741c25, #741c25) !important; /* Adjust the colors as needed */
 }
 
 .navbar-nav .nav-link {
@@ -25,8 +26,22 @@
   color: #ffffff;
   border-color: #ffffff;
 }
-
+  
 .navbar .btn-outline-light:hover {
   color: #ff5c56;
   border-color: #ff5c56;
+}
+
+/* Add padding to the left of the logo image in the navbar */
+.navbar-brand img {
+  margin-left: 20px; /* Adjust this value to change the spacing */
+}
+
+.nav-link i{
+  filter : invert();
+}
+
+/* Add this new rule to change h1 headings to use Chonburi font */
+h1 {
+  font-family: 'Chonburi', sans-serif;
 }
