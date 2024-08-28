@@ -14,7 +14,11 @@ const DriverDashboardHeader = ({ isLoggedIn, onLogout }) => {
   return (
     <Navbar className="navbar" expand="lg" fixed="top">
       <Navbar.Brand href="#home">
-        Club Curry
+        <img
+          src={`${process.env.PUBLIC_URL}/logo.png`} // Updated to use the logo image
+          alt="Club Curry Logo"
+          height="40" // You can adjust the height according to your needs
+        />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">

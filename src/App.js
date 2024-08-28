@@ -126,7 +126,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* Display the Header unless it's a driver */}
         {!isDriver && (
           <Header
             isLoggedIn={isLoggedIn}
@@ -147,10 +146,10 @@ function App() {
                   isDriver ? (
                     <DriverDashboardContainer onLogout={handleLogout} /> // Pass handleLogout here
                   ) : (
-                    <Menu addToCart={addToCart} items={menuItems} />
+                    <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
                   )
                 ) : (
-                  <HomePage />
+                  <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
                 )
               }
             />
