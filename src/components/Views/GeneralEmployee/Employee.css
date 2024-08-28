@@ -23,31 +23,49 @@
     color: #333;
 }
 
+.take-order-btn {
+    margin-top: 20px;
+    background-color: #10921b;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
 .main-content {
-    width: 80%;
+    width: 100%;
     padding: 20px;
 }
 
 .category-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 35px;
 }
 
 .category-block {
-    width: 100px;
+    margin-top: 20px;
+    width: 120px;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid #f3f3f3;
     padding: 10px;
-    background-color: #eee;
+    background-color: #962727;
     text-align: center;
     cursor: pointer;
 }
 
 .category-block i {
-    font-size: 24px;
+    font-size: 35px;
 }
 
 .order-summary {
     margin-top: 20px;
+    background-color: #fff;
+    color: #000;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .order-item {
@@ -77,8 +95,9 @@
 
 .checkout-btn {
     margin-top: 20px;
-    background-color: #6ca4a7;
+    background-color: #10921b;
     color: white;
+    border-radius: 5px;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
@@ -92,6 +111,9 @@
     border: 1px solid #ddd;
     padding: 10px;
     margin-bottom: 10px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 10px;
 }
 
 .modal {
@@ -104,7 +126,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #cf2a2a;
+    color: #000000;
 }
 
 .modal-content {
@@ -117,6 +139,7 @@
 
 .modal-content .close {
     position: absolute;
+    color: #000;
     top: 10px;
     right: 10px;
     cursor: pointer;
