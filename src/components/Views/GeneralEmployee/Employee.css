@@ -5,6 +5,7 @@
 }
 
 .side-nav {
+    margin-left: -80%;
     width: 20%;
     background-color: #690f0f;
     padding: 20px;
