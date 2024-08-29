@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './Employee.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Employee = () => {
     const [showModal, setShowModal] = useState(false);
@@ -114,14 +113,13 @@ const Employee = () => {
         <div className="container">
             <nav className="side-nav">
                 <ul>
-                    <li><a href="#"><i className="fas fa-plus-circle"></i> New Order</a></li>
-                    <li><a href="#"><i className="fas fa-tasks"></i> Order Management</a></li>
+                    <li><a href="#" onClick={() => setShowModal(true)}><i className="fas fa-plus-circle"></i> New Order</a></li>
+                    <li><a href="#orders-section"><i className="fas fa-tasks"></i> Order Management</a></li>
                     <li><a href="#"><i className="fas fa-calendar-alt"></i> Bookings</a></li>
                 </ul>
             </nav>
             <div className="main-content">
                 <h1>Club Curry Employee</h1>
-                <button className="take-order-btn" onClick={() => setShowModal(true)}>Take Order</button>
                 <div className="category-grid">
                     {categories.map((category) => (
                         <div 
@@ -164,7 +162,7 @@ const Employee = () => {
                     <div className="total">Total: R{calculateTotal()}</div>
                     <button className="checkout-btn" onClick={handleCheckout}>Checkout</button>
                 </div>
-                <div className="orders-section">
+                <div className="orders-section" id="orders-section">
                     <h2>Orders</h2>
                     {orders.map((order) => (
                         <div key={order.id} className="order-card">
