@@ -71,6 +71,11 @@
     cursor: pointer;
 }
 
+.category-block:hover {
+    background-color: #6e1c1c;
+    transition: ease-in 0.1s;
+}
+
 .category-block i {
     font-size: 35px;
 }
@@ -111,11 +116,17 @@
 .checkout-btn {
     margin-top: 20px;
     background-color: #10921b;
+    width: 20%;
     color: white;
     border-radius: 5px;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
+}
+
+.checkout-btn:hover {
+    background-color: #0a6914;
+    transition: ease-in 0.1s;
 }
 
 .orders-section {

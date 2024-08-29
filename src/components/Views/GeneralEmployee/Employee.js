@@ -115,7 +115,7 @@ const Employee = () => {
                 <ul>
                     <li><a href="#" onClick={() => setShowModal(true)}><i className="fas fa-plus-circle"></i> New Order</a></li>
                     <li><a href="#orders-section"><i className="fas fa-tasks"></i> Order Management</a></li>
-                    <li><a href="#"><i className="fas fa-calendar-alt"></i> Bookings</a></li>
+                    <li><a href="#" onClick={() => setShowModal(true)}><i className="fas fa-calendar-alt"></i> Bookings</a></li>
                 </ul>
             </nav>
             <div className="main-content">
@@ -198,8 +198,14 @@ const Employee = () => {
                             >
                                 Collection
                             </button>
+                            <button 
+                                className={orderType === 'dinein' ? 'active' : ''} 
+                                onClick={() => setOrderType('dinein')}
+                            >
+                                Booking
+                            </button>
                         </div>
-                        {orderType === 'delivery' ? (
+                        {orderType === 'delivery' && (
                             <form>
                                 <div className="form-group">
                                     <label>Name</label>
@@ -223,48 +229,55 @@ const Employee = () => {
                                         <option value="">Select Driver</option>
                                         <option value="driver1">Driver 1</option>
                                         <option value="driver2">Driver 2</option>
-                                        <option value="driver3">Driver 3</option>
                                     </select>
                                 </div>
-                                <div className="form-group">
-                                    <label>Delivery Date</label>
-                                    <input type="date" min={todayDate} required />
-                                </div>
-                                <div className="form-group">
-                                    <label>Estimated Delivery Time</label>
-                                    <select required>
-                                        <option value="">Select Time</option>
-                                        <option value="10:00-12:00">15 minutes</option>
-                                        <option value="12:00-14:00">30 minutes</option>
-                                        <option value="14:00-16:00">45 minutes</option>
-                                        <option value="14:00-16:00">60 minutes</option>
-                                    </select>
-                                </div>
-                                <button type="submit" onClick={handleConfirmTakeOrder}>Confirm</button>
+                                <button type="button" className="confirm-btn" onClick={handleConfirmTakeOrder}>Confirm</button>
                             </form>
-                        ) : (
+                        )}
+                        {orderType === 'collection' && (
                             <form>
                                 <div className="form-group">
                                     <label>Name</label>
                                     <input type="text" required />
                                 </div>
                                 <div className="form-group">
-                                    <label>Email</label>
-                                    <input type="email" required />
+                                    <label>Phone Number</label>
+                                    <input type="tel" required />
+                                </div>
+                                <div className="form-group">
+                                    <label>Collection Time</label>
+                                    <input type="time" required />
                                 </div>
                                 <div className="form-group">
                                     <label>Order Note</label>
                                     <input type="text" />
                                 </div>
+                                <button type="button" className="confirm-btn" onClick={handleConfirmTakeOrder}>Confirm</button>
+                            </form>
+                        )}
+                        {orderType === 'dinein' && (
+                            <form>
                                 <div className="form-group">
-                                    <label>Phone Number</label>
-                                    <input type="text" />
+                                    <label>Customer Name</label>
+                                    <input type="text" required />
                                 </div>
                                 <div className="form-group">
-                                    <label>Delivery Date</label>
-                                    <input type="date" min={todayDate} required />
+                                    <label>Customer Phone Number</label>
+                                    <input type="tel" required />
                                 </div>
-                                <button type="submit" onClick={handleConfirmTakeOrder}>Confirm</button>
+                                <div className="form-group">
+                                    <label>Booking Time</label>
+                                    <input type="time" required />
+                                </div>
+                                <div className="form-group">
+                                    <label>Table Number</label>
+                                    <input type="number" required />
+                                </div>
+                                <div className="form-group">
+                                    <label>Section Number</label>
+                                    <input type="number" required />
+                                </div>
+                                <button type="button" className="confirm-btn" onClick={handleConfirmTakeOrder}>Confirm</button>
                             </form>
                         )}
                     </div>
@@ -276,11 +289,11 @@ const Employee = () => {
                         <span className="close" onClick={() => setShowCategoryModal(false)}>&times;</span>
                         <h2>{selectedCategory}</h2>
                         <div className="menu-items">
-                            {menuItems[selectedCategory].map((item) => (
-                                <div key={item.name} className="menu-item">
+                            {menuItems[selectedCategory].map((item, index) => (
+                                <div key={index} className="menu-item">
                                     <span>{item.name}</span>
                                     <span>R{item.price}</span>
-                                    <button onClick={() => addToCart(item)}>Add to Cart</button>
+                                    <button onClick={() => addToCart({ ...item, category: selectedCategory })}>Add to Cart</button>
                                 </div>
                             ))}
                         </div>
@@ -299,9 +312,9 @@ const Employee = () => {
                                     <span>R{item.price * item.quantity}</span>
                                 </div>
                             ))}
-                            <div className="total">Total: R{calculateTotal()}</div>
                         </div>
-                        <button onClick={confirmOrder}>Confirm Order</button>
+                        <div className="total">Total: R{calculateTotal()}</div>
+                        <button className="confirm-btn" onClick={confirmOrder}>Confirm Order</button>
                     </div>
                 </div>
             )}
