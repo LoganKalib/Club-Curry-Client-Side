@@ -1,0 +1,17 @@
+.review-section {
+    padding: 1rem;
+  }
+  
+  .review-container {
+    max-height: 400px; /* Adjust this value as needed */
+    overflow-y: auto; /* Enables vertical scrolling */
+    border: 1px solid #ddd; /* Optional: adds a border around the scrollable area */
+    border-radius: 8px; /* Optional: rounds the corners of the border */
+    padding: 1rem;
+    background-color: #f8f9fa; /* Optional: sets a background color */
+  }
+  
+  .review-card {
+    margin-bottom: 1rem;
+  }
+  

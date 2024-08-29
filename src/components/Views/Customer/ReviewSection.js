@@ -1,6 +1,8 @@
-import React from 'react';
-import { Card } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react'; // Import useState and useEffect from React
+import axios from 'axios'; // Import axios for making HTTP requests
+import { Card } from 'react-bootstrap'; // Import Card component from react-bootstrap
+import PropTypes from 'prop-types'; // Import PropTypes for type-checking
+import '../Customer/CustomerCss/ReviewSection.css';
 
 // Review component to display individual reviews
 const Review = ({ review }) => (
@@ -21,8 +23,14 @@ Review.propTypes = {
   review: PropTypes.shape({
     id: PropTypes.string.isRequired,
     note: PropTypes.string.isRequired,
-    customer: PropTypes.object,
-    rating: PropTypes.object.isRequired
+    customer: PropTypes.shape({
+      name: PropTypes.string.isRequired
+    }).isRequired,
+    rating: PropTypes.shape({
+      foodQuality: PropTypes.number.isRequired,
+      serviceQuality: PropTypes.number.isRequired,
+      atmosphereQuality: PropTypes.number.isRequired
+    }).isRequired
   }).isRequired,
 };{/*changed definition to be in line with the database */}
 
@@ -34,7 +42,7 @@ const ReviewSection = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/ClubCurry/review/getAll');// Replace with  API endpoint
+        const response = await axios.get('http://localhost:8080/ClubCurry/review/getAll'); // Replace with actual API endpoint
         console.log(response);
         setReviews(response.data);
       } catch (err) {
