@@ -5,5 +5,7 @@
     position: fixed;
     bottom: 0;
     left: 0;
+    display: flex;
     text-align: center;
+    justify-content: center;
   }

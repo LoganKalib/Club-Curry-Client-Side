@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import '../../CSS/LoginModal.css'; 
+
 
 const LoginModal = ({ show, handleClose, handleLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAdminLogin, setIsAdminLogin] = useState(false);
   const [isDriverLogin, setIsDriverLogin] = useState(false);
+  const [isEmployeeLogin, setIsEmployeeLogin] = useState(false); // New state for employee login
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -15,11 +16,13 @@ const LoginModal = ({ show, handleClose, handleLogin }) => {
     let role = 'user';
     if (isAdminLogin) role = 'admin';
     else if (isDriverLogin) role = 'driver';
+    else if (isEmployeeLogin) role = 'employee'; // Include employee role
 
-    handleLogin({ email, password }, isAdminLogin, isDriverLogin);
+    handleLogin({ email, password }, isAdminLogin, isDriverLogin, isEmployeeLogin);
 
     if (role === 'admin') navigate('/admin');
     else if (role === 'driver') navigate('/driver');
+    else if (role === 'employee') navigate('/employee');
     else navigate('/');
   };
 
@@ -55,6 +58,7 @@ const LoginModal = ({ show, handleClose, handleLogin }) => {
             onChange={(e) => {
               setIsAdminLogin(e.target.checked);
               setIsDriverLogin(false);
+              setIsEmployeeLogin(false);
             }}
             className="mt-3"
           />
@@ -65,6 +69,18 @@ const LoginModal = ({ show, handleClose, handleLogin }) => {
             onChange={(e) => {
               setIsDriverLogin(e.target.checked);
               setIsAdminLogin(false);
+              setIsEmployeeLogin(false);
+            }}
+            className="mt-2"
+          />
+          <Form.Check
+            type="checkbox"
+            label="Employee Login"
+            checked={isEmployeeLogin}
+            onChange={(e) => {
+              setIsEmployeeLogin(e.target.checked);
+              setIsAdminLogin(false);
+              setIsDriverLogin(false);
             }}
             className="mt-2"
           />
