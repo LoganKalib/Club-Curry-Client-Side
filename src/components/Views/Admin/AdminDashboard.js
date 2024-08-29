@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from "react";
 import ManageBooking from "./ManageComponents/ManageBooking";
-import ManageDriver from "./ManageComponents/ManageDriver";
+import ManageDriver from "./ManageComponents/DriverManagement/ManageDriver";
 import './AdminDashboard.css'
 
 const AdminDashboard = () =>{

@@ -1,104 +1,62 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-import React, { useState, useEffect } from 'react';
-
-const DriverRegistrationForm = ({ initialDriver, onSubmit, onClose }) => {
-    const [driver, setDriver] = useState({
-        name: '',
-        surname: '',
-        username: '',
-        password: '',
-        petrolAllowance: '',
-        registrationId: ''
+const DriverRegistrationForm = ({ driver, onClose, onSubmit }) => {
+    const [formData, setFormData] = useState({
+        id: "",
+        name: "",
+        surname: "",
+        username: "",
+        password: "",
+        petrolAllowance: "",
+        registrationId: ""
     });
 
     useEffect(() => {
-        if (initialDriver) {
-            setDriver(initialDriver);
+        if (driver) {
+            setFormData({
+                id: driver.id,
+                name: driver.name,
+                surname: driver.surname,
+                username: driver.username,
+                password: driver.password,
+                petrolAllowance: driver.petrolAllowance,
+                registrationId: driver.registration.id
+            });
         }
-    }, [initialDriver]);
+    }, [driver]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setDriver((prevDriver) => ({
-            ...prevDriver,
-            [name]: value
-        }));
+        setFormData(prevState => ({ ...prevState, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onSubmit(driver);
+        try {
+            if (driver) {
+                // Update driver
+                await axios.put('http://localhost:8080/driver/update', formData);
+            } else {
+                // Add new driver
+                await axios.post('http://localhost:8080/driver/save', formData);
+            }
+            onSubmit();
+            onClose();
+        } catch (error) {
+            console.error("Error submitting form", error);
+        }
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label>Name</label>
-                <input
-                    type="text"
-                    name="name"
-                    value={driver.name}
-                    onChange={handleChange}
-                    className="form-control"
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label>Surname</label>
-                <input
-                    type="text"
-                    name="surname"
-                    value={driver.surname}
-                    onChange={handleChange}
-                    className="form-control"
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label>Username</label>
-                <input
-                    type="text"
-                    name="username"
-                    value={driver.username}
-                    onChange={handleChange}
-                    className="form-control"
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label>Password</label>
-                <input
-                    type="password"
-                    name="password"
-                    value={driver.password}
-                    onChange={handleChange}
-                    className="form-control"
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label>Petrol Allowance</label>
-                <input
-                    type="number"
-                    name="petrolAllowance"
-                    value={driver.petrolAllowance}
-                    onChange={handleChange}
-                    className="form-control"
-                />
-            </div>
-            <div className="form-group">
-                <label>Registration ID</label>
-                <input
-                    type="text"
-                    name="registrationId"
-                    value={driver.registrationId}
-                    onChange={handleChange}
-                    className="form-control"
-                />
-            </div>
-            <button type="submit" className="btn btn-primary">
-                Submit
-            </button>
+            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
+            <input type="text" name="surname" value={formData.surname} onChange={handleChange} placeholder="Surname" required />
+            <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" required />
+            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
+            <input type="number" name="petrolAllowance" value={formData.petrolAllowance} onChange={handleChange} placeholder="Petrol Allowance" required />
+            <input type="text" name="registrationId" value={formData.registrationId} onChange={handleChange} placeholder="Registration Id" required />
+            <button type="submit" className="btn btn-primary">Submit</button>
         </form>
     );
 };
