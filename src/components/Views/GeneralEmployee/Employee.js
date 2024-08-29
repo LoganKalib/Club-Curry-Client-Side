@@ -170,11 +170,16 @@ const Employee = () => {
                         className="checkout-btn" 
                         onClick={handleCheckout} 
                         disabled={cart.length === 0}
+                        style={{
+                            backgroundColor: cart.length === 0 ? '#d3d3d3' : '#10921b',
+                            cursor: cart.length === 0 ? 'not-allowed' : 'pointer', 
+                        }}
                     >
                         Checkout
                     </button>
+
                 </div>
-                
+
                 <div className="orders-section" id="orders-section">
                     <h2>Orders</h2>
                     {orders.map((order) => (
