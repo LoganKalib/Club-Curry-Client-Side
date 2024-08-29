@@ -1,0 +1,37 @@
+.review-section {
+    padding: 1rem;
+  }
+  
+  .card-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+  }
+  
+  .card-slider-inner {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .review-card {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 300px; /* Adjust width as needed */
+    min-height: 200px; /* Adjust height as needed */
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+  }
+  
+  .card-subtitle, .card-text {
+    margin-bottom: 0.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .review-card {
+      width: 250px; /* Adjust for smaller screens */
+    }
+  }
+  

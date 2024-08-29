@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Nav, Tab, Form, Button, Alert, Table } from 'react-bootstrap';
+import { Nav, Tab, Table } from 'react-bootstrap';
 import Cart from './Cart'; // Import the Cart component
 import OrderHistorySection from './OrderHistorySection'; // Ensure correct path
-import ReviewSection from './ReviewSection'; // Import the ReviewSection
+import CustomerReviews from './CustomerReviews'; // Import the CustomerReviews component
 
 const CustomerDashboard = ({ 
   menuItems, 
-  existingReviews, 
   cartItems, 
   onRemoveItem, 
   onUpdateQuantity, 
@@ -15,52 +14,34 @@ const CustomerDashboard = ({
   onShowLogin, 
   onShowSignup, 
   bookings = [], // Default to empty array
-  customerId = null // Default to null
+  customerId = null, // Default to null
 }) => {
   const [activeKey, setActiveKey] = useState('bookings');
   const [showCart, setShowCart] = useState(false);
-  const [foodRating, setFoodRating] = useState(0);
-  const [serviceRating, setServiceRating] = useState(0);
-  const [atmosphereRating, setAtmosphereRating] = useState(0);
-  const [recommendedDishes, setRecommendedDishes] = useState([]);
-  const [comments, setComments] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleDishChange = (event) => {
-    const value = Array.from(event.target.selectedOptions, option => option.value);
-    setRecommendedDishes(value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // Here, you'd normally send the review data to a server
-    console.log({
-      foodRating,
-      serviceRating,
-      atmosphereRating,
-      recommendedDishes,
-      comments
-    });
-
-    setFoodRating(0);
-    setServiceRating(0);
-    setAtmosphereRating(0);
-    setRecommendedDishes([]);
-    setComments('');
-    setSubmitted(true);
-
-    // Hide the success message after 5 seconds
-    setTimeout(() => {
-      setSubmitted(false);
-    }, 5000);
-  };
+  const [existingReviews, setExistingReviews] = useState([]); // Initialize review state
 
   const handleShowCart = () => setShowCart(true);
   const handleCloseCart = () => setShowCart(false);
 
   // Filter bookings by customerId
   const customerBookings = customerId ? bookings.filter(booking => booking.customerId === customerId) : [];
+
+  // Function to add a new review
+  const handleAddReview = (newReview) => {
+    setExistingReviews([...existingReviews, newReview]);
+  };
+
+  // Function to edit an existing review
+  const handleEditReview = (updatedReview) => {
+    setExistingReviews(existingReviews.map(review =>
+      review.id === updatedReview.id ? updatedReview : review
+    ));
+  };
+
+  // Function to delete a review
+  const handleDeleteReview = (reviewId) => {
+    setExistingReviews(existingReviews.filter(review => review.id !== reviewId));
+  };
 
   return (
     <div className="customer-dashboard">
@@ -130,82 +111,13 @@ const CustomerDashboard = ({
             <OrderHistorySection />
           </Tab.Pane>
           <Tab.Pane eventKey="reviews">
-            <h3>Submit Your Review</h3>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group controlId="foodRating">
-                <Form.Label>Food Rating (out of 5 stars)</Form.Label>
-                <Form.Control
-                  type="number"
-                  min="0"
-                  max="5"
-                  value={foodRating}
-                  onChange={(e) => setFoodRating(e.target.value)}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group controlId="serviceRating" className="mt-3">
-                <Form.Label>Service Rating (out of 5 stars)</Form.Label>
-                <Form.Control
-                  type="number"
-                  min="0"
-                  max="5"
-                  value={serviceRating}
-                  onChange={(e) => setServiceRating(e.target.value)}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group controlId="atmosphereRating" className="mt-3">
-                <Form.Label>Atmosphere Rating (out of 5 stars)</Form.Label>
-                <Form.Control
-                  type="number"
-                  min="0"
-                  max="5"
-                  value={atmosphereRating}
-                  onChange={(e) => setAtmosphereRating(e.target.value)}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group controlId="recommendedDishes" className="mt-3">
-                <Form.Label>Recommended Dishes</Form.Label>
-                <Form.Control
-                  as="select"
-                  multiple
-                  value={recommendedDishes}
-                  onChange={handleDishChange}
-                  required
-                >
-                  {menuItems.map(item => (
-                    <option key={item.id} value={item.name}>{item.name}</option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-
-              <Form.Group controlId="comments" className="mt-3">
-                <Form.Label>Additional Comments</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={comments}
-                  onChange={(e) => setComments(e.target.value)}
-                />
-              </Form.Group>
-
-              <Button variant="danger" type="submit" className="mt-3">
-                Submit Review
-              </Button>
-            </Form>
-
-            {submitted && (
-              <Alert variant="success" className="mt-3">
-                Thank you for your review!
-              </Alert>
-            )}
-
-            {/* Display Reviews */}
-            <ReviewSection menuItems={menuItems} existingReviews={existingReviews} />
+            <CustomerReviews
+              existingReviews={existingReviews}
+              onAddReview={handleAddReview}
+              onEditReview={handleEditReview}
+              onDeleteReview={handleDeleteReview}
+              customerId={customerId}
+            />
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
