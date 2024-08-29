@@ -33,7 +33,7 @@
   overflow: hidden; /* Ensures the text doesn't wrap */
   white-space: nowrap; /* Prevents the text from wrapping to the next line */
   border-right: 4px solid #fff; /* Cursor effect */
-  font-family: 'Courier New', Courier, monospace; /* Monospace font for typewriter effect */
+  font-family: 'Chonburi', sans-serif; /* Monospace font for typewriter effect */
   width: 0; /* Initially set width to 0 for typewriting effect */
   animation: typing 4s steps(40, end) forwards, blink-caret 0.75s step-end infinite; /* Apply typing animation */
 }
@@ -127,7 +127,7 @@
 
 .about-us-heading {
   font-size: 2rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Chonburi', sans-serif;
   margin-bottom: 15px;
 }
 
@@ -144,6 +144,7 @@
   flex-wrap: wrap;
   gap: 1rem; /* Space between cards */
   margin-bottom: 20%;
+  justify-content: center;
 }
 
 .review-card {
@@ -158,15 +159,24 @@
 }
 
 .wrapper {
-  background-color: #000000;
+  background-color: rgba(0,0,0,80%);
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 80%;
+  height: fit-content;
+}
+
+.review-section{
+  background-color: rgba(116, 28, 37, 1);
+}
+
+.section-heading{
+  font-family: 'Chonburi', sans-serif;
 }
 
 .review-section-card .btn {
   margin-top: 1rem;
+
 }
 

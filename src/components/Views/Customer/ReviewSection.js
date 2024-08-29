@@ -60,10 +60,10 @@ const ReviewSection = () => {
 
   return (
     <div className="review-section">
-      <h2 className="section-heading">Customer Reviews</h2>
+      <h2 className="section-heading mb-5 mt-3">CUSTOMER REVIEWS</h2>
       <div className="existing-reviews">
         {reviews.length > 0 ? (
-          reviews.map(review => <Review key={review.id} review={review} />)
+          reviews.map(review => <Review key={review.id} review={review} /> )
         ) : (
           <p>No reviews yet. Be the first to leave a review!</p>
         )}
