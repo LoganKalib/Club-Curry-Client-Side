@@ -13,6 +13,7 @@ import Cart from './components/Views/Customer/Cart';
 import BookingModal from './components/Common/BookingModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
 import Employee from './components/Views/GeneralEmployee/Employee';
+import OrderManagement from './components/Views/GeneralEmployee/OrderManagement';
 import { v4 as uuidv4 } from 'uuid';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
@@ -160,6 +161,7 @@ function App() {
             />
             <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
             <Route path="/employee" element={<Employee />} />
+             <Route path="/orderManagement" element={<OrderManagement />} />
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>
         </Container>

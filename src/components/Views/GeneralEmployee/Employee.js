@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Employee.css';
 
 const Employee = () => {
@@ -10,6 +11,12 @@ const Employee = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [showCheckoutModal, setShowCheckoutModal] = useState(false);
     const [orders, setOrders] = useState([]);
+
+    const navigate = useNavigate();
+
+    const handleOrderManagementRedirect = () => {
+        navigate('/orderManagement');
+    };
 
     const categories = [
         { name: 'Curries', icon: 'fa-utensils' },
@@ -115,7 +122,11 @@ const Employee = () => {
             <nav className="side-nav">
                 <ul>
                     <li><a href="#" onClick={() => setShowModal(true)}><i className="fas fa-plus-circle"></i> New Order</a></li>
-                    <li><a href="#orders-section"><i className="fas fa-tasks"></i> Order Management</a></li>
+                    <li>
+                        <a href="#" onClick={handleOrderManagementRedirect}>
+                            <i className="fas fa-clock"></i> Order Management
+                        </a>
+                    </li>
                     <li><a href="#" onClick={() => { setActiveTab('dinein'); setShowModal(true); }}><i className="fas fa-calendar-alt"></i> Bookings</a></li>
                 </ul>
             </nav>
@@ -345,3 +356,4 @@ const Employee = () => {
 
 export default Employee;
 
+ 
