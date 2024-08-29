@@ -4,20 +4,24 @@ body {
   flex-direction: column;
   min-height: 100vh;
   margin: 0;
-  background-image: url('../images/mandala.jpg'); /* Ensure the path is correct */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed; /* Ensure the background stays fixed */
-  color: white; /* Adjust text color for contrast if needed */
+  background-color: lightgrey !important; /* Adjust text color for contrast if needed */
 }
 
 .container {
-  flex: 1;
+  display: flex;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0px !important;
+  text-align: center;
+  justify-content: center;
 }
 
 /* App Styles */
 .App {
+  display: flex;
+  flex-direction: column;
   text-align: center;
 }
 
