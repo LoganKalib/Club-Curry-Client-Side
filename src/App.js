@@ -16,7 +16,7 @@ import Employee from './components/Views/GeneralEmployee/Employee';
 import { v4 as uuidv4 } from 'uuid';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
-import './CSS/Menu.css';
+// moved the menu import 
 import './CSS/Cart.css';
 import './CSS/Header.css';
 import './CSS/Footer.css';

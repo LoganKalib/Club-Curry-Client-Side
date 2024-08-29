@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Employee.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Employee = () => {
     const [showModal, setShowModal] = useState(false);
