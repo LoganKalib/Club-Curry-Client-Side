@@ -8,6 +8,7 @@
   background-position: center;
   color: #fff;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  padding-top: 10%;
 }
 
 /* About Section Styles */
@@ -92,7 +93,6 @@
   display: flex;
   flex-direction: row;
   /*align-items: flex-start;*/
-  margin-top: 50px;
   width: 100%;
   max-width: 1200px; /* Adjust based on your layout needs */
 }
@@ -109,7 +109,7 @@
 .about-us-images img {
   overflow: clip;
   width: 100%; /* Increase size as needed */
-  max-height: 40%;
+  max-height: 30%;
   object-fit: cover;
   border-radius: 8px; /* Optional: Rounded corners */
   margin-bottom: 5%; /* Space between stacked images */
@@ -141,6 +141,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem; /* Space between cards */
+  margin-bottom: 20%;
 }
 
 .review-card {
