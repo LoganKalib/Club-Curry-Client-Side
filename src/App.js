@@ -35,10 +35,16 @@ const DRIVER_CREDENTIALS = {
   password: 'driver123',
 };
 
+const EMPLOYEE_CREDENTIALS = {
+  username: 'employee@email.com',
+  password: 'employee123',
+};
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isDriver, setIsDriver] = useState(false);
+  const [isEmployee, setIsEmployee] = useState(false); // Define isEmployee state
   const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
@@ -53,14 +59,27 @@ function App() {
     if (userData.email === ADMIN_CREDENTIALS.username && userData.password === ADMIN_CREDENTIALS.password) {
       setIsLoggedIn(true);
       setIsAdmin(true);
+      setIsDriver(false);
+      setIsEmployee(false);
       setUser(userData);
     } else if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
       setIsLoggedIn(true);
       setIsDriver(true);
+      setIsAdmin(false);
+      setIsEmployee(false);
+      setUser(userData);
+    } else if (userData.email === EMPLOYEE_CREDENTIALS.username && userData.password === EMPLOYEE_CREDENTIALS.password) {
+      setIsLoggedIn(true);
+      setIsEmployee(true);
+      setIsAdmin(false);
+      setIsDriver(false);
       setUser(userData);
     } else {
       setIsLoggedIn(true);
       setUser(userData);
+      setIsAdmin(false);
+      setIsDriver(false);
+      setIsEmployee(false);
     }
     setShowLogin(false);
   };
@@ -76,6 +95,7 @@ function App() {
     setIsLoggedIn(false);
     setIsAdmin(false);
     setIsDriver(false);
+    setIsEmployee(false); // Ensure all states are reset
   };
 
   const addToCart = (item) => {
@@ -143,20 +163,22 @@ function App() {
                     <DriverDashboardContainer onLogout={handleLogout} />
                   ) : isAdmin ? (
                     <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
+                  ) : isEmployee ? (
+                    <EmployeeDashboard /> // Employee dashboard route
                   ) : (
                     <CustomerDashboard
-            cartItems={cartItems}
-            menuItems={menuItems}
-            onAddToCart={addToCart}
-            onShowCart={toggleCart}
-            onShowBooking={() => setShowBooking(true)}
-            onCheckout={handleCheckout}
-            onRemoveFromCart={removeFromCart}
-            onUpdateQuantity={handleUpdateQuantity}
-            orderHistory={orderHistory}
-            customerReviews={reviews.filter(review => review.customerId === user.id)} // Filter reviews by logged-in customer ID
-            onAddReview={handleAddReview}
-          />
+                      cartItems={cartItems}
+                      menuItems={menuItems}
+                      onAddToCart={addToCart}
+                      onShowCart={toggleCart}
+                      onShowBooking={() => setShowBooking(true)}
+                      onCheckout={handleCheckout}
+                      onRemoveFromCart={removeFromCart}
+                      onUpdateQuantity={handleUpdateQuantity}
+                      orderHistory={orderHistory}
+                      customerReviews={reviews.filter(review => review.customerId === user.id)}
+                      onAddReview={handleAddReview}
+                    />
                   )
                 ) : (
                   <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
@@ -169,7 +191,7 @@ function App() {
               element={isAdmin ? <MenuAdmin initialItems={menuItems} onUpdateItems={setMenuItems} /> : <div>Access Denied</div>}
             />
             <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
-            <Route path="/employee" element={<EmployeeDashboard />} />
+            <Route path="/employee" element={isEmployee ? <EmployeeDashboard /> : <div>Access Denied</div>} />
             <Route path="/order-history" element={<OrderHistorySection orders={orderHistory} />} />
             <Route path="/reviews" element={<ReviewSection existingReviews={reviews} onAddReview={handleAddReview} />} />
             <Route path="*" element={<div>Page Not Found</div>} />
