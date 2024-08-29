@@ -23,7 +23,7 @@ function HomePage({ setShowBooking, showBooking }) {
 
         <div className="about-section">
 
-          <h1 className="display-5 mb-4 typewriter-title">A Symphony of Authentic Indian Flavors</h1>
+          <h1 className="display-7 mb-4 typewriter-title">A Symphony of Authentic Indian Flavors</h1>
           <h3 className="lead mb-4 fade-in-text">
             <b>Welcome to Club Curry. We offer a variety of delicious curries...</b>
           </h3>

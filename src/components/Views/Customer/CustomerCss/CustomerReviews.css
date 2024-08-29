@@ -1,6 +1,24 @@
-.review-section {
+
+.customer-dashboard{
+  width: fit-content;
+  min-width: 70%;
+}
+
+.customer-dashboard h2{
+  margin-bottom: 3%;
+  margin-top: 10%;
+  font-family: 'Chonburi', sans-serif;
+}
+
+.customer-dashboard .nav-item{
+  background-color: #ffffff;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.customer-dashboard .review-section {
     padding: 1rem;
-  }
+    background-color: white;
+}
   
   .card-slider {
     display: flex;
