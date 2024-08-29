@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Common/Header';
 import Footer from './components/Common/Footer';
 import Menu from './components/Views/Customer/Menu';
@@ -13,14 +12,12 @@ import SignupModal from './components/Common/SignupModal';
 import Cart from './components/Views/Customer/Cart';
 import BookingModal from './components/Common/BookingModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
-import EmployeeDashboard from './components/Views/GeneralEmployee/EmployeeDashboard';
+import Employee from './components/Views/GeneralEmployee/Employee';
 import OrderHistorySection from './components/Views/Customer/OrderHistorySection';
 import ReviewSection from './components/Views/Customer/ReviewSection';
-import Employee from './components/Views/GeneralEmployee/Employee';
 import { v4 as uuidv4 } from 'uuid';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
-import './CSS/Menu.css';
 import './CSS/Cart.css';
 import './CSS/Header.css';
 import './CSS/Footer.css';
@@ -166,7 +163,7 @@ function App() {
                   ) : isAdmin ? (
                     <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
                   ) : isEmployee ? (
-                    <EmployeeDashboard /> // Employee dashboard route
+                    <Employee /> // Employee dashboard route
                   ) : (
                     <CustomerDashboard
                       cartItems={cartItems}
@@ -193,7 +190,7 @@ function App() {
               element={isAdmin ? <MenuAdmin initialItems={menuItems} onUpdateItems={setMenuItems} /> : <div>Access Denied</div>}
             />
             <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
-            <Route path="/employee" element={isEmployee ? <EmployeeDashboard /> : <div>Access Denied</div>} />
+            <Route path="/employee" element={isEmployee ? <Employee /> : <div>Access Denied</div>} />
             <Route path="/order-history" element={<OrderHistorySection orders={orderHistory} />} />
             <Route path="/reviews" element={<ReviewSection existingReviews={reviews} onAddReview={handleAddReview} />} />
             <Route path="/employee" element={<Employee />} />

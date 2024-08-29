@@ -271,7 +271,7 @@ const MenuAdmin = () => {
   };
 
   return (
-    <div className="menu-admin-container">
+    <div className="menu-admin-container mt-5 p-5">
       <div className="add-item-section">
         <Button className="add-item-button" onClick={handleAddMenuShow}>
           Add New Menu Category
