@@ -225,6 +225,7 @@ const Employee = () => {
                         </div>
                         {orderType === 'delivery' && (
                             <form>
+                                <h2>Delivery</h2>
                                 <div className="form-group">
                                     <label>Name</label>
                                     <input type="text" required />
@@ -254,6 +255,7 @@ const Employee = () => {
                         )}
                         {orderType === 'collection' && (
                             <form>
+                                <h2>Collection</h2>
                                 <div className="form-group">
                                     <label>Name</label>
                                     <input type="text" required />
@@ -275,6 +277,7 @@ const Employee = () => {
                         )}
                         {orderType === 'dinein' && (
                             <form>
+                                <h2>Booking</h2>
                                 <div className="form-group">
                                     <label>Customer Name</label>
                                     <input type="text" required />
