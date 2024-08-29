@@ -3,6 +3,7 @@ import './Employee.css';
 
 const Employee = () => {
     const [showModal, setShowModal] = useState(false);
+    const [activeTab, setActiveTab] = useState('');
     const [orderType, setOrderType] = useState('delivery');
     const [cart, setCart] = useState([]);
     const [showCategoryModal, setShowCategoryModal] = useState(false);
@@ -115,7 +116,7 @@ const Employee = () => {
                 <ul>
                     <li><a href="#" onClick={() => setShowModal(true)}><i className="fas fa-plus-circle"></i> New Order</a></li>
                     <li><a href="#orders-section"><i className="fas fa-tasks"></i> Order Management</a></li>
-                    <li><a href="#" onClick={() => setShowModal(true)}><i className="fas fa-calendar-alt"></i> Bookings</a></li>
+                    <li><a href="#" onClick={() => { setActiveTab('dinein'); setShowModal(true); }}><i className="fas fa-calendar-alt"></i> Bookings</a></li>
                 </ul>
             </nav>
             <div className="main-content">
