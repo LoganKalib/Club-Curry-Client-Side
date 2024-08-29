@@ -2,49 +2,48 @@ import React, {useState, useEffect} from "react";
 import axios from "axios";
 
 
-const ManageMenuItem = (menu) => {
-    const [menuItems, setMenu] = useState([]);
+const ManageMenuItem = (props) => {
+    const [menuItems, setMenuItems] = useState([]);
 
     useEffect(() => {
-        const fetchBooking =  async () => {
+        const fetchMenuItems =  async () => {
             try{
-                const bookings = await axios.get('http://localhost:8080/ClubCurry/booking/getAll');
-                setBookings(bookings.data);
+                let sortedMenuItems =[];
+                const unsortedMenuItems = await axios.get('http://localhost:8080/ClubCurry/menuItem/getAll');
+                console.log(unsortedMenuItems);
+                unsortedMenuItems.data.forEach((menuItem) =>{if(menuItem.menuId.id===props.menu) {sortedMenuItems.push(menuItem);}});
+                setMenuItems(sortedMenuItems);
             }
             catch(error){
-                console.error("Error fetching bookings", error)
+                console.error("Error fetching menu items", error)
             }
         }
-        fetchBooking();
+        fetchMenuItems();
     });
 
     return (
-        <div className="manage-bookings mt-5 pt-5 w-100">
+        <div className="manage-menuItems mt-5 pt-5 w-100">
             <table className="w-100">
                 <thead>
                 <tr>
-                    <th>Booking ID</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Table No</th>
-                    <th>Section No</th>
-                    <th>Status</th>
-                    <th>Booked By Name</th>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>MenuId</th>
                 </tr>
                 </thead>
                 <tbody>
-                {bookings.map((booking) => (
-                        <tr key={booking.bookingId}>
-                            <td>{booking.bookingId}</td>
-                            <td>{booking.date}</td>
-                            <td>{booking.time}</td>
-                            <td>{booking.tableNo}</td>
-                            <td>{booking.sectionNo}</td>
-                            <td>{booking.status}</td>
-                            <td>{booking.bookedBy.name}</td>
+                {menuItems.map((menuItem) => (
+                        <tr key={menuItem.id}>
+                            <td>{menuItem.id}</td>
+                            <td>{menuItem.name}</td>
+                            <td>{menuItem.description}</td>
+                            <td>{menuItem.price}</td>
                             <td>
-                                <button className="btn btn-warning" >EDIT</button>
-                                <button className="btn btn-danger" >DELETE</button>
+                                <button className="btn btn-warning">EDIT</button>
+                                <button className="btn btn-danger">DELETE</button>
+                                <button className="btn btn-danger">VIEW INGREDIENTS</button>
                             </td>
                         </tr>
                     )
@@ -56,4 +55,4 @@ const ManageMenuItem = (menu) => {
     );
 };
 
-export default ManageBooking;
+export default ManageMenuItem;

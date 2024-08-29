@@ -12,7 +12,7 @@ const ManageDriver = () => {
                 setDrivers(drivers.data);
             }
             catch(error){
-                console.error("Error fetching bookings", error)
+                console.error("Error fetching drivers", error)
             }
         }
         fetchDriver();

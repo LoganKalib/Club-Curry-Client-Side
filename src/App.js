@@ -23,6 +23,7 @@ import './CSS/Header.css';
 import './CSS/Footer.css';
 import './CSS/Overlay.css';
 import './CSS/HomePage.css';
+import AdminDashboard from "./components/Views/Admin/AdminDashboard";
 
 const ADMIN_CREDENTIALS = {
   username: 'admin@email.com',
@@ -187,7 +188,7 @@ function App() {
             <Route path="/menu" element={<Menu addToCart={addToCart} items={menuItems} />} />
             <Route
               path="/admin"
-              element={isAdmin ? <MenuAdmin initialItems={menuItems} onUpdateItems={setMenuItems} /> : <div>Access Denied</div>}
+              element={isAdmin ? <AdminDashboard/> : <div>Access Denied</div>}
             />
             <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
             <Route path="/employee" element={isEmployee ? <Employee /> : <div>Access Denied</div>} />
