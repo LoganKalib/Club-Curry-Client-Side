@@ -136,33 +136,45 @@ const Employee = () => {
                         </div>
                     ))}
                 </div>
+
                 <div className="order-summary">
                     <h3>Order Summary</h3>
-                    {cart.map((item, index) => (
-                        <div key={index} className="order-item">
-                            <span>{item.name}</span>
-                            <div className="quantity-control">
-                                <button onClick={() => updateQuantity(index, -1)}>-</button>
-                                <span>{item.quantity}</span>
-                                <button onClick={() => updateQuantity(index, 1)}>+</button>
+                    {cart.length === 0 ? (
+                        <p>No items in the cart.</p>
+                    ) : (
+                        cart.map((item, index) => (
+                            <div key={index} className="order-item">
+                                <span>{item.name}</span>
+                                <div className="quantity-control">
+                                    <button onClick={() => updateQuantity(index, -1)}>-</button>
+                                    <span>{item.quantity}</span>
+                                    <button onClick={() => updateQuantity(index, 1)}>+</button>
+                                </div>
+                                <span>R{item.price * item.quantity}</span>
+                                {['Curries', 'Mains', 'Vegetarian'].includes(item.category) && (
+                                    <select 
+                                        value={item.spiciness} 
+                                        onChange={(e) => updateSpiciness(index, e.target.value)}
+                                    >
+                                        <option value="Mild">Mild</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Hot">Hot</option>
+                                    </select>
+                                )}
+                                <button onClick={() => removeFromCart(index)}>Remove</button>
                             </div>
-                            <span>R{item.price * item.quantity}</span>
-                            {['Curries', 'Mains', 'Vegetarian'].includes(item.category) && (
-                                <select 
-                                    value={item.spiciness} 
-                                    onChange={(e) => updateSpiciness(index, e.target.value)}
-                                >
-                                    <option value="Mild">Mild</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="Hot">Hot</option>
-                                </select>
-                            )}
-                            <button onClick={() => removeFromCart(index)}>Remove</button>
-                        </div>
-                    ))}
+                        ))
+                    )}
                     <div className="total">Total: R{calculateTotal()}</div>
-                    <button className="checkout-btn" onClick={handleCheckout}>Checkout</button>
+                    <button 
+                        className="checkout-btn" 
+                        onClick={handleCheckout} 
+                        disabled={cart.length === 0}
+                    >
+                        Checkout
+                    </button>
                 </div>
+                
                 <div className="orders-section" id="orders-section">
                     <h2>Orders</h2>
                     {orders.map((order) => (
