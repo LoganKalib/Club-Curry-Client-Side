@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Common/Header';
 import Footer from './components/Common/Footer';
 import Menu from './components/Views/Customer/Menu';
@@ -15,6 +16,7 @@ import DriverDashboardContainer from './components/Views/Driver/DriverDashboardC
 import EmployeeDashboard from './components/Views/GeneralEmployee/EmployeeDashboard';
 import OrderHistorySection from './components/Views/Customer/OrderHistorySection';
 import ReviewSection from './components/Views/Customer/ReviewSection';
+import Employee from './components/Views/GeneralEmployee/Employee';
 import { v4 as uuidv4 } from 'uuid';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
@@ -194,6 +196,7 @@ function App() {
             <Route path="/employee" element={isEmployee ? <EmployeeDashboard /> : <div>Access Denied</div>} />
             <Route path="/order-history" element={<OrderHistorySection orders={orderHistory} />} />
             <Route path="/reviews" element={<ReviewSection existingReviews={reviews} onAddReview={handleAddReview} />} />
+            <Route path="/employee" element={<Employee />} />
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>
         </Container>
