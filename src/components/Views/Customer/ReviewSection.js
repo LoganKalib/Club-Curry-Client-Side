@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
 // Review component to display individual reviews
 const Review = ({ review }) => (
@@ -34,27 +33,36 @@ Review.propTypes = {
 };
 
 const ReviewSection = () => {
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await axios.get('/api/reviews'); // Replace with  API endpoint
-        setReviews(response.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchReviews();
-  }, []);
-
-  if (loading) return <p>Loading reviews...</p>;
-  if (error) return <p>Error loading reviews: {error}</p>;
+  // Dummy data
+  const reviews = [
+    {
+      id: '1',
+      customerName: 'Alice Johnson',
+      foodRating: 5,
+      serviceRating: 4,
+      atmosphereRating: 5,
+      recommendedDishes: ['Pasta Carbonara', 'Tiramisu'],
+      comments: 'Absolutely loved the food and the ambiance! Will definitely come back.',
+    },
+    {
+      id: '2',
+      customerName: 'Bob Smith',
+      foodRating: 4,
+      serviceRating: 3,
+      atmosphereRating: 4,
+      recommendedDishes: ['Margherita Pizza', 'Garlic Bread'],
+      comments: 'Good food but the service could be improved. The pizza was fantastic though!',
+    },
+    {
+      id: '3',
+      customerName: 'Charlie Brown',
+      foodRating: 3,
+      serviceRating: 5,
+      atmosphereRating: 3,
+      recommendedDishes: ['Caesar Salad', 'Chicken Wings'],
+      comments: 'Service was excellent, but the food was just average. The wings were decent.',
+    },
+  ];
 
   return (
     <div className="review-section">

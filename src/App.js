@@ -14,7 +14,6 @@ import BookingModal from './components/Common/BookingModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
 import EmployeeDashboard from './components/Views/GeneralEmployee/EmployeeDashboard';
 import OrderHistorySection from './components/Views/Customer/OrderHistorySection';
-import CustomerReviewSection from './components/Views/Customer/CustomerReviews';
 import ReviewSection from './components/Views/Customer/ReviewSection';
 import { v4 as uuidv4 } from 'uuid';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -25,7 +24,6 @@ import './CSS/Header.css';
 import './CSS/Footer.css';
 import './CSS/Overlay.css';
 import './CSS/HomePage.css';
-
 
 const ADMIN_CREDENTIALS = {
   username: 'admin@email.com',
@@ -48,36 +46,22 @@ function App() {
   const [showCart, setShowCart] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
   const [showBooking, setShowBooking] = useState(false);
-  const [orderHistorySection, setOrderHistorySection] = useState([]); // Add state for order history
-  const [reviews, setReviews] = useState([]); // Add state for reviews
+  const [orderHistory, setOrderHistory] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
-  const handleLogin = (userData, admin = false, driver = false) => {
+  const handleLogin = (userData) => {
     if (userData.email === ADMIN_CREDENTIALS.username && userData.password === ADMIN_CREDENTIALS.password) {
       setIsLoggedIn(true);
       setIsAdmin(true);
-      setIsDriver(false);
       setUser(userData);
-      setShowLogin(false);
-      return;
+    } else if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
+      setIsLoggedIn(true);
+      setIsDriver(true);
+      setUser(userData);
+    } else {
+      setIsLoggedIn(true);
+      setUser(userData);
     }
-
-    if (driver) {
-      if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
-        setIsLoggedIn(true);
-        setIsDriver(true);
-        setUser(userData);
-        setShowLogin(false);
-        return;
-      } else {
-        alert('Invalid driver credentials');
-        return;
-      }
-    }
-
-    setIsLoggedIn(true);
-    setIsAdmin(false);
-    setIsDriver(false);
-    setUser(userData);
     setShowLogin(false);
   };
 
@@ -93,7 +77,7 @@ function App() {
     setIsAdmin(false);
     setIsDriver(false);
   };
-  
+
   const addToCart = (item) => {
     setCartItems((prevItems) => [
       ...prevItems,
@@ -122,11 +106,17 @@ function App() {
 
   const handleCheckout = () => {
     alert('Checkout is not yet implemented.');
+    setOrderHistory([...orderHistory, ...cartItems]); // Simulate order history
+    setCartItems([]); // Clear cart after checkout
   };
 
   const handleBooking = (bookingData) => {
     console.log('Booking Data:', bookingData);
     alert('Booking Confirmed!');
+  };
+
+  const handleAddReview = (newReview) => {
+    setReviews([...reviews, newReview]);
   };
 
   return (
@@ -150,20 +140,23 @@ function App() {
               element={
                 isLoggedIn ? (
                   isDriver ? (
-                    <DriverDashboardContainer onLogout={handleLogout} /> // Pass handleLogout here
+                    <DriverDashboardContainer onLogout={handleLogout} />
                   ) : isAdmin ? (
                     <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
                   ) : (
                     <CustomerDashboard
-                      cartItems={cartItems}
-                      menuItems={menuItems}
-                      onAddToCart={addToCart}
-                      onShowCart={toggleCart}
-                      onShowBooking={() => setShowBooking(true)}
-                      onCheckout={handleCheckout}
-                      onRemoveFromCart={removeFromCart}
-                      onUpdateQuantity={handleUpdateQuantity}
-                    />
+            cartItems={cartItems}
+            menuItems={menuItems}
+            onAddToCart={addToCart}
+            onShowCart={toggleCart}
+            onShowBooking={() => setShowBooking(true)}
+            onCheckout={handleCheckout}
+            onRemoveFromCart={removeFromCart}
+            onUpdateQuantity={handleUpdateQuantity}
+            orderHistory={orderHistory}
+            customerReviews={reviews.filter(review => review.customerId === user.id)} // Filter reviews by logged-in customer ID
+            onAddReview={handleAddReview}
+          />
                   )
                 ) : (
                   <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
@@ -177,8 +170,8 @@ function App() {
             />
             <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
             <Route path="/employee" element={<EmployeeDashboard />} />
-            <Route path="/order-history" element={<OrderHistorySection orders={orderHistorySection} />} />
-            <Route path="/reviews" element={<ReviewSection existingReviews={reviews} />} />
+            <Route path="/order-history" element={<OrderHistorySection orders={orderHistory} />} />
+            <Route path="/reviews" element={<ReviewSection existingReviews={reviews} onAddReview={handleAddReview} />} />
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>
         </Container>
