@@ -18,6 +18,7 @@
 .customer-dashboard .review-section {
     padding: 1rem;
     background-color: white;
+    max-width: 90%;
 }
   
   .card-slider {

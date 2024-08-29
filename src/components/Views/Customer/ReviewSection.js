@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'; // Import useState and useEf
 import axios from 'axios'; // Import axios for making HTTP requests
 import { Card } from 'react-bootstrap'; // Import Card component from react-bootstrap
 import PropTypes from 'prop-types'; // Import PropTypes for type-checking
-import '../Customer/CustomerCss/ReviewSection.css';
+import StarRating from '../../Common/StarRating';
+import '../Customer/CustomerCss/ReviewSection.css'; // Import custom CSS
 
 // Review component to display individual reviews
 const Review = ({ review }) => (
@@ -10,7 +11,20 @@ const Review = ({ review }) => (
     <Card.Body>
       <Card.Title>{review.customer.name}</Card.Title>
       <Card.Subtitle className="mb-2 text-muted">
-        Food Rating: {review.rating.foodQuality} | Service Rating: {review.rating.serviceQuality} | Atmosphere Rating: {review.rating.atmosphereQuality} {/*I changed the review rating access*/}
+        <div className="rating-container">
+          <div className="rating-item">
+            <strong>Food Rating: </strong>
+            <StarRating rating={review.rating.foodQuality.toString()} />
+          </div>
+          <div className="rating-item">
+            <strong>Service Rating: </strong>
+            <StarRating rating={review.rating.serviceQuality.toString()} />
+          </div>
+          <div className="rating-item">
+            <strong>Atmosphere Rating: </strong>
+            <StarRating rating={review.rating.atmosphereQuality.toString()} />
+          </div>
+        </div>
       </Card.Subtitle>
       <Card.Text>
         <strong>Comments:</strong> {review.note}
@@ -24,15 +38,15 @@ Review.propTypes = {
     id: PropTypes.string.isRequired,
     note: PropTypes.string.isRequired,
     customer: PropTypes.shape({
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
     }).isRequired,
     rating: PropTypes.shape({
       foodQuality: PropTypes.number.isRequired,
       serviceQuality: PropTypes.number.isRequired,
-      atmosphereQuality: PropTypes.number.isRequired
-    }).isRequired
+      atmosphereQuality: PropTypes.number.isRequired,
+    }).isRequired,
   }).isRequired,
-};{/*changed definition to be in line with the database */}
+}; // Updated definition to be in line with the database
 
 const ReviewSection = () => {
   const [reviews, setReviews] = useState([]);
@@ -63,7 +77,7 @@ const ReviewSection = () => {
       <h2 className="section-heading mb-5 mt-3">CUSTOMER REVIEWS</h2>
       <div className="existing-reviews">
         {reviews.length > 0 ? (
-          reviews.map(review => <Review key={review.id} review={review} /> )
+          reviews.map((review) => <Review key={review.id} review={review} />)
         ) : (
           <p>No reviews yet. Be the first to leave a review!</p>
         )}
