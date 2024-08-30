@@ -9,16 +9,17 @@ const ManageDriver = () => {
     const [currentDriver, setCurrentDriver] = useState(null);
 
     useEffect(() => {
-        const fetchDrivers = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/ClubCurry/driver/getAll');
-                setDrivers(response.data);
-            } catch (error) {
-                console.error("Error fetching drivers", error);
-            }
-        };
         fetchDrivers();
     }, []);
+
+    const fetchDrivers = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/ClubCurry/driver/getAll');
+            setDrivers(response.data);
+        } catch (error) {
+            console.error("Error fetching drivers", error);
+        }
+    };
 
     const handleDelete = async (id) => {
         try {
@@ -39,14 +40,8 @@ const ManageDriver = () => {
         setIsModalOpen(false);
     };
 
-    const handleFormSubmit = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/ClubCurry/driver/getAll');
-            setDrivers(response.data);
-        } catch (error) {
-            console.error("Error refreshing drivers list", error);
-        }
-        closeModal();
+    const handleFormSubmit = () => {
+        fetchDrivers(); // Refresh list after form submission
     };
 
     return (
