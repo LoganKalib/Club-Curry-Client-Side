@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Modal from "../../../../Common/Modal";
 import DriverRegistrationForm from "./DriverRegistrationForm";
+import "../../../../../CSS/Modal.css";
 
 const ManageDriver = () => {
     const [drivers, setDrivers] = useState([]);
@@ -11,7 +11,7 @@ const ManageDriver = () => {
     useEffect(() => {
         const fetchDrivers = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/driver/getAll');
+                const response = await axios.get('http://localhost:8080/ClubCurry/driver/getAll');
                 setDrivers(response.data);
             } catch (error) {
                 console.error("Error fetching drivers", error);
@@ -22,7 +22,7 @@ const ManageDriver = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:8080/driver/delete/${id}`);
+            await axios.delete(`http://localhost:8080/ClubCurry/driver/delete/${id}`);
             setDrivers(drivers.filter(driver => driver.id !== id));
         } catch (error) {
             console.error("Error deleting driver", error);
@@ -30,13 +30,26 @@ const ManageDriver = () => {
     };
 
     const openModal = (driver = null) => {
+        console.log("Opening modal with driver:", driver);
         setCurrentDriver(driver);
         setIsModalOpen(true);
     };
 
     const closeModal = () => {
+        console.log("Closing modal...");
         setCurrentDriver(null);
         setIsModalOpen(false);
+    };
+
+    const handleFormSubmit = async () => {
+        console.log("Form submitted, refreshing driver list...");
+        try {
+            const response = await axios.get('http://localhost:8080/ClubCurry/driver/getAll');
+            setDrivers(response.data);
+        } catch (error) {
+            console.error("Error refreshing drivers list", error);
+        }
+        closeModal();
     };
 
     return (
@@ -75,18 +88,32 @@ const ManageDriver = () => {
                     ))}
                 </tbody>
             </table>
-            <Modal 
-                isOpen={isModalOpen} 
-                title={currentDriver ? "Edit Driver" : "Add Driver"} 
-                onClose={closeModal} 
-                onSubmit={() => {/* Handle form submit */}}
-            >
-                <DriverRegistrationForm 
-                    driver={currentDriver} 
-                    onClose={closeModal} 
-                    onSubmit={() => {/* Handle form submit */}} 
-                />
-            </Modal>
+
+            {/* Inline Modal Structure */}
+            {isModalOpen && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h2>{currentDriver ? "Edit Driver" : "Add Driver"}</h2>
+                            <button className="close-button" onClick={closeModal}>
+                                &times;
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <DriverRegistrationForm 
+                                driver={currentDriver} 
+                                onClose={closeModal} 
+                                onSubmit={handleFormSubmit} 
+                            />
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn btn-secondary" onClick={closeModal}>
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

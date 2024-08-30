@@ -23,6 +23,16 @@ const DriverRegistrationForm = ({ driver, onClose, onSubmit }) => {
                 petrolAllowance: driver.petrolAllowance,
                 registrationId: driver.registration.id
             });
+        } else {
+            setFormData({
+                id: "",
+                name: "",
+                surname: "",
+                username: "",
+                password: "",
+                petrolAllowance: "",
+                registrationId: ""
+            });
         }
     }, [driver]);
 
@@ -35,14 +45,11 @@ const DriverRegistrationForm = ({ driver, onClose, onSubmit }) => {
         e.preventDefault();
         try {
             if (driver) {
-                // Update driver
-                await axios.put('http://localhost:8080/driver/update', formData);
+                await axios.put('http://localhost:8080/ClubCurry/driver/update', formData);
             } else {
-                // Add new driver
-                await axios.post('http://localhost:8080/driver/save', formData);
+                await axios.post('http://localhost:8080/ClubCurry/driver/save', formData);
             }
-            onSubmit();
-            onClose();
+            onSubmit(); // Refresh list and close modal
         } catch (error) {
             console.error("Error submitting form", error);
         }

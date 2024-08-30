@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../CSS/Modal.css';
 
-const Modal = ({ isOpen, title, children, onClose, onSubmit }) => {
+const Modal = ({ isOpen, title, children, onClose }) => {
     if (!isOpen) return null;
 
     return (
@@ -19,9 +19,6 @@ const Modal = ({ isOpen, title, children, onClose, onSubmit }) => {
                 <div className="modal-footer">
                     <button className="btn btn-secondary" onClick={onClose}>
                         Close
-                    </button>
-                    <button className="btn btn-primary" onClick={onSubmit}>
-                        Submit
                     </button>
                 </div>
             </div>
