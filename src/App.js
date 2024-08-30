@@ -164,7 +164,6 @@ function App() {
                     <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
                   ) : isEmployee ? (
                     <Employee /> // Employee dashboard route
-                    <Employee /> // Employee dashboard route
                   ) : (
                     <CustomerDashboard
                       cartItems={cartItems}
@@ -192,11 +191,9 @@ function App() {
             />
             <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
             <Route path="/employee" element={isEmployee ? <Employee /> : <div>Access Denied</div>} />
-            <Route path="/employee" element={isEmployee ? <Employee /> : <div>Access Denied</div>} />
             <Route path="/order-history" element={<OrderHistorySection orders={orderHistory} />} />
             <Route path="/reviews" element={<ReviewSection existingReviews={reviews} onAddReview={handleAddReview} />} />
             <Route path="/employee" element={<Employee />} />
-             <Route path="/orderManagement" element={<OrderManagement />} />
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>
         </Container>
