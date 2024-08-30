@@ -13,7 +13,8 @@
 .side-nav {
     margin-left: -80%;
     width: 20%;
-    background-color: #690f0f;
+    background: rgb(255,244,2);
+    background: linear-gradient(0deg, rgba(255,244,2,1) 0%, rgba(150,39,39,1) 40%, rgba(185,15,15,1) 100%);
     padding: 20px;
     position: fixed;
     height: 100vh;
