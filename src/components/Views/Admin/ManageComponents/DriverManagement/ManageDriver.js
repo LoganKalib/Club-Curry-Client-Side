@@ -59,33 +59,33 @@ const ManageDriver = () => {
             </button>
             <table className="w-100">
                 <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Surname</th>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th>Petrol Allowance</th>
-                        <th>Registration Id</th>
-                        <th>Actions</th>
-                    </tr>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Petrol Allowance</th>
+                    <th>Registration Id</th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {drivers.map((driver) => (
-                        <tr key={driver.id}>
-                            <td>{driver.id}</td>
-                            <td>{driver.name}</td>
-                            <td>{driver.surname}</td>
-                            <td>{driver.username}</td>
-                            <td>{driver.password}</td>
-                            <td>{driver.petrolAllowance}</td>
-                            <td>{driver.registration.id}</td>
-                            <td>
-                                <button className="btn btn-warning" onClick={() => openModal(driver)}>EDIT</button>
-                                <button className="btn btn-danger" onClick={() => handleDelete(driver.id)}>DELETE</button>
-                            </td>
-                        </tr>
-                    ))}
+                {drivers.map((driver) => (
+                    <tr key={driver.id}>
+                        <td>{driver.id}</td>
+                        <td>{driver.name}</td>
+                        <td>{driver.surname}</td>
+                        <td>{driver.username}</td>
+                        <td>{driver.password}</td>
+                        <td>{driver.petrolAllowance}</td>
+                        <td>{driver.registration.id}</td>
+                        <td>
+                            <button className="btn btn-warning" onClick={() => openModal(driver)}>EDIT</button>
+                            <button className="btn btn-danger" onClick={() => handleDelete(driver.id)}>DELETE</button>
+                        </td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
 
@@ -100,10 +100,10 @@ const ManageDriver = () => {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <DriverRegistrationForm 
-                                driver={currentDriver} 
-                                onClose={closeModal} 
-                                onSubmit={handleFormSubmit} 
+                            <DriverRegistrationForm
+                                driver={currentDriver}
+                                onClose={closeModal}
+                                onSubmit={handleFormSubmit}
                             />
                         </div>
                         <div className="modal-footer">
