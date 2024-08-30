@@ -5,12 +5,10 @@ body {
   min-height: 100vh;
   margin: 0;
   padding-top: 56px; /* Adjust this value based on the height of your header */
-
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  color: white; /* Adjust text color for contrast */
 }
 
 /* Info Alert */

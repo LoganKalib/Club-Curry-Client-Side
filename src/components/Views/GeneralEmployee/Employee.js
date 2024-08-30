@@ -16,7 +16,7 @@ const Employee = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     const handleLogout = () => {
-        setIsLoggedIn(false); // Update based on your logout logic
+        setIsLoggedIn(false);
       };
 
     const navigate = useNavigate();
@@ -125,7 +125,7 @@ const Employee = () => {
     const todayDate = new Date().toISOString().split('T')[0];
 
     return (
-        <div className="container">
+        <div className="employee-container">
             <EmployeeHeader isLoggedIn={isLoggedIn} onLogout={handleLogout} />
             <nav className="side-nav">
                 <ul>
@@ -138,7 +138,7 @@ const Employee = () => {
                     <li><a href="#" onClick={() => { setActiveTab('booking'); setShowModal(true); }}><i className="fas fa-calendar-alt"></i> Bookings</a></li>
                 </ul>
             </nav>
-            <div className="main-content">
+            <div className="employee-main-content">
                 <h1 class="employee-header">Club Curry Employee</h1>
                 <div className="category-grid">
                     {categories.map((category) => (
@@ -205,7 +205,7 @@ const Employee = () => {
                     )}
                     <div className="total">Total: R{calculateTotal()}</div>
                     <button 
-                        className="checkout-btn" 
+                        className="emp-checkout-btn" 
                         onClick={handleCheckout} 
                         disabled={cart.length === 0}
                         style={{
@@ -238,10 +238,10 @@ const Employee = () => {
                 </div>
             </div>
             {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
+                <div className="employee-modal">
+                    <div className="employee-modal-content">
                         <span className="close" onClick={() => setShowModal(false)}>&times;</span>
-                        <div className="tab">
+                        <div className="employee-tab">
                             <button 
                                 className={orderType === 'delivery' ? 'active' : ''} 
                                 onClick={() => setOrderType('delivery')}
@@ -262,29 +262,29 @@ const Employee = () => {
                             </button>
                         </div>
                         {orderType === 'delivery' && (
-                            <form>
+                            <form class="employee-form">
                                 <h2>Delivery</h2>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Order ID</label>
                                     <input type="text" required />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Name</label>
                                     <input type="text" required />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Email</label>
                                     <input type="email" required />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Delivery Address</label>
                                     <input type="text" required />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Order Note</label>
                                     <input type="text" />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Driver</label>
                                     <select required>
                                         <option value="">Select Driver</option>
@@ -296,25 +296,25 @@ const Employee = () => {
                             </form>
                         )}
                         {orderType === 'collection' && (
-                            <form>
+                            <form class="employee-form">
                                 <h2>Collection</h2>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Order ID</label>
                                     <input type="text" required />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Name</label>
                                     <input type="text" required />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Phone Number</label>
                                     <input type="tel" required />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Collection Time</label>
                                     <input type="time" required />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Order Note</label>
                                     <input type="text" />
                                 </div>
@@ -322,25 +322,25 @@ const Employee = () => {
                             </form>
                         )}
                         {orderType === 'dinein' && (
-                            <form>
+                            <form class="employee-form">
                                 <h2>Booking</h2>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Customer Name</label>
                                     <input type="text" required />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Customer Phone Number</label>
                                     <input type="tel" required />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Booking Time</label>
                                     <input type="time" required />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Table Number</label>
                                     <input type="number" required />
                                 </div>
-                                <div className="form-group">
+                                <div className="employee-form-group">
                                     <label>Section Number</label>
                                     <input type="number" required />
                                 </div>
@@ -351,13 +351,13 @@ const Employee = () => {
                 </div>
             )}
             {showCategoryModal && (
-                <div className="modal">
-                    <div className="modal-content">
+                <div className="employee-modal">
+                    <div className="employee-modal-content">
                         <span className="close" onClick={() => setShowCategoryModal(false)}>&times;</span>
                         <h2>{selectedCategory}</h2>
                         <div className="menu-items">
                             {menuItems[selectedCategory].map((item, index) => (
-                                <div key={index} className="menu-item">
+                                <div key={index} className="employee-menu-item">
                                     <span>{item.name}</span>
                                     <span>R{item.price}</span>
                                     <button onClick={() => addToCart({ ...item, category: selectedCategory })}>Add to Cart</button>
@@ -368,8 +368,8 @@ const Employee = () => {
                 </div>
             )}
             {showCheckoutModal && (
-                <div className="modal">
-                    <div className="modal-content">
+                <div className="employee-modal">
+                    <div className="employee-modal-content">
                         <span className="close" onClick={() => setShowCheckoutModal(false)}>&times;</span>
                         <h2>Checkout</h2>
                         <div className="checkout-summary">
