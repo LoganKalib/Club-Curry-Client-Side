@@ -68,8 +68,4 @@ const DriverRegistrationForm = ({ driver, onClose, onSubmit }) => {
     );
 };
 
-<<<<<<< HEAD
 export default DriverRegistrationForm;
-=======
-export default DriverRegistrationForm;
->>>>>>> 7258cdf7ddfbcad4a276b948c5aebf8bfc028c3a
