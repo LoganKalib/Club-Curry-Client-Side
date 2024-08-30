@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Alert, Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import '../Customer/CustomerCss/CustomerReviews.css'; // Ensure you have the CSS file for custom styles
+import StarRating from '../../Common/StarRating';
+import '../Customer/CustomerCss/CustomerReviews.css';
 
 const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId, existingReviews }) => {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [foodRating, setFoodRating] = useState('');
-  const [serviceRating, setServiceRating] = useState('');
-  const [atmosphereRating, setAtmosphereRating] = useState('');
+  const [foodRating, setFoodRating] = useState('0');
+  const [serviceRating, setServiceRating] = useState('0');
+  const [atmosphereRating, setAtmosphereRating] = useState('0');
   const [recommendedDishes, setRecommendedDishes] = useState('');
   const [comments, setComments] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
@@ -26,9 +27,9 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
 
   const handleOpenEditModal = (review) => {
     setEditReview(review);
-    setFoodRating(review.foodRating);
-    setServiceRating(review.serviceRating);
-    setAtmosphereRating(review.atmosphereRating);
+    setFoodRating(review.foodRating.toString());
+    setServiceRating(review.serviceRating.toString());
+    setAtmosphereRating(review.atmosphereRating.toString());
     setRecommendedDishes(review.recommendedDishes.join(', '));
     setComments(review.comments);
     setShowEditModal(true);
@@ -42,9 +43,9 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
   };
 
   const resetFormFields = () => {
-    setFoodRating('');
-    setServiceRating('');
-    setAtmosphereRating('');
+    setFoodRating('0');
+    setServiceRating('0');
+    setAtmosphereRating('0');
     setRecommendedDishes('');
     setComments('');
   };
@@ -53,19 +54,19 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
     e.preventDefault();
 
     // Validate required fields
-    if (!foodRating || !serviceRating || !atmosphereRating || !comments) {
+    if (foodRating === '0' || serviceRating === '0' || atmosphereRating === '0' || !comments) {
       setAlertMessage('Please fill in all required fields.');
       return;
     }
 
     // Create a new review object
     const newReview = {
-      id: Date.now().toString(), // Unique ID for the review
+      id: Date.now().toString(),
       customerId,
       customerName: 'Customer', // Replace with actual customer name if available
-      foodRating: parseInt(foodRating),
-      serviceRating: parseInt(serviceRating),
-      atmosphereRating: parseInt(atmosphereRating),
+      foodRating,
+      serviceRating,
+      atmosphereRating,
       recommendedDishes: recommendedDishes.split(',').map(dish => dish.trim()),
       comments,
     };
@@ -80,7 +81,7 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
     e.preventDefault();
 
     // Validate required fields
-    if (!foodRating || !serviceRating || !atmosphereRating || !comments) {
+    if (foodRating === '0' || serviceRating === '0' || atmosphereRating === '0' || !comments) {
       setAlertMessage('Please fill in all required fields.');
       return;
     }
@@ -88,9 +89,9 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
     // Create an updated review object
     const updatedReview = {
       ...editReview,
-      foodRating: parseInt(foodRating),
-      serviceRating: parseInt(serviceRating),
-      atmosphereRating: parseInt(atmosphereRating),
+      foodRating,
+      serviceRating,
+      atmosphereRating,
       recommendedDishes: recommendedDishes.split(',').map(dish => dish.trim()),
       comments,
     };
@@ -122,12 +123,15 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
                   <Card.Title>{review.customerName}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
                     <strong>Food Rating:</strong> {review.foodRating}/5
+                    <StarRating rating={review.foodRating} />
                   </Card.Subtitle>
                   <Card.Subtitle className="mb-2 text-muted">
                     <strong>Service Rating:</strong> {review.serviceRating}/5
+                    <StarRating rating={review.serviceRating} />
                   </Card.Subtitle>
                   <Card.Subtitle className="mb-2 text-muted">
                     <strong>Atmosphere Rating:</strong> {review.atmosphereRating}/5
+                    <StarRating rating={review.atmosphereRating} />
                   </Card.Subtitle>
                   <Card.Text>
                     <strong>Recommended Dishes:</strong> {review.recommendedDishes.join(', ')}
@@ -152,7 +156,7 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
         Make a Review
       </Button>
 
-      {/* Modal for review form */}
+      {/* Modal for adding a review */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Leave a Review</Modal.Title>
@@ -161,37 +165,16 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
           {alertMessage && <Alert variant="info">{alertMessage}</Alert>}
           <Form onSubmit={handleSubmitReview}>
             <Form.Group controlId="foodRating">
-              <Form.Label>Food Rating (1-5)</Form.Label>
-              <Form.Control
-                type="number"
-                min="1"
-                max="5"
-                value={foodRating}
-                onChange={(e) => setFoodRating(e.target.value)}
-                required
-              />
+              <Form.Label>Food Rating</Form.Label>
+              <StarRating rating={foodRating} onRate={setFoodRating} />
             </Form.Group>
             <Form.Group controlId="serviceRating" className="mt-3">
-              <Form.Label>Service Rating (1-5)</Form.Label>
-              <Form.Control
-                type="number"
-                min="1"
-                max="5"
-                value={serviceRating}
-                onChange={(e) => setServiceRating(e.target.value)}
-                required
-              />
+              <Form.Label>Service Rating</Form.Label>
+              <StarRating rating={serviceRating} onRate={setServiceRating} />
             </Form.Group>
             <Form.Group controlId="atmosphereRating" className="mt-3">
-              <Form.Label>Atmosphere Rating (1-5)</Form.Label>
-              <Form.Control
-                type="number"
-                min="1"
-                max="5"
-                value={atmosphereRating}
-                onChange={(e) => setAtmosphereRating(e.target.value)}
-                required
-              />
+              <Form.Label>Atmosphere Rating</Form.Label>
+              <StarRating rating={atmosphereRating} onRate={setAtmosphereRating} />
             </Form.Group>
             <Form.Group controlId="recommendedDishes" className="mt-3">
               <Form.Label>Recommended Dishes (comma separated)</Form.Label>
@@ -218,71 +201,52 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
         </Modal.Body>
       </Modal>
 
-      {/* Modal for editing review */}
-      <Modal show={showEditModal} onHide={handleCloseEditModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Review</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {alertMessage && <Alert variant="info">{alertMessage}</Alert>}
-          <Form onSubmit={handleEditReview}>
-            <Form.Group controlId="foodRating">
-              <Form.Label>Food Rating (1-5)</Form.Label>
-              <Form.Control
-                type="number"
-                min="1"
-                max="5"
-                value={foodRating}
-                onChange={(e) => setFoodRating(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="serviceRating" className="mt-3">
-              <Form.Label>Service Rating (1-5)</Form.Label>
-              <Form.Control
-                type="number"
-                min="1"
-                max="5"
-                value={serviceRating}
-                onChange={(e) => setServiceRating(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="atmosphereRating" className="mt-3">
-              <Form.Label>Atmosphere Rating (1-5)</Form.Label>
-              <Form.Control
-                type="number"
-                min="1"
-                max="5"
-                value={atmosphereRating}
-                onChange={(e) => setAtmosphereRating(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="recommendedDishes" className="mt-3">
-              <Form.Label>Recommended Dishes (comma separated)</Form.Label>
-              <Form.Control
-                type="text"
-                value={recommendedDishes}
-                onChange={(e) => setRecommendedDishes(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group controlId="comments" className="mt-3">
-              <Form.Label>Comments</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                value={comments}
-                onChange={(e) => setComments(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit" className="mt-3">
-              Update Review
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
+      {/* Modal for editing a review */}
+      {editReview && (
+        <Modal show={showEditModal} onHide={handleCloseEditModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Review</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {alertMessage && <Alert variant="info">{alertMessage}</Alert>}
+            <Form onSubmit={handleEditReview}>
+              <Form.Group controlId="foodRating">
+                <Form.Label>Food Rating</Form.Label>
+                <StarRating rating={foodRating} onRate={setFoodRating} />
+              </Form.Group>
+              <Form.Group controlId="serviceRating" className="mt-3">
+                <Form.Label>Service Rating</Form.Label>
+                <StarRating rating={serviceRating} onRate={setServiceRating} />
+              </Form.Group>
+              <Form.Group controlId="atmosphereRating" className="mt-3">
+                <Form.Label>Atmosphere Rating</Form.Label>
+                <StarRating rating={atmosphereRating} onRate={setAtmosphereRating} />
+              </Form.Group>
+              <Form.Group controlId="recommendedDishes" className="mt-3">
+                <Form.Label>Recommended Dishes (comma separated)</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={recommendedDishes}
+                  onChange={(e) => setRecommendedDishes(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="comments" className="mt-3">
+                <Form.Label>Comments</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  value={comments}
+                  onChange={(e) => setComments(e.target.value)}
+                  required
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit" className="mt-3">
+                Update Review
+              </Button>
+            </Form>
+          </Modal.Body>
+        </Modal>
+      )}
     </div>
   );
 };
@@ -292,16 +256,18 @@ CustomerReviews.propTypes = {
   onEditReview: PropTypes.func.isRequired,
   onDeleteReview: PropTypes.func.isRequired,
   customerId: PropTypes.string.isRequired,
-  existingReviews: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    customerId: PropTypes.string.isRequired,
-    customerName: PropTypes.string.isRequired,
-    foodRating: PropTypes.number.isRequired,
-    serviceRating: PropTypes.number.isRequired,
-    atmosphereRating: PropTypes.number.isRequired,
-    recommendedDishes: PropTypes.arrayOf(PropTypes.string).isRequired,
-    comments: PropTypes.string.isRequired,
-  })).isRequired,
+  existingReviews: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      customerId: PropTypes.string.isRequired,
+      customerName: PropTypes.string.isRequired,
+      foodRating: PropTypes.string.isRequired,
+      serviceRating: PropTypes.string.isRequired,
+      atmosphereRating: PropTypes.string.isRequired,
+      recommendedDishes: PropTypes.arrayOf(PropTypes.string).isRequired,
+      comments: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default CustomerReviews;
