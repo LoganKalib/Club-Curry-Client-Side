@@ -1,4 +1,5 @@
 import React from 'react';
+import EmployeeHeader from './EmployeeHeader'; // Import the EmployeeHeader component
 import './OrderManagement.css';
 
 // Mock data for demonstration purposes
@@ -17,6 +18,7 @@ const bookingData = [
 const OrderManagement = () => {
     return (
         <div className="order-management-container">
+            <EmployeeHeader isLoggedIn={true} onLogout={() => console.log('Logged out')} /> {/* Use EmployeeHeader component */}
             <h1 className="order-header">Order Management</h1>
 
             <div className="order-container">

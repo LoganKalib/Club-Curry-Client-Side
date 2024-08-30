@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import EmployeeHeader from './EmployeeHeader';
 import './Employee.css';
 
 const Employee = () => {
@@ -11,6 +12,12 @@ const Employee = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [showCheckoutModal, setShowCheckoutModal] = useState(false);
     const [orders, setOrders] = useState([]);
+    
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+    const handleLogout = () => {
+        setIsLoggedIn(false); // Update based on your logout logic
+      };
 
     const navigate = useNavigate();
 
@@ -119,6 +126,7 @@ const Employee = () => {
 
     return (
         <div className="container">
+            <EmployeeHeader isLoggedIn={isLoggedIn} onLogout={handleLogout} />
             <nav className="side-nav">
                 <ul>
                     <li><a href="#" onClick={() => setShowModal(true)}><i className="fas fa-plus-circle"></i> New Order</a></li>
