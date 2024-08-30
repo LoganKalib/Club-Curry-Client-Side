@@ -4,13 +4,20 @@ import { Card } from 'react-bootstrap'; // Import Card component from react-boot
 import PropTypes from 'prop-types'; // Import PropTypes for type-checking
 import '../Customer/CustomerCss/ReviewSection.css';
 
+// Helper function to display rating with stars
+const displayRatingWithStars = (rating) => {
+  return `${rating} ★`;
+};
+
 // Review component to display individual reviews
 const Review = ({ review }) => (
   <Card className="review-card mb-3">
     <Card.Body>
       <Card.Title>{review.customer.name}</Card.Title>
       <Card.Subtitle className="mb-2 text-muted">
-        Food Rating: {review.rating.foodQuality} | Service Rating: {review.rating.serviceQuality} | Atmosphere Rating: {review.rating.atmosphereQuality} {/*I changed the review rating access*/}
+        Food Rating: {displayRatingWithStars(review.rating.foodQuality)} | 
+        Service Rating: {displayRatingWithStars(review.rating.serviceQuality)} | 
+        Atmosphere Rating: {displayRatingWithStars(review.rating.atmosphereQuality)}
       </Card.Subtitle>
       <Card.Text>
         <strong>Comments:</strong> {review.note}
