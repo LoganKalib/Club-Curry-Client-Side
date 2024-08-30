@@ -16,14 +16,6 @@ const MenuAdmin = () => {
   const [imageFile, setImageFile] = useState(null);
   const [structuredMenu, setStructuredMenu] = useState({});
 
-  // New state hooks for bookings and drivers
-  const [showBookingModal, setShowBookingModal] = useState(false);
-  const [showDriverModal, setShowDriverModal] = useState(false);
-  const [bookings, setBookings] = useState([]);
-  const [drivers, setDrivers] = useState([]);
-  const [newBooking, setNewBooking] = useState({ customerName: '', date: '', time: '', driverId: '' });
-  const [newDriver, setNewDriver] = useState({ name: '', phone: '' });
-
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -33,12 +25,6 @@ const MenuAdmin = () => {
         const menuResponse = await axios.get("http://localhost:8080/ClubCurry/menu/getAll");
         setCategories(menuResponse.data);
 
-        // Fetch bookings and drivers data
-        const bookingsResponse = await axios.get("http://localhost:8080/ClubCurry/booking/getAll");
-        setBookings(bookingsResponse.data);
-
-        const driversResponse = await axios.get("http://localhost:8080/ClubCurry/driver/getAll");
-        setDrivers(driversResponse.data);
       } catch (error) {
         console.error('Error loading data:', error);
       }
@@ -229,47 +215,6 @@ const MenuAdmin = () => {
     }
   };
 
-  // New handlers for bookings and drivers
-  const handleAddBookingShow = () => setShowBookingModal(true);
-  const handleAddBookingClose = () => setShowBookingModal(false);
-  
-  const handleAddDriverShow = () => setShowDriverModal(true);
-  const handleAddDriverClose = () => setShowDriverModal(false);
-
-  const handleSaveBooking = async () => {
-    try {
-      await axios.post('http://localhost:8080/ClubCurry/booking/save', newBooking);
-      const bookingsResponse = await axios.get("http://localhost:8080/ClubCurry/booking/getAll");
-      setBookings(bookingsResponse.data);
-      handleAddBookingClose();
-    } catch (error) {
-      alert("Unable to save booking, please check the details.");
-      console.error('Error saving booking', error);
-    }
-  };
-
-  const handleSaveDriver = async () => {
-    try {
-      await axios.post('http://localhost:8080/ClubCurry/driver/save', newDriver);
-      const driversResponse = await axios.get("http://localhost:8080/ClubCurry/driver/getAll");
-      setDrivers(driversResponse.data);
-      handleAddDriverClose();
-    } catch (error) {
-      alert("Unable to save driver, please check the details.");
-      console.error('Error saving driver', error);
-    }
-  };
-
-  const handleBookingChange = (e) => {
-    const { name, value } = e.target;
-    setNewBooking(prevBooking => ({ ...prevBooking, [name]: value }));
-  };
-
-  const handleDriverChange = (e) => {
-    const { name, value } = e.target;
-    setNewDriver(prevDriver => ({ ...prevDriver, [name]: value }));
-  };
-
   return (
     <div className="menu-admin-container mt-5 p-5">
       <div className="add-item-section">
@@ -278,12 +223,6 @@ const MenuAdmin = () => {
         </Button>
         <Button className="add-item-button" onClick={handleAddItemShow}>
           Add New Item
-        </Button>
-        <Button className="add-item-button" onClick={handleAddBookingShow}>
-          Add New Booking
-        </Button>
-        <Button className="add-item-button" onClick={handleAddDriverShow}>
-          Add New Driver
         </Button>
       </div>
 
@@ -320,112 +259,109 @@ const MenuAdmin = () => {
         ))}
       </div>
 
-      <Modal show={showAddItemModal} onHide={handleAddItemClose} centered>
+      {/* Add Item Modal */}
+      <Modal show={showAddItemModal} onHide={handleAddItemClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add New Item</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group controlId="formItemName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter item name"
-                name="name"
-                value={newItem.name}
-                onChange={handleChange}
-                required
+              <Form.Label>Item Name</Form.Label>
+              <Form.Control 
+                type="text" 
+                name="name" 
+                value={newItem.name} 
+                onChange={handleChange} 
               />
             </Form.Group>
             <Form.Group controlId="formItemDescription">
               <Form.Label>Description</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter item description"
-                name="description"
-                value={newItem.description}
-                onChange={handleChange}
-                required
+              <Form.Control 
+                type="text" 
+                name="description" 
+                value={newItem.description} 
+                onChange={handleChange} 
               />
             </Form.Group>
             <Form.Group controlId="formItemPrice">
               <Form.Label>Price</Form.Label>
-              <Form.Control
-                type="number"
-                step="0.01"
-                placeholder="Enter item price"
-                name="price"
-                value={newItem.price}
-                onChange={handleChange}
-                required
+              <Form.Control 
+                type="number" 
+                name="price" 
+                value={newItem.price} 
+                onChange={handleChange} 
               />
             </Form.Group>
-            <Form.Group controlId="formItemCategory">
+            <Form.Group controlId="formItemMenuId">
               <Form.Label>Category</Form.Label>
-              <Form.Control
-                as="select"
-                name="menuId"
-                value={newItem.menuId}
+              <Form.Control 
+                as="select" 
+                name="menuId" 
+                value={newItem.menuId} 
                 onChange={handleChange}
-                required
               >
-                <option value="">please select a category...</option>
-                {categories.length > 0 ? (
-                  categories.map(category => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))
-                ) : (
-                  <option value="">Loading...</option>
-                )}
+                <option value="">Select Category</option>
+                {categories.map(menu => (
+                  <option key={menu.id} value={menu.id}>
+                    {menu.name}
+                  </option>
+                ))}
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="formItemImage">
-              <Form.Label>Image Upload</Form.Label>
-              <Form.Control
-                type="file"
-                accept="image/*" 
-                onChange={handleImageChange}
-                required
+              <Form.Label>Image</Form.Label>
+              <Form.Control 
+                type="file" 
+                onChange={handleImageChange} 
               />
             </Form.Group>
           </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleAddItemClose}>
+            Close
+          </Button>
           <Button variant="primary" onClick={handleSave}>
             Save
           </Button>
-        </Modal.Body>
+        </Modal.Footer>
       </Modal>
 
-      <Modal show={showAddMenuModal} onHide={handleAddMenuClose} centered>
+      {/* Add Menu Modal */}
+      <Modal show={showAddMenuModal} onHide={handleAddMenuClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Menu</Modal.Title>
+          <Modal.Title>Add New Menu Category</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group controlId="formNewMenuName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter new menu name"
-                value={newMenuName}
-                onChange={handleMenuNameChange}
-                required
+            <Form.Group controlId="formMenuName">
+              <Form.Label>Menu Name</Form.Label>
+              <Form.Control 
+                type="text" 
+                value={newMenuName} 
+                onChange={handleMenuNameChange} 
               />
             </Form.Group>
           </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleAddMenuClose}>
+            Close
+          </Button>
           <Button variant="primary" onClick={handleSaveNewMenu}>
             Save
           </Button>
-        </Modal.Body>
+        </Modal.Footer>
       </Modal>
 
-      <Modal show={showDeleteModal} onHide={handleDeleteClose} centered>
+      {/* Delete Item Modal */}
+      <Modal show={showDeleteModal} onHide={handleDeleteClose}>
         <Modal.Header closeButton>
           <Modal.Title>Delete Item</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Are you sure you want to delete the item with ID: {itemToDeleteId}?</p>
+          Are you sure you want to delete this item?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleDeleteClose}>
@@ -437,7 +373,8 @@ const MenuAdmin = () => {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showEditModal} onHide={handleEditClose} centered>
+      {/* Edit Item Modal */}
+      <Modal show={showEditModal} onHide={handleEditClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Item</Modal.Title>
         </Modal.Header>
@@ -445,58 +382,46 @@ const MenuAdmin = () => {
           {editItem && (
             <Form>
               <Form.Group controlId="formEditItemName">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter item name"
-                  name="name"
-                  value={editItem.name}
-                  onChange={handleEditChange}
-                  required
+                <Form.Label>Item Name</Form.Label>
+                <Form.Control 
+                  type="text" 
+                  name="name" 
+                  value={editItem.name} 
+                  onChange={handleEditChange} 
                 />
               </Form.Group>
               <Form.Group controlId="formEditItemDescription">
                 <Form.Label>Description</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter item description"
-                  name="description"
-                  value={editItem.description}
-                  onChange={handleEditChange}
-                  required
+                <Form.Control 
+                  type="text" 
+                  name="description" 
+                  value={editItem.description} 
+                  onChange={handleEditChange} 
                 />
               </Form.Group>
               <Form.Group controlId="formEditItemPrice">
                 <Form.Label>Price</Form.Label>
-                <Form.Control
-                  type="number"
-                  step="0.01"
-                  placeholder="Enter item price"
-                  name="price"
-                  value={editItem.price}
-                  onChange={handleEditChange}
-                  required
+                <Form.Control 
+                  type="number" 
+                  name="price" 
+                  value={editItem.price} 
+                  onChange={handleEditChange} 
                 />
               </Form.Group>
-              <Form.Group controlId="formEditItemCategory">
+              <Form.Group controlId="formEditItemMenuId">
                 <Form.Label>Category</Form.Label>
-                <Form.Control
-                  as="select"
-                  name="menuId"
-                  value={editItem.menuId}
+                <Form.Control 
+                  as="select" 
+                  name="menuId" 
+                  value={editItem.menuId} 
                   onChange={handleEditChange}
-                  required
                 >
-                  <option value="">please select a category...</option>
-                  {categories.length > 0 ? (
-                    categories.map(category => (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="">Loading...</option>
-                  )}
+                  <option value="">Select Category</option>
+                  {categories.map(menu => (
+                    <option key={menu.id} value={menu.id}>
+                      {menu.name}
+                    </option>
+                  ))}
                 </Form.Control>
               </Form.Group>
             </Form>
@@ -504,116 +429,12 @@ const MenuAdmin = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleEditClose}>
-            Cancel
+            Close
           </Button>
           <Button variant="primary" onClick={handleEditSave}>
             Save Changes
           </Button>
         </Modal.Footer>
-      </Modal>
-
-      {/* Booking Modals */}
-      <Modal show={showBookingModal} onHide={handleAddBookingClose} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Add New Booking</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBookingCustomerName">
-              <Form.Label>Customer Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter customer name"
-                name="customerName"
-                value={newBooking.customerName}
-                onChange={handleBookingChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="formBookingDate">
-              <Form.Label>Date</Form.Label>
-              <Form.Control
-                type="date"
-                placeholder="Enter date"
-                name="date"
-                value={newBooking.date}
-                onChange={handleBookingChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="formBookingTime">
-              <Form.Label>Time</Form.Label>
-              <Form.Control
-                type="time"
-                placeholder="Enter time"
-                name="time"
-                value={newBooking.time}
-                onChange={handleBookingChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="formBookingDriver">
-              <Form.Label>Driver</Form.Label>
-              <Form.Control
-                as="select"
-                name="driverId"
-                value={newBooking.driverId}
-                onChange={handleBookingChange}
-                required
-              >
-                <option value="">please select a driver...</option>
-                {drivers.length > 0 ? (
-                  drivers.map(driver => (
-                    <option key={driver.id} value={driver.id}>
-                      {driver.name}
-                    </option>
-                  ))
-                ) : (
-                  <option value="">Loading...</option>
-                )}
-              </Form.Control>
-            </Form.Group>
-          </Form>
-          <Button variant="primary" onClick={handleSaveBooking}>
-            Save
-          </Button>
-        </Modal.Body>
-      </Modal>
-
-      {/* Driver Modals */}
-      <Modal show={showDriverModal} onHide={handleAddDriverClose} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Add New Driver</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formDriverName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter driver name"
-                name="name"
-                value={newDriver.name}
-                onChange={handleDriverChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="formDriverPhone">
-              <Form.Label>Phone</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter driver phone number"
-                name="phone"
-                value={newDriver.phone}
-                onChange={handleDriverChange}
-                required
-              />
-            </Form.Group>
-          </Form>
-          <Button variant="primary" onClick={handleSaveDriver}>
-            Save
-          </Button>
-        </Modal.Body>
       </Modal>
     </div>
   );
