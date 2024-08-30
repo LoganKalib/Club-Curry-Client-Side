@@ -4,7 +4,6 @@ import { Container } from 'react-bootstrap';
 import Header from './components/Common/Header';
 import Footer from './components/Common/Footer';
 import Menu from './components/Views/Customer/Menu';
-import MenuAdmin from './components/Views/Admin/MenuAdmin';
 import HomePage from './components/Views/Customer/HomePage';
 import CustomerDashboard from './components/Views/Customer/CustomerDashboard';
 import LoginModal from './components/Common/LoginModal';
@@ -188,7 +187,7 @@ function App() {
             <Route path="/menu" element={<Menu addToCart={addToCart} items={menuItems} />} />
             <Route
               path="/admin"
-              element={isAdmin ? <AdminDashboard/> : <div>Access Denied</div>}
+              element={isAdmin ? <AdminDashboard initialItems={menuItems} onUpdateItems={setMenuItems} /> : <div>Access Denied</div>}
             />
             <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
             <Route path="/employee" element={isEmployee ? <Employee /> : <div>Access Denied</div>} />

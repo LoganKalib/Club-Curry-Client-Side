@@ -1,0 +1,95 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import BookingModal from './BookingModal'; // Import the BookingModal component
+import './ManageBooking.css'; // Importing CSS specific to ManageBooking
+
+const ManageBooking = () => {
+    const [bookings, setBookings] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentBooking, setCurrentBooking] = useState(null);
+
+    useEffect(() => {
+        fetchBookings();
+    }, []);
+
+    const fetchBookings = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/ClubCurry/booking/getAll');
+            setBookings(response.data);
+        } catch (error) {
+            console.error("Error fetching bookings", error);
+        }
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8080/ClubCurry/booking/delete/${id}`);
+            setBookings(bookings.filter(booking => booking.bookingId !== id));
+        } catch (error) {
+            console.error("Error deleting booking", error);
+        }
+    };
+
+    const openModal = (booking = null) => {
+        setCurrentBooking(booking);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setCurrentBooking(null);
+        setIsModalOpen(false);
+    };
+
+    const handleFormSubmit = () => {
+        fetchBookings(); // Refresh list after form submission
+    };
+
+    return (
+        <div className="manage-bookings-container mt-5 pt-5 w-100">
+            <h2 className="booking-table-heading">Booking Management</h2>
+            <button className="btn btn-primary mb-3" onClick={() => openModal()}>
+                Add New Booking
+            </button>
+            <table className="booking-table w-100">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Table No</th>
+                        <th>Section No</th>
+                        <th>Status</th>
+                        <th>Booked By Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {bookings.map((booking) => (
+                        <tr key={booking.bookingId}>
+                            <td>{booking.bookingId}</td>
+                            <td>{booking.date}</td>
+                            <td>{booking.time}</td>
+                            <td>{booking.tableNo}</td>
+                            <td>{booking.sectionNo}</td>
+                            <td>{booking.status}</td>
+                            <td>{booking.bookedBy.name}</td>
+                            <td>
+                                <button className="btn btn-warning mr-2" onClick={() => openModal(booking)}>EDIT</button>
+                                <button className="btn btn-danger" onClick={() => handleDelete(booking.bookingId)}>DELETE</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
+            <BookingModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                booking={currentBooking}
+                onSubmit={handleFormSubmit}
+            />
+        </div>
+    );
+};
+
+export default ManageBooking;

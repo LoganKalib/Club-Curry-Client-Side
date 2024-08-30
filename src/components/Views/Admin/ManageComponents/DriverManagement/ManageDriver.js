@@ -42,6 +42,7 @@ const ManageDriver = () => {
 
     const handleFormSubmit = () => {
         fetchDrivers(); // Refresh list after form submission
+
     };
 
     return (
