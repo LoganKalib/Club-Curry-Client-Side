@@ -26,4 +26,8 @@ const Modal = ({ isOpen, title, children, onClose }) => {
     );
 };
 
+<<<<<<< HEAD
 export default Modal;
+=======
+export default Modal;
+>>>>>>> 7258cdf7ddfbcad4a276b948c5aebf8bfc028c3a
