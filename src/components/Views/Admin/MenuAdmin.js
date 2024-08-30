@@ -222,10 +222,16 @@ const MenuAdmin = () => {
     <div className="menu-admin-container mt-5 p-5">
       <div className="add-item-section">
         <Button className="add-item-button" onClick={handleAddMenuShow}>
-          Add New Menu Category
+          Add New Menu
         </Button>
         <Button className="add-item-button" onClick={handleAddItemShow}>
           Add New Item
+        </Button>
+        <Button className="add-item-button" onClick={handleAddMenuShow}>
+          Create Ingredient
+        </Button>
+        <Button className="add-item-button" onClick={handleAddItemShow}>
+          Assign Ingredients
         </Button>
       </div>
 
