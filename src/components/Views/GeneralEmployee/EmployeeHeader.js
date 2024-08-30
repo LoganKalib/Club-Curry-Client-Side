@@ -8,7 +8,7 @@ const EmployeeHeader = ({ isLoggedIn, onLogout }) => {
 
   const handleLogout = () => {
     onLogout();
-    navigate('/');
+    window.location.href = '/';
   };
 
   const handleHomeRedirect = () => {
@@ -28,11 +28,11 @@ const EmployeeHeader = ({ isLoggedIn, onLogout }) => {
       <Navbar.Collapse id="basic-navbar-nav">
         <div className="buttons-container">
           <Button variant="outline-light" onClick={handleHomeRedirect}>
-            <i className="fas fa-user"></i> Employee
+            <i className="fas fa-user" style={{ marginRight: '5px' }}></i> Employee
           </Button>
           {isLoggedIn && (
             <Button variant="outline-light" onClick={handleLogout}>
-              Logout
+              <i className="fas fa-sign-out-alt" style={{ marginRight: '5px' }}></i>Logout
             </Button>
           )}
         </div>
