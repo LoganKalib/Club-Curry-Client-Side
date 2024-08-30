@@ -45,6 +45,12 @@
     border-color: #10921b; 
 }
 
+.employee-header {
+    color: #000;
+    font-family:'Times New Roman', Times, serif;
+    font-size: 3.5em;
+}
+
 .main-content {
     margin-left: 25%;
     width: 100%; 
@@ -111,6 +117,7 @@
 
 .total {
     font-weight: bold;
+    font-size: 1.5em;
     margin-top: 10px;
 }
 
@@ -130,15 +137,73 @@
     transition: ease-in 0.1s;
 }
 
+.orders-header {
+     color: #000;
+}
+
 .orders-section {
     margin-top: 20px;
 }
 
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-table th {
+    background-color: #c95a5a;
+    color: #fefefe;
+}
+
+.order-table th, .order-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-control button {
+    margin: 0 5px;
+    padding: 5px;
+}
+
+.order-summary .total {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.checkout-btn {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    color: #fff;
+}
+
+.btn-remove {
+    background-color: #ff0303;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.btn-remove:hover {
+    background-color: #c40000;
+    transition: ease 0.3s;
+}
+
+
 .order-card {
-    border: 1px solid #ddd;
+    border: 1px solid #3f3f3f;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #d1cfcf;
+    background-color: #f5f4f4;
     color: #000;
     border-radius: 10px;
 }

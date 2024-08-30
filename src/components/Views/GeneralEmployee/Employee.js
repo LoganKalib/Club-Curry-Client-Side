@@ -127,11 +127,11 @@ const Employee = () => {
                             <i className="fas fa-clock"></i> Order Management
                         </a>
                     </li>
-                    <li><a href="#" onClick={() => { setActiveTab('dinein'); setShowModal(true); }}><i className="fas fa-calendar-alt"></i> Bookings</a></li>
+                    <li><a href="#" onClick={() => { setActiveTab('booking'); setShowModal(true); }}><i className="fas fa-calendar-alt"></i> Bookings</a></li>
                 </ul>
             </nav>
             <div className="main-content">
-                <h1>Club Curry Employee</h1>
+                <h1 class="employee-header">Club Curry Employee</h1>
                 <div className="category-grid">
                     {categories.map((category) => (
                         <div 
@@ -153,28 +153,47 @@ const Employee = () => {
                     {cart.length === 0 ? (
                         <p>No items in the cart.</p>
                     ) : (
-                        cart.map((item, index) => (
-                            <div key={index} className="order-item">
-                                <span>{item.name}</span>
-                                <div className="quantity-control">
-                                    <button onClick={() => updateQuantity(index, -1)}>-</button>
-                                    <span>{item.quantity}</span>
-                                    <button onClick={() => updateQuantity(index, 1)}>+</button>
-                                </div>
-                                <span>R{item.price * item.quantity}</span>
-                                {['Curries', 'Mains', 'Vegetarian'].includes(item.category) && (
-                                    <select 
-                                        value={item.spiciness} 
-                                        onChange={(e) => updateSpiciness(index, e.target.value)}
-                                    >
-                                        <option value="Mild">Mild</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="Hot">Hot</option>
-                                    </select>
-                                )}
-                                <button onClick={() => removeFromCart(index)}>Remove</button>
-                            </div>
-                        ))
+                        <table className="order-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Spiciness</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {cart.map((item, index) => (
+                                    <tr key={index}>
+                                        <td>{item.name}</td>
+                                        <td>
+                                            <div className="quantity-control">
+                                                <button onClick={() => updateQuantity(index, -1)}>-</button>
+                                                <span>{item.quantity}</span>
+                                                <button onClick={() => updateQuantity(index, 1)}>+</button>
+                                            </div>
+                                        </td>
+                                        <td>R{item.price * item.quantity}</td>
+                                        <td>
+                                            {['Curries', 'Mains', 'Vegetarian'].includes(item.category) ? (
+                                                <select 
+                                                    value={item.spiciness} 
+                                                    onChange={(e) => updateSpiciness(index, e.target.value)}
+                                                >
+                                                    <option value="Mild">Mild</option>
+                                                    <option value="Medium">Medium</option>
+                                                    <option value="Hot">Hot</option>
+                                                </select>
+                                            ) : (
+                                                <span>-</span>
+                                            )}
+                                        </td>
+                                        <td><button class="btn-remove" onClick={() => removeFromCart(index)}>Remove</button></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     )}
                     <div className="total">Total: R{calculateTotal()}</div>
                     <button 
@@ -188,11 +207,11 @@ const Employee = () => {
                     >
                         Checkout
                     </button>
-
                 </div>
 
+
                 <div className="orders-section" id="orders-section">
-                    <h2>Orders</h2>
+                    <h2 class="orders-header">Orders</h2>
                     {orders.map((order) => (
                         <div key={order.id} className="order-card">
                             <h4>Order #{order.id}</h4>
@@ -238,6 +257,10 @@ const Employee = () => {
                             <form>
                                 <h2>Delivery</h2>
                                 <div className="form-group">
+                                    <label>Order ID</label>
+                                    <input type="text" required />
+                                </div>
+                                <div className="form-group">
                                     <label>Name</label>
                                     <input type="text" required />
                                 </div>
@@ -267,6 +290,10 @@ const Employee = () => {
                         {orderType === 'collection' && (
                             <form>
                                 <h2>Collection</h2>
+                                <div className="form-group">
+                                    <label>Order ID</label>
+                                    <input type="text" required />
+                                </div>
                                 <div className="form-group">
                                     <label>Name</label>
                                     <input type="text" required />
