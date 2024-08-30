@@ -97,6 +97,7 @@
 .order-summary {
     margin-top: 40px;
     background-color: #f3f3f3;
+    border: 2px solid #3f3f3f;
     color: #000;
     padding: 20px;
     border-radius: 10px;
@@ -207,7 +208,7 @@
 
 
 .order-card {
-    border: 1px solid #3f3f3f;
+    border: 2px solid #3f3f3f;
     padding: 10px;
     margin-bottom: 10px;
     background-color: #f5f4f4;
