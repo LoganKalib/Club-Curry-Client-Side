@@ -4,7 +4,7 @@ import ManageDriver from "./ManageComponents/DriverManagement/ManageDriver";
 import './AdminDashboard.css'
 import ManageMenuItems from "./ManageComponents/ManageMenuItems";
 import ManageMenu from "./ManageComponents/ManageMenu";
-import ManageCustomers from "./ManageComponents/ManageCustomers";
+import ManageCustomers from "./ManageComponents/CustomerManagement/ManageCustomers";
 import ManageVehicles from "./VehicleManagement/ManageVehicles";
 import ManageOrders from "./ManageComponents/ManageOrders";
 

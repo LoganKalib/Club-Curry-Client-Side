@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./VehicleModal.css"; // Importing CSS for consistent styling
 
 const VehicleModal = ({ isOpen, onClose, vehicle, onSubmit }) => {
     const [formData, setFormData] = useState({
@@ -38,39 +39,63 @@ const VehicleModal = ({ isOpen, onClose, vehicle, onSubmit }) => {
                 await axios.post("http://localhost:8080/ClubCurry/vehicle/save", formData);
             }
             onSubmit();
+            onClose();
         } catch (error) {
             console.error("Error saving vehicle", error);
         }
     };
 
+    if (!isOpen) return null;
+
     return (
-        <div className={`modal ${isOpen ? "show" : ""}`} style={{ display: isOpen ? "block" : "none" }}>
-            <div className="modal-dialog-vehicle">
-                <div className="modal-content-vehicle">
-                    <div className="modal-header-vehicle">
-                        <h5 className="modal-title-vehicle">{vehicle ? "Edit Vehicle" : "Add Vehicle"}</h5>
-                        <button type="button" className="close" onClick={onClose}>
-                            &times;
-                        </button>
-                    </div>
-                    <div className="modal-body-vehicle">
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-group">
-                                <label>Make</label>
-                                <input type="text" className="form-control" name="make" value={formData.make} onChange={handleChange} required />
-                            </div>
-                            <div className="form-group">
-                                <label>Model</label>
-                                <input type="text" className="form-control" name="model" value={formData.model} onChange={handleChange} required />
-                            </div>
-                            <div className="form-group">
-                                <label>Color</label>
-                                <input type="text" className="form-control" name="color" value={formData.color} onChange={handleChange} required />
-                            </div>
-                            <button type="submit" className="btn btn-success">Save</button>
-                            <button type="button" className="btn btn-secondary ml-2" onClick={onClose}>Cancel</button>
-                        </form>
-                    </div>
+        <div className={`vehicle-modal-overlay ${isOpen ? "show" : ""}`} style={{ display: isOpen ? "block" : "none" }}>
+            <div className="vehicle-modal-content">
+                <div className="vehicle-modal-header">
+                    <h2>{vehicle ? "Edit Vehicle" : "Add Vehicle"}</h2>
+                    <button type="button" className="vehicle-modal-close" onClick={onClose}>
+                        &times;
+                    </button>
+                </div>
+                <div className="vehicle-modal-body">
+                    <form onSubmit={handleSubmit}>
+                        <div className="vehicle-form-group">
+                            <label>Make</label>
+                            <input
+                                type="text"
+                                className="vehicle-form-control"
+                                name="make"
+                                value={formData.make}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="vehicle-form-group">
+                            <label>Model</label>
+                            <input
+                                type="text"
+                                className="vehicle-form-control"
+                                name="model"
+                                value={formData.model}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="vehicle-form-group">
+                            <label>Color</label>
+                            <input
+                                type="text"
+                                className="vehicle-form-control"
+                                name="color"
+                                value={formData.color}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="vehicle-modal-actions">
+                            <button type="submit" className="vehicle-btn vehicle-btn-primary">Save</button>
+                            <button type="button" className="vehicle-btn vehicle-btn-secondary" onClick={onClose}>Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
