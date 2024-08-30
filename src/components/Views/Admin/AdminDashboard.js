@@ -5,6 +5,8 @@ import './AdminDashboard.css'
 import ManageMenuItems from "./ManageComponents/ManageMenuItems";
 import ManageMenu from "./ManageComponents/ManageMenu";
 import ManageCustomers from "./ManageComponents/ManageCustomers";
+import ManageVehicles from "./ManageComponents/ManageVehicles";
+import ManageOrders from "./ManageComponents/ManageOrders";
 
 const AdminDashboard = () =>{
     return(
@@ -14,6 +16,8 @@ const AdminDashboard = () =>{
         <ManageMenuItems menu={1}/>
         <ManageMenu/>
         <ManageCustomers/>
+        <ManageVehicles/>
+        <ManageOrders/>
         </div>
     );
 };
