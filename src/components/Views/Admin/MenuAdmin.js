@@ -3,29 +3,30 @@ import axios from 'axios';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 const MenuAdmin = () => {
-  const [showAddModal, setShowAddModal] = useState(false);
+  // Existing state hooks
+  const [showAddItemModal, setShowAddItemModal] = useState(false);
+  const [showAddMenuModal, setShowAddMenuModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [newItem, setNewItem] = useState({
-    name: '',
-    description: '',
-    price: '',
-    menuId: ''
-  });
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [newItem, setNewItem] = useState({ name: '', description: '', price: '', menuId: '' });
+  const [editItem, setEditItem] = useState(null);
+  const [newMenuName, setNewMenuName] = useState('');
   const [categories, setCategories] = useState([]);
   const [itemToDeleteId, setItemToDeleteId] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-  const [structuredMenu, setStructuredMenu] = useState({}); 
+  const [structuredMenu, setStructuredMenu] = useState({});
 
   useEffect(() => {
     const loadData = async () => {
       try {
         const itemsResponse = await axios.get("http://localhost:8080/ClubCurry/menuItem/getAll");
-        structureMenuItems(itemsResponse.data); 
+        structureMenuItems(itemsResponse.data);
 
         const menuResponse = await axios.get("http://localhost:8080/ClubCurry/menu/getAll");
         setCategories(menuResponse.data);
+
       } catch (error) {
-        console.error('Error loading items or categories:', error);
+        console.error('Error loading data:', error);
       }
     };
 
@@ -35,7 +36,7 @@ const MenuAdmin = () => {
   const structureMenuItems = (items) => {
     const structured = {};
     items.forEach(item => {
-      const category = item.menuId.name; 
+      const category = item.menuId.name;
       if (!structured[category]) {
         structured[category] = [];
       }
@@ -47,33 +48,44 @@ const MenuAdmin = () => {
         price: item.price,
       });
     });
-    setStructuredMenu(structured); 
+    setStructuredMenu(structured);
   };
 
-  const handleAddShow = () => {
-    setNewItem({
-      name: '',
-      description: '',
-      price: '',
-      menuId: {}, 
-    });
+  const handleAddItemShow = () => {
+    setNewItem({ name: '', description: '', price: '', menuId: '' });
     setImageFile(null);
-    setShowAddModal(true);
+    setShowAddItemModal(true);
   };
 
-  const handleAddClose = () => setShowAddModal(false);
+  const handleAddItemClose = () => setShowAddItemModal(false);
 
-  const handleDeleteClose = () => setShowDeleteModal(false);
+  const handleAddMenuShow = () => {
+    setNewMenuName('');
+    setShowAddMenuModal(true);
+  };
 
-  const handleDeleteShow = (id) => {
-    setItemToDeleteId(id);
-    setShowDeleteModal(true);
+  const handleAddMenuClose = () => setShowAddMenuModal(false);
+
+  const handleMenuNameChange = (e) => {
+    setNewMenuName(e.target.value);
+  };
+
+  const handleSaveNewMenu = async () => {
+    try {
+      await axios.post('http://localhost:8080/ClubCurry/menu/save', { name: newMenuName });
+      const response = await axios.get("http://localhost:8080/ClubCurry/menu/getAll");
+      setCategories(response.data);
+      handleAddMenuClose();
+    } catch (error) {
+      alert("Unable to save new menu, please check the details.");
+      console.error('Error saving new menu', error);
+    }
   };
 
   const handleSave = async () => {
     const formData = new FormData();
     formData.append('image', imageFile);
-    
+
     const itemToSave = {
       name: newItem.name,
       price: parseFloat(newItem.price),
@@ -82,24 +94,21 @@ const MenuAdmin = () => {
     };
 
     try {
-      console.log(itemToSave);
       const results = await axios.post('http://localhost:8080/ClubCurry/menuItem/save', itemToSave);
-      var resultData = { ...results.data };
+      const resultData = { ...results.data };
       formData.append("itemId", Number(resultData.id));
-      
+
       try {
         await axios.post(`http://localhost:8080/ClubCurry/image/save`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+          headers: { 'Content-Type': 'multipart/form-data' },
         });
 
         const itemsResponse = await axios.get("http://localhost:8080/ClubCurry/menuItem/getAll");
-        structureMenuItems(itemsResponse.data); 
+        structureMenuItems(itemsResponse.data);
 
         const menuResponse = await axios.get("http://localhost:8080/ClubCurry/menu/getAll");
         setCategories(menuResponse.data);
-        handleAddClose();
+        handleAddItemClose();
 
       } catch (error) {
         alert("Unable to save Image to database, please check the details.");
@@ -109,33 +118,35 @@ const MenuAdmin = () => {
       alert("Unable to save Item to database, please check the details.");
       console.error('Error saving item', error);
     }
-};
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNewItem(prevItem => ({
-      ...prevItem,
-      [name]: value,
-    }));
+    setNewItem(prevItem => ({ ...prevItem, [name]: value }));
   };
 
   const handleImageChange = (e) => {
     setImageFile(e.target.files[0]);
   };
 
+  const handleDeleteShow = (id) => {
+    setItemToDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+
+  const handleDeleteClose = () => setShowDeleteModal(false);
+
   const handleDelete = async () => {
     try {
-      //A new method need to be created before delete can work
-      // const result = await axios.get(`http://localhost:8080/ClubCurry/image/getByMenuId/${itemToDeleteId}`);
-      // console.log(result.data);
-      // await axios.delete(`http://localhost:8080/ClubCurry/menuItem/delete/${result.data.id}`);
-      setStructuredMenu(prevStructuredMenu => {
-        const updatedMenu = { ...prevStructuredMenu };
-        for (const category in updatedMenu) {
-          updatedMenu[category] = updatedMenu[category].filter(item => item.id !== itemToDeleteId);
-        }
-        return updatedMenu;
-      });
+      await axios.delete(`http://localhost:8080/ClubCurry/image/deleteByItemId/${itemToDeleteId}`);
+      await axios.delete(`http://localhost:8080/ClubCurry/menuItem/delete/${itemToDeleteId}`);
+
+      const itemsResponse = await axios.get("http://localhost:8080/ClubCurry/menuItem/getAll");
+      structureMenuItems(itemsResponse.data);
+
+      const menuResponse = await axios.get("http://localhost:8080/ClubCurry/menu/getAll");
+      setCategories(menuResponse.data);
       handleDeleteClose();
     } catch (error) {
       console.error('Error deleting item:', error);
@@ -144,14 +155,22 @@ const MenuAdmin = () => {
 
   const handleDeleteCategory = async (categoryName) => {
     try {
-      const categoryItems = structuredMenu[categoryName];
-  
-      // first need to delete all the menus that are associated with it
-      // await axios.delete(`http://localhost:8080/ClubCurry/menu/delete/${categoryId}`);
-  
+      const itemsToDelete = structuredMenu[categoryName];
+
+      if (itemsToDelete.length > 0) {
+        await Promise.all(itemsToDelete.map(item => 
+          axios.delete(`http://localhost:8080/ClubCurry/image/deleteByItemId/${item.id}`)
+        ));
+        await Promise.all(itemsToDelete.map(item => 
+          axios.delete(`http://localhost:8080/ClubCurry/menuItem/delete/${item.id}`)
+        ));
+        const respone = await axios.get(`http://localhost:8080/ClubCurry/menu/getByName/${categoryName}`)
+        await axios.delete(`http://localhost:8080/ClubCurry/menu/delete/${respone.data.id}`)
+      }
+
       setStructuredMenu(prevStructuredMenu => {
         const updatedMenu = { ...prevStructuredMenu };
-        delete updatedMenu[categoryName]; // Removing the category
+        delete updatedMenu[categoryName]; 
         return updatedMenu;
       });
     } catch (error) {
@@ -159,124 +178,199 @@ const MenuAdmin = () => {
     }
   };
 
+  const handleEditShow = (item) => {
+    setEditItem(item); 
+    setShowEditModal(true);
+  };
+
+  const handleEditClose = () => {
+    setEditItem(null); 
+    setShowEditModal(false);
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditItem(prevItem => ({
+      ...prevItem,
+      [name]: value,
+    }));
+  };
+
+  const handleEditSave = async () => {
+    try {
+      const updatedItem = {
+        id: editItem.id,
+        name: editItem.name,
+        description: editItem.description,
+        price: parseFloat(editItem.price),
+        menuId: { id: editItem.menuId },
+      };
+
+      await axios.put(`http://localhost:8080/ClubCurry/menuItem/update`, updatedItem);
+
+      const itemsResponse = await axios.get("http://localhost:8080/ClubCurry/menuItem/getAll");
+      structureMenuItems(itemsResponse.data);
+
+      handleEditClose();
+    } catch (error) {
+      alert("Unable to update Item, please check the details.");
+      console.error('Error updating item', error);
+    }
+  };
+
   return (
-    <div className="menu-admin-container">
+    <div className="menu-admin-container mt-5 p-5">
       <div className="add-item-section">
-  <Button className="add-item-button" onClick={handleAddShow}>
-    Add New Item
-  </Button>
-  <Button className="add-item-button" onClick={handleAddShow}>
-    Add New Menu
-  </Button>
-</div>
-<div className="menu-items">
-  {Object.keys(structuredMenu).map(category => (
-    <div key={category} className="menu-category">
-      <div style={{alignItems : `center`, paddingBottom : '20px'}}>
-        <h4>{category}</h4>
-        <Button variant="danger" onClick={() => handleDeleteCategory(category)}>
-          Delete whole menu
+        <Button className="add-item-button" onClick={handleAddMenuShow}>
+          Add New Menu
+        </Button>
+        <Button className="add-item-button" onClick={handleAddItemShow}>
+          Add New Item
+        </Button>
+        <Button className="add-item-button" onClick={handleAddMenuShow}>
+          Create Ingredient
+        </Button>
+        <Button className="add-item-button" onClick={handleAddItemShow}>
+          Assign Ingredients
         </Button>
       </div>
-      {structuredMenu[category].map(item => (
-        <div key={item.id} className="menu-item">
-          <img src={item.image} alt={item.name} />
-          <div>
-            <h5>{item.name}</h5>
-            <p>{item.description}</p>
-          </div>
-          <p>Price: ${item.price}</p>
-          <Button variant="danger" onClick={() => handleDeleteShow(item.id)}>
-            Delete
-          </Button>
-        </div>
-      ))}
-    </div>
-  ))}
-</div>
 
-      <Modal show={showAddModal} onHide={handleAddClose} centered>
+      <div className="menu-items">
+        {Object.keys(structuredMenu).map(category => (
+          <div key={category} className="menu-category">
+            <div style={{ alignItems: 'center', paddingBottom: '20px' }}>
+              <h4>{category}</h4>
+              <Button variant="danger" onClick={() => handleDeleteCategory(category)}>
+                Delete whole menu
+              </Button>
+            </div>
+            {structuredMenu[category].map(item => (
+              <div 
+                key={item.id} 
+                className="menu-item" 
+                onClick={() => handleEditShow(item)} 
+              >
+                <img src={item.image} alt={item.name} />
+                <div>
+                  <h5>{item.name}</h5>
+                  <p>{item.description}</p>
+                </div>
+                <p>Price: ${item.price}</p>
+                <Button 
+                  variant="danger" 
+                  onClick={(e) => { e.stopPropagation(); handleDeleteShow(item.id); }}
+                >
+                  Delete
+                </Button>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* Add Item Modal */}
+      <Modal show={showAddItemModal} onHide={handleAddItemClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add New Item</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group controlId="formItemName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter item name"
-                name="name"
-                value={newItem.name}
-                onChange={handleChange}
-                required
+              <Form.Label>Item Name</Form.Label>
+              <Form.Control 
+                type="text" 
+                name="name" 
+                value={newItem.name} 
+                onChange={handleChange} 
               />
             </Form.Group>
             <Form.Group controlId="formItemDescription">
               <Form.Label>Description</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter item description"
-                name="description"
-                value={newItem.description}
-                onChange={handleChange}
-                required
+              <Form.Control 
+                type="text" 
+                name="description" 
+                value={newItem.description} 
+                onChange={handleChange} 
               />
             </Form.Group>
             <Form.Group controlId="formItemPrice">
               <Form.Label>Price</Form.Label>
-              <Form.Control
-                type="number"
-                step="0.01"
-                placeholder="Enter item price"
-                name="price"
-                value={newItem.price}
-                onChange={handleChange}
-                required
+              <Form.Control 
+                type="number" 
+                name="price" 
+                value={newItem.price} 
+                onChange={handleChange} 
               />
             </Form.Group>
-            <Form.Group controlId="formItemCategory">
+            <Form.Group controlId="formItemMenuId">
               <Form.Label>Category</Form.Label>
-              <Form.Control
-                as="select"
-                name="menuId"
-                value={newItem.menuId}
+              <Form.Control 
+                as="select" 
+                name="menuId" 
+                value={newItem.menuId} 
                 onChange={handleChange}
-                required
               >
-                <option selected>please select a category...</option>
-                {categories.length > 0 ? (
-                  categories.map(category => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))
-                ) : (
-                  <option value="">Loading...</option>
-                )}
+                <option value="">Select Category</option>
+                {categories.map(menu => (
+                  <option key={menu.id} value={menu.id}>
+                    {menu.name}
+                  </option>
+                ))}
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="formItemImage">
-              <Form.Label>Image Upload</Form.Label>
-              <Form.Control
-                type="file"
-                accept="image/*" 
-                onChange={handleImageChange}
-                required
+              <Form.Label>Image</Form.Label>
+              <Form.Control 
+                type="file" 
+                onChange={handleImageChange} 
               />
             </Form.Group>
           </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleAddItemClose}>
+            Close
+          </Button>
           <Button variant="primary" onClick={handleSave}>
             Save
           </Button>
-        </Modal.Body>
+        </Modal.Footer>
       </Modal>
-      <Modal show={showDeleteModal} onHide={handleDeleteClose} centered>
+
+      {/* Add Menu Modal */}
+      <Modal show={showAddMenuModal} onHide={handleAddMenuClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Menu Category</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="formMenuName">
+              <Form.Label>Menu Name</Form.Label>
+              <Form.Control 
+                type="text" 
+                value={newMenuName} 
+                onChange={handleMenuNameChange} 
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleAddMenuClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSaveNewMenu}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Delete Item Modal */}
+      <Modal show={showDeleteModal} onHide={handleDeleteClose}>
         <Modal.Header closeButton>
           <Modal.Title>Delete Item</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Are you sure you want to delete the item with ID: {itemToDeleteId}?</p>
+          Are you sure you want to delete this item?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleDeleteClose}>
@@ -284,6 +378,70 @@ const MenuAdmin = () => {
           </Button>
           <Button variant="danger" onClick={handleDelete}>
             Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Edit Item Modal */}
+      <Modal show={showEditModal} onHide={handleEditClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Item</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {editItem && (
+            <Form>
+              <Form.Group controlId="formEditItemName">
+                <Form.Label>Item Name</Form.Label>
+                <Form.Control 
+                  type="text" 
+                  name="name" 
+                  value={editItem.name} 
+                  onChange={handleEditChange} 
+                />
+              </Form.Group>
+              <Form.Group controlId="formEditItemDescription">
+                <Form.Label>Description</Form.Label>
+                <Form.Control 
+                  type="text" 
+                  name="description" 
+                  value={editItem.description} 
+                  onChange={handleEditChange} 
+                />
+              </Form.Group>
+              <Form.Group controlId="formEditItemPrice">
+                <Form.Label>Price</Form.Label>
+                <Form.Control 
+                  type="number" 
+                  name="price" 
+                  value={editItem.price} 
+                  onChange={handleEditChange} 
+                />
+              </Form.Group>
+              <Form.Group controlId="formEditItemMenuId">
+                <Form.Label>Category</Form.Label>
+                <Form.Control 
+                  as="select" 
+                  name="menuId" 
+                  value={editItem.menuId} 
+                  onChange={handleEditChange}
+                >
+                  <option value="">Select Category</option>
+                  {categories.map(menu => (
+                    <option key={menu.id} value={menu.id}>
+                      {menu.name}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+            </Form>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleEditClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleEditSave}>
+            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

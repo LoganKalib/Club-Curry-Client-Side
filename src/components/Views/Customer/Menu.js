@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { FaShoppingCart } from 'react-icons/fa'; // Import cart icon
 import axios from 'axios';
+import './Menu.css';
 
 const Menu = ({ addToCart }) => {
   const [showModal, setShowModal] = useState(null);
