@@ -181,7 +181,7 @@
 .emp-checkout-btn {
     margin-top: 20px;
     background-color: #10921b; /* Consistent green color */
-    width: 100%; /* Full width button */
+    width: 80%; /* Full width button */
     color: white;
     border-radius: 5px;
     border: none;
@@ -208,7 +208,7 @@
 }
 
 .order-table th {
-    background-color: #c95a5a;
+    background-color: #741c25;
     color: #fefefe;
 }
 
