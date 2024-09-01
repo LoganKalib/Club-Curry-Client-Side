@@ -1,56 +1,61 @@
-
-.customer-dashboard{
+.customer-dashboard {
   width: fit-content;
   min-width: 70%;
 }
 
-.customer-dashboard h2{
+.customer-dashboard h2 {
   margin-bottom: 3%;
   margin-top: 10%;
   font-family: 'Chonburi', sans-serif;
+  
 }
 
-.customer-dashboard .nav-item{
+.customer-dashboard .nav-item {
   background-color: #ffffff;
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 0 0;
 }
 
 .customer-dashboard .review-section {
-    padding: 1rem;
-    background-color: white;
-    max-width: 90%;
+  padding: 1rem;
+  background-color: white;
+  max-width: 90%;
 }
-  
-  .card-slider {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 1rem;
-  }
-  
-  .card-slider-inner {
-    display: flex;
-    gap: 1rem;
-  }
-  
+
+.card-slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 1rem;
+}
+
+.card-slider-inner {
+  display: flex;
+  gap: 1rem;
+}
+
+.review-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: 300px; /* Adjust width as needed */
+  min-height: 200px; /* Adjust height as needed */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center; /* Center text within the card */
+}
+
+.card-title {
+  font-size: 1.25rem;
+}
+
+.card-subtitle, .card-text {
+  margin-bottom: 0.5rem;
+  margin: 0; /* Remove margin auto for alignment */
+  text-align: center; /* Center align text */
+}
+
+@media (max-width: 768px) {
   .review-card {
-    flex: 0 0 auto;
-    scroll-snap-align: start;
-    width: 300px; /* Adjust width as needed */
-    min-height: 200px; /* Adjust height as needed */
+    width: 250px; /* Adjust for smaller screens */
   }
-  
-  .card-title {
-    font-size: 1.25rem;
-  }
-  
-  .card-subtitle, .card-text {
-    margin-bottom: 0.5rem;
-  }
-  
-  @media (max-width: 768px) {
-    .review-card {
-      width: 250px; /* Adjust for smaller screens */
-    }
-  }
-  
+}

@@ -1,3 +1,116 @@
+/* Style the side-nav container */
+.side-nav {
+    margin-left: -80%;
+    width: 20%;
+    background-color: #fff;
+    padding: 20px;
+    position: fixed;
+    height: 100vh;
+    box-sizing: border-box;
+    border-right: 2px solid #333; /* Border on the right side of the side-nav */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+}
+
+/* Remove default list styling */
+.side-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style the side-nav links */
+.side-nav a {
+    display: block;
+    text-decoration: none;
+    color: #741c25; /* Initial text color */
+    padding: 15px 0; /* Vertical padding for better spacing */
+    border: none; /* Remove border */
+    border-radius: 0; /* Remove rounded corners */
+    background: none; /* No background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add subtle shadow for shading effect */
+    margin-bottom: 20px; /* Space between items */
+    margin-top: 20px;
+    width: 100%; /* Span full width of the side-nav */
+    text-align: center; /* Center align text */
+    transition: background-color 0.2s ease, color 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Hover effect for side-nav links */
+.side-nav a:hover {
+    color: #fff; /* White text color on hover */
+    background: rgba(116, 28, 37, 0.6); /* Darker background on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Darker shadow on hover for more pronounced shading */
+}
+
+/* Active link styling */
+.side-nav a.active {
+    color: #fff; /* White text color for active link */
+    background: rgba(116, 28, 37, 0.8); /* Slightly darker background for active link */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Consistent shadow for active link */
+}
+
+/* Style the category-grid container */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Creates 3 equal columns */
+    gap: 20px; /* Space between items */
+    width: 70%; /* Adjust width for centering */
+    margin: 0 auto; /* Center horizontally */
+    margin-top: 20px;
+}
+
+/* Style each category-block */
+.category-block {
+    display: flex;
+    flex-direction: column; /* Stack icon and text vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    border-radius: 10px;
+    border: 2px solid #f3f3f3;
+    padding: 10px;
+    background-color: #fff; /* White background initially */
+    color: #741c25; /* Red text color */
+    text-align: center; /* Center text horizontally */
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Add shading effect */
+    transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+/* Style the icon within the category-block */
+.category-block i {
+    font-size: 35px;
+    color: #741c25; /* Red icons initially */
+    margin-bottom: 10px; /* Space between icon and text */
+}
+
+/* Hover effect for category-block */
+.category-block:hover {
+    background-color: #6e1c1c; /* Darker background on hover */
+    color: #fff; /* White text color on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover for visual feedback */
+}
+
+/* Hover effect for icons inside category-block */
+.category-block:hover i {
+    color: #fff; /* White icons on hover */
+}
+
+
+.employee-header {
+    background: linear-gradient(to bottom, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%);
+    font-family: 'Chonburi', sans-serif;
+    font-size: 3.5em;
+    margin-bottom: 50px;
+}
+
+.employee-main-content {
+    margin-left: 25%;
+    width: 100%; 
+    padding: 20px;
+    margin-right: 0;
+}
+
 .employee-container {
     display: flex;
     margin-left: 0px;
@@ -10,107 +123,31 @@
     color: #fff;
 }
 
-.side-nav {
-    margin-left: -80%;
-    width: 20%;
-    background: rgb(255,244,2);
-    background: linear-gradient(0deg, rgba(255,244,2,1) 0%, rgba(150,39,39,1) 40%, rgba(185,15,15,1) 100%);
-    padding: 20px;
-    position: fixed;
-    height: 100vh;
-    box-sizing: border-box;
-}
-
-.side-nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-.side-nav li {
-    margin-top: 50px;
-}
-
-.side-nav a {
-    display: block;
-    text-decoration: none;
-    color: #333;
-    padding: 15px 20px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    background-color: #fff; 
-    transition: background-color 0.2s ease, color 0.3s ease;
-}
-
-.side-nav a:hover {
-    background-color: #9e9400;
-    color: #fff; 
-}
-
-.side-nav a.active {
-    background-color: #10921b;
-    color: white; 
-    border-color: #10921b; 
-}
-
-.employee-header {
-    color: #000;
-    font-family:'Times New Roman', Times, serif;
-    font-size: 3.5em;
-}
-
-.employee-main-content {
-    margin-left: 25%;
-    width: 100%; 
-    padding: 20px;
-    margin-right: 0;
-}
-
-.category-grid {
-    display: flex;
-    width: 100%;
-    gap: 35px;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.category-block {
-    margin-top: 20px;
-    width: 120px;
-    height: auto;
-    border-radius: 10px;
-    border: 2px solid #f3f3f3;
-    padding: 10px;
-    background-color: #962727;
-    text-align: center;
-    cursor: pointer;
-}
-
-.category-block:hover {
-    background-color: #6e1c1c;
-    transition: ease-in 0.1s;
-}
-
-.category-block i {
-    font-size: 35px;
-}
-
 .order-summary {
     margin-top: 40px;
-    background-color: #f3f3f3;
-    border: 2px solid #3f3f3f;
-    color: #000;
+    background-color: #fff; /* White background to match other elements */
+    border: 2px solid #ddd; /* Light grey border for subtle definition */
+    color: #000; /* Black text for consistency */
     padding: 20px;
     border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .order-item {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Increase spacing between items for better readability */
+    padding: 10px 0; /* Padding for vertical spacing */
+    border-bottom: 1px solid #ddd; /* Light grey border for separation */
+}
+
+.order-item:last-child {
+    border-bottom: none; /* Remove border from the last item */
 }
 
 .order-item span {
     flex: 1;
+    color: #333; /* Slightly darker text for improved readability */
 }
 
 .quantity-control {
@@ -121,32 +158,44 @@
 .quantity-control button {
     width: 30px;
     height: 30px;
+    margin: 0 5px; /* Add space between buttons */
+    padding: 5px;
+    border: 1px solid #ddd; /* Light border for buttons */
+    background-color: #f8f9fa; /* Background color to match general styling */
+    border-radius: 5px; /* Rounded corners for buttons */
+    cursor: pointer;
+    color: #333; /* Text color for buttons */
+    transition: background-color 0.2s ease; /* Smooth transition */
+}
+
+.quantity-control button:hover {
+    background-color: #e2e6ea; /* Darker background on hover */
 }
 
 .total {
     font-weight: bold;
     font-size: 1.5em;
-    margin-top: 10px;
+    margin-top: 15px; /* Increase space above total */
 }
 
 .emp-checkout-btn {
     margin-top: 20px;
-    background-color: #10921b;
-    width: 20%;
+    background-color: #10921b; /* Consistent green color */
+    width: 100%; /* Full width button */
     color: white;
     border-radius: 5px;
     border: none;
-    padding: 10px 20px;
+    padding: 15px 0; /* Increased padding for better visual impact */
     cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition */
 }
 
 .emp-checkout-btn:hover {
-    background-color: #0a6914;
-    transition: ease-in 0.1s;
+    background-color: #0a6914; /* Darker green on hover */
 }
 
 .orders-header {
-     color: #000;
+    color: #000;
 }
 
 .orders-section {
@@ -205,7 +254,6 @@
     background-color: #c40000;
     transition: ease 0.3s;
 }
-
 
 .order-card {
     border: 2px solid #3f3f3f;
@@ -268,7 +316,6 @@
 
 .employee-tab {
     display: flex;
-    
 }
 
 .employee-tab button {
@@ -314,41 +361,67 @@
     padding-top: 5px;
 }
 
-
 .employee-form-group input {
     width: 100%;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    box-sizing: border-box;
+    padding: 8px;
+    margin-bottom: 10px;
     border: 1px solid #ddd;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
-.employee-modal-content button {
+.employee-form-group button {
     padding: 10px 20px;
-    background-color: #6ca4a7;
-    border-radius: 5px;
-    color: white;
+    background-color: #007bff;
     border: none;
+    color: white;
+    border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
 }
 
-.employee-modal-content button:hover {
-    background-color: #5a8a91;
+.employee-form-group button:hover {
+    background-color: #0056b3;
+    transition: ease-in 0.3s;
 }
 
-.confirm-btn {
-    margin-top: 20px;
-    background-color: #10921b;
-    color: white;
-    border-radius: 5px;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
+.employee-nav {
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
-.confirm-btn:hover {
-    background-color: #0a6914;
-    transition: ease-in 0.1s;
+.employee-nav a {
+    text-decoration: none;
+    color: #007bff;
+    padding: 10px;
+    display: block;
+    font-size: 16px;
+}
+
+.employee-nav a:hover {
+    background-color: #e9ecef;
+    transition: background-color 0.2s ease;
+}
+
+.employee-nav .active {
+    font-weight: bold;
+    color: #0056b3;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .side-nav {
+        width: 100%;
+        margin-left: 0;
+        border-right: none; /* Remove right border on smaller screens */
+    }
+
+    .side-nav a {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr); /* Adjust for smaller screens */
+    }
 }

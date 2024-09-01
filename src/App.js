@@ -14,6 +14,7 @@ import DriverDashboardContainer from './components/Views/Driver/DriverDashboardC
 import Employee from './components/Views/GeneralEmployee/Employee';
 import OrderHistorySection from './components/Views/Customer/OrderHistorySection';
 import ReviewSection from './components/Views/Customer/ReviewSection';
+import OrderManagement from './components/Views/GeneralEmployee/OrderManagement';
 import { v4 as uuidv4 } from 'uuid';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
@@ -194,6 +195,8 @@ function App() {
             <Route path="/order-history" element={<OrderHistorySection orders={orderHistory} />} />
             <Route path="/reviews" element={<ReviewSection existingReviews={reviews} onAddReview={handleAddReview} />} />
             <Route path="/employee" element={<Employee />} />
+            <Route path="/orderManagement" element={<OrderManagement />} />
+
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>
         </Container>
