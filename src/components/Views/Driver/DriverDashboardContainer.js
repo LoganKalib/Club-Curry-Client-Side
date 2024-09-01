@@ -4,7 +4,9 @@ import DriverDashboardHeader from './DriverDashboardHeader';
 import './DriverDashboardContainer.css'; // Import the CSS file for styling
 
 const DriverDashboardContainer = ({ onLogout }) => {
+  // State to manage the list of deliveries
   const [deliveries, setDeliveries] = useState([
+
     // Expanded sample delivery data
     {
       deliveryId: 1,
@@ -47,6 +49,7 @@ const DriverDashboardContainer = ({ onLogout }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Function to update the status of a delivery
   const handleUpdateStatus = (deliveryId, newStatus) => {
     const currentTime = newStatus === 'delivered' ? new Date().toLocaleString() : null;
     setDeliveries((prevDeliveries) =>
@@ -62,10 +65,12 @@ const DriverDashboardContainer = ({ onLogout }) => {
     setSearchTerm(e.target.value);
   };
 
+  // Filter deliveries to get outstanding (not delivered) deliveries
   const outstandingDeliveries = deliveries.filter(
     (delivery) => delivery.status !== 'delivered'
   );
 
+  // Filter deliveries to get completed (delivered) deliveries
   const deliveredDeliveries = deliveries.filter(
     (delivery) => delivery.status === 'delivered'
   );
