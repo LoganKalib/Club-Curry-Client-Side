@@ -1,5 +1,6 @@
 .review-section {
     padding: 1rem;
+    
   }
   
   .review-container {
@@ -9,9 +10,43 @@
     border-radius: 8px; /* Optional: rounds the corners of the border */
     padding: 1rem;
     background-color: #f8f9fa; /* Optional: sets a background color */
+    margin: auto;
+    
+  }
+  .section-heading {
+    font-size: 2rem;
+  font-family: 'Chonburi', sans-serif;
+  margin-bottom: 15px;
+  background: linear-gradient(to bottom, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%);
   }
   
   .review-card {
     margin-bottom: 1rem;
+  }
+  .no-reviews {
+    background: #fff;
+    color: #3a2c0f; /* Dark text color for contrast */
+    font-family: 'Lato', sans-serif; /* Consistent font style */
+    font-size: 1.2rem; /* Font size for better readability */
+    text-align: center; /* Center-align the text */
+    padding: 20px; /* Padding for spacing around the text */
+    border-radius: 10px; /* Rounded corners */
+    border: 3px solid #3a2c0f; /* Solid dark brown border */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Subtle shadow for depth */
+    margin: 20px auto; /* Center the div horizontally with some top/bottom margin */
+    width: 80%; /* Width of the section */
+    max-width: 600px; /* Max width to prevent stretching on larger screens */
+    line-height: 1.5; /* Line height for readability */
+  }
+  
+  .no-reviews p {
+    font-size: 1.2rem; /* Slightly larger font size */
+    font-weight: bold; /* Bold text for emphasis */
+    margin: 0; /* Remove default margin */
+  }
+  
+  .no-reviews:hover {
+    background-color: #e0f7fa; /* Light background color on hover */
+    border-color: #0056b3; /* Change border color on hover */
   }
   

@@ -1,3 +1,9 @@
+/* Apply Lato font to all paragraphs */
+p {
+  font-family: 'Lato', sans-serif;
+  text-align: justify; /* Justifies text */
+}
+
 /* Home Page Styles */
 .home-page {
   display: flex;
@@ -12,6 +18,7 @@
   color: #fff;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   padding-top: 10%;
+  width: 100%;
 }
 
 /* About Section Styles */
@@ -77,14 +84,17 @@
 /* Button Styles */
 .buttonmen,
 .button-booking {
-  background-color: #dc3545; /* Red background color */
+  background-color: #292728; /* Red background color */
   border-color: #dc3545; /* Matching border color */
   font-family: 'Poppins', sans-serif; /* Consistent font */
-  font-size: 1.25rem; /* Font size */
-  padding: 10px 20px; /* Padding */
+  font-size: 1rem; /* Adjusted font size */
+  padding: 8px 16px; /* Adjusted padding */
   border-radius: 25px; /* Rounded corners */
   text-transform: uppercase; /* Uppercase text */
   transition: background-color 0.3s ease; /* Smooth color transition */
+  width: auto; /* Allows width to adjust based on content */
+  max-width: 200px; /* Maximum width for the button */
+  display: inline-block; /* Ensures buttons are displayed inline */
 }
 
 .buttonmen:hover,
@@ -98,7 +108,7 @@
   display: flex;
   flex-direction: row;
   /*align-items: flex-start;*/
-  width:75%;
+  width: 75%;
   max-width: 1200px; /* Adjust based on your layout needs */
 }
 
@@ -108,15 +118,15 @@
   align-items: flex-start; /* Align images to the start (left) */
   margin-right: 30px; /* Space between images and text */
   justify-content: center;
-  width: 80%;
+  width: 100%;
 }
 
 .about-us-images img {
   overflow: clip;
   width: 100%; /* Increase size as needed */
-  max-height: 30%;
+  max-height: 40%;
   object-fit: cover;
-  border-radius: 8px; /* Optional: Rounded corners */
+  
   margin-bottom: 5%; /* Space between stacked images */
 }
 
@@ -125,16 +135,23 @@
   text-align: left; /* Ensures text is left-aligned */
   justify-content: center;
   flex-direction: column;
-
 }
 
 .about-us-heading {
   font-size: 2rem;
   font-family: 'Chonburi', sans-serif;
   margin-bottom: 15px;
+  background: linear-gradient(to bottom, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%);
 }
 
-/* HomePage.css */
+/* Review Section Styles */
+.home-page .review-section {
+  background-color: rgba(116, 28, 37, 1);
+  width: 100%; /* Match the width of other sections */
+  margin: 0 auto; /* Center the section horizontally */
+  padding: 2rem; /* Adjust padding as needed */
+}
+
 .review-section-card {
   margin: 5rem auto;
   padding: 1.5rem;
@@ -162,24 +179,151 @@
 }
 
 .wrapper {
-  background-color: rgba(0,0,0,80%);
+  background-color: rgba(0, 0, 0, 80%);
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  
+  padding-left: 5%; /* Add padding on the left to push content away from the edge */
   height: fit-content;
 }
 
-.home-page .review-section{
-  background-color: rgba(116, 28, 37, 1);
+/* Restaurant Details Section */
+.restaurant-details-section {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 0;
+  width: 90%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #000; /* Set text color to black */
 }
 
-.section-heading{
+/* Restaurant Details Left Column */
+.details-left {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Trading Hours */
+.trading-hours {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 150%;
+  margin-right: 250px;
+}
+
+.trading-hours h3 {
   font-family: 'Chonburi', sans-serif;
+  margin-bottom: 10px;
 }
 
-.review-section-card .btn {
+/* Restaurant Details Right Column */
+.details-right {
+  flex: 2;
+  padding: 20px;
+}
+
+/* Address, Phone, and Email Sections */
+.address-section,
+.phone-section,
+.email-section {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 60%;
+  margin-left: 250px;
+}
+
+/* Heading Styles */
+.address-section h3,
+.phone-section h3,
+.email-section h3 {
+  margin-top: 0; /* Remove top margin for heading */
+  margin-bottom: 10px; /* Space between heading and text */
+  font-family: 'Chonburi', sans-serif;
+  font-size: 1.5rem; /* Adjust size as needed */
+}
+
+/* Paragraph Styles */
+.address-section p,
+.phone-section p,
+.email-section p {
+  margin: 0; /* Remove default margins */
+  padding-left: 0; /* Remove default padding */
+  font-size: 1rem; /* Adjust text size as needed */
+  line-height: 1.5; /* Ensure proper line height for readability */
+  display: flex;
+  align-items: center; /* Align text with icons */
+}
+
+/* Icon Background Style */
+.address-section p i,
+.phone-section p i,
+.email-section p i {
+  margin-right: 10px; /* Gap between icon and text */
+  font-size: 2rem; /* Adjust size of icons */
+  display: inline-block;
+  width: 3rem; /* Width of the circle */
+  height: 3rem; /* Height of the circle */
+  border-radius: 50%; /* Makes the background circular */
+  background: linear-gradient(to bottom, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%); /* Gold gradient background */
+  color: #fff; /* Icon color (white) */
+  text-align: center; /* Center the icon inside the circle */
+  line-height: 3rem; /* Align icon vertically */
+}
+
+/* Map Container */
+.map-container {
   margin-top: 1rem;
-
+  width: 150%;
+  justify-content: center;
 }
 
+.map-container iframe {
+  width: 100%;
+  height: 280px; /* Adjust as needed */
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer Styles */
+footer {
+  background-color: #292728;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  margin-top: 2rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .about-us-section {
+    flex-direction: column;
+  }
+  
+  .about-us-images {
+    margin-right: 0;
+  }
+
+  .review-card {
+    flex: 1 1 calc(100% - 1rem); /* Full width on smaller screens */
+  }
+}

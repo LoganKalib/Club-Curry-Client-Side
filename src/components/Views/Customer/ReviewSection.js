@@ -74,12 +74,14 @@ const ReviewSection = () => {
 
   return (
     <div className="review-section">
-      <h2 className="section-heading mb-5 mt-3">CUSTOMER REVIEWS</h2>
+      <h2 className="section-heading mb-5 mt-3">Customer Reviews</h2>
       <div className="existing-reviews">
         {reviews.length > 0 ? (
           reviews.map((review) => <Review key={review.id} review={review} />)
         ) : (
-          <p>No reviews yet. Be the first to leave a review!</p>
+          <div class="no-reviews">
+  <p>Be the first to share your experience! Your feedback means the world to us. Write a review now!</p>
+</div>
         )}
       </div>
     </div>
