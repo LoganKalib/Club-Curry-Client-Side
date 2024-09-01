@@ -48,10 +48,10 @@ th, td {
 
 th {
     background-color: #f4f4f4;
-    color:black;
+    color: black;
 }
 
-.btn-edit {
+.OM-btn-edit {
     background-color: #007bff;
     color: white;
     border: none;
@@ -61,6 +61,72 @@ th {
     border-radius: 5px;
 }
 
-.btn-edit:hover {
+.OM-btn-edit:hover {
     background-color: #0056b3;
+}
+
+.OM-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.OM-modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 500px;
+    max-width: 90%;
+    text-align: left;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+.OM-close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.OM-close:hover {
+    color: red;
+}
+
+.OM-form-group {
+    margin-bottom: 15px;
+}
+
+.OM-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.OM-form-group input, .OM-form-group select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.OM-btn-save {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.OM-btn-save:hover {
+    background-color: #218838;
 }
