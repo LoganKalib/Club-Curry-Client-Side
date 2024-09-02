@@ -10,60 +10,82 @@ const DriverModal = ({ isOpen, onClose, driver = null, onSubmit }) => {
         username: "",
         password: "",
         petrolAllowance: "",
-        registrationId: ""
+        registrationId: { id: "" } // Initialize with an empty object to avoid null references
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    // Effect hook to set form data when a driver is passed in props
     useEffect(() => {
         if (driver) {
             setFormData({
-                id: driver.id,
-                name: driver.name,
-                surname: driver.surname,
-                username: driver.username,
-                password: driver.password,
-                petrolAllowance: driver.petrolAllowance,
-                registrationId: driver.registration.id
+                id: driver.id || "",
+                name: driver.name || "",
+                surname: driver.surname || "",
+                username: driver.username || "",
+                password: driver.password || "",
+                petrolAllowance: driver.petrolAllowance || "",
+                registrationId: driver.registration ? { id: driver.registration.id } : { id: "" }
             });
         } else {
-            setFormData({
-                id: "",
-                name: "",
-                surname: "",
-                username: "",
-                password: "",
-                petrolAllowance: "",
-                registrationId: ""
-            });
+            resetForm();
         }
     }, [driver]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({ ...prevState, [name]: value }));
+    // Reset form to its initial state
+    const resetForm = () => {
+        setFormData({
+            id: "",
+            name: "",
+            surname: "",
+            username: "",
+            password: "",
+            petrolAllowance: "",
+            registrationId: { id: "" }
+        });
+        setError("");
     };
 
+    // Handle form field changes
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === "registrationId") {
+            setFormData(prevState => ({
+                ...prevState,
+                registrationId: { id: value }
+            }));
+        } else {
+            setFormData(prevState => ({ ...prevState, [name]: value }));
+        }
+    };
+
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError("");
+
+        // Perform client-side validation before sending data to the server
+        if (!formData.registrationId.id) {
+            setError("Registration ID is required.");
+            setLoading(false);
+            return;
+        }
+
         try {
-            if (driver) {
-                await axios.put('http://localhost:8080/ClubCurry/driver/update', formData);
-            } else {
-                await axios.post('http://localhost:8080/ClubCurry/driver/save', formData);
-            }
-            onSubmit(); // Refresh list and close modal
-            onClose(); // Close the modal after successful submission
+            await axios.post('http://localhost:8080/ClubCurry/driver/save', formData);
+            onSubmit();  // Notify parent to refresh data
+            onClose();   // Close modal after successful submission
         } catch (error) {
             setError("Error submitting form. Please try again.");
-            console.error("Error submitting form", error);
+            console.error("Error submitting form:", error);
         } finally {
             setLoading(false);
         }
     };
 
+    // Return null if the modal should not be visible
     if (!isOpen) return null;
 
     return (
@@ -78,12 +100,62 @@ const DriverModal = ({ isOpen, onClose, driver = null, onSubmit }) => {
                 <form onSubmit={handleSubmit}>
                     <div className="modal-body-driver">
                         {error && <p className="error-message">{error}</p>}
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
-                        <input type="text" name="surname" value={formData.surname} onChange={handleChange} placeholder="Surname" required />
-                        <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" required />
-                        <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
-                        <input type="number" name="petrolAllowance" value={formData.petrolAllowance} onChange={handleChange} placeholder="Petrol Allowance" required />
-                        <input type="text" name="registrationId" value={formData.registrationId} onChange={handleChange} placeholder="Registration Id" required />
+                        <input
+                            type="text"
+                            name="id"
+                            value={formData.id}
+                            onChange={handleChange}
+                            placeholder="ID"
+                            required
+                        />
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="Name"
+                            required
+                        />
+                        <input
+                            type="text"
+                            name="surname"
+                            value={formData.surname}
+                            onChange={handleChange}
+                            placeholder="Surname"
+                            required
+                        />
+                        <input
+                            type="text"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            placeholder="Username"
+                            required
+                        />
+                        <input
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            placeholder="Password"
+                            required
+                        />
+                        <input
+                            type="number"
+                            name="petrolAllowance"
+                            value={formData.petrolAllowance}
+                            onChange={handleChange}
+                            placeholder="Petrol Allowance"
+                            required
+                        />
+                        <input
+                            type="text"
+                            name="registrationId"
+                            value={formData.registrationId.id || ""}
+                            onChange={handleChange}
+                            placeholder="Registration Id"
+                            required
+                        />
                     </div>
                     <div className="modal-footer-driver">
                         <button type="submit" className="btn btn-primary" disabled={loading}>
