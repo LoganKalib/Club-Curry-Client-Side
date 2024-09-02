@@ -64,7 +64,6 @@ const CustomerModal = ({ isOpen, onClose, customer, onSubmit, isEdit }) => {
             onSubmit();
         } catch (error) {
             console.error("Error submitting form:", error);
-            // Handle the error as needed (e.g., display an error message to the user)
         }
     };
 

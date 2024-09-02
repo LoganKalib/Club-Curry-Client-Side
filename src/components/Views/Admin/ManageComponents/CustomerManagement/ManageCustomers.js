@@ -54,8 +54,14 @@ const ManageCustomers = () => {
     };
 
     const handleSubmit = async () => {
-        await fetchCustomers();
-        setShowModal(false);
+        try {
+            // Fetch updated customer list
+            await fetchCustomers();
+        } catch (error) {
+            setError("Error refreshing customer data");
+        } finally {
+            setShowModal(false);
+        }
     };
 
     return (

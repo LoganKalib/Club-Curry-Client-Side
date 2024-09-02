@@ -48,7 +48,7 @@ const VehicleModal = ({ isOpen, onClose, vehicle, onSubmit }) => {
     if (!isOpen) return null;
 
     return (
-        <div className={`vehicle-modal-overlay ${isOpen ? "show" : ""}`} style={{ display: isOpen ? "block" : "none" }}>
+        <div className={`vehicle-modal-overlay ${isOpen ? "show" : ""}`} >
             <div className="vehicle-modal-content">
                 <div className="vehicle-modal-header">
                     <h2>{vehicle ? "Edit Vehicle" : "Add Vehicle"}</h2>

@@ -48,7 +48,7 @@ const ManageVehicles = () => {
         // Refetch vehicles after adding/editing
         const fetchVehicles = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/ClubCurry/vehicle/all');
+                const response = await axios.get('http://localhost:8080/ClubCurry/vehicle/getAll');
                 setVehicles(response.data);
             } catch (error) {
                 console.error('Error fetching vehicles', error);
