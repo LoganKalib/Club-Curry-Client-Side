@@ -9,7 +9,9 @@ const BookingModal = ({ isOpen, onClose, booking, onSubmit }) => {
         tableNo: '',
         sectionNo: '',
         status: '',
-        bookedById: ''
+        bookedBy: {
+            id: ''
+        }
     });
 
     useEffect(() => {
@@ -20,17 +22,28 @@ const BookingModal = ({ isOpen, onClose, booking, onSubmit }) => {
                 tableNo: booking.tableNo,
                 sectionNo: booking.sectionNo,
                 status: booking.status,
-                bookedById: booking.bookedById
+                bookedBy: booking.bookedBy.id
             });
         }
+
     }, [booking]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        if (name === 'bookedById') {
+            setFormData((prevData) => ({
+                ...prevData,
+                bookedBy: {
+                    ...prevData.bookedBy,
+                    id: value
+                }
+            }));
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value
+            });
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -41,7 +54,8 @@ const BookingModal = ({ isOpen, onClose, booking, onSubmit }) => {
                 await axios.put('http://localhost:8080/ClubCurry/booking/update', formData);
             } else {
                 // Add new booking
-                await axios.post('http://localhost:8080/ClubCurry/booking/save', formData);
+                const request = await axios.post('http://localhost:8080/ClubCurry/booking/save', formData);
+                console.log(request);
             }
             onSubmit();
             onClose();
@@ -113,9 +127,9 @@ const BookingModal = ({ isOpen, onClose, booking, onSubmit }) => {
                     <label>
                         Booked By ID:
                         <input
-                            type="text"
+                            type="number"
                             name="bookedById"
-                            value={formData.bookedById}
+                            value={formData.bookedBy.id}
                             onChange={handleChange}
                             required
                         />
