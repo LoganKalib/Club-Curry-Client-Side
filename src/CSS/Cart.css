@@ -94,6 +94,7 @@
   .cart-footer p {
     font-style: italic;
     margin-bottom: 15px;
+    text-align: center;
   }
   
   .cart-footer button {
