@@ -255,7 +255,7 @@ const MenuAdmin = () => {
                   <h5>{item.name}</h5>
                   <p>{item.description}</p>
                 </div>
-                <p>Price: ${item.price}</p>
+                <p>Price: R{item.price}</p>
                 <Button 
                   variant="danger" 
                   onClick={(e) => { e.stopPropagation(); handleDeleteShow(item.id); }}
