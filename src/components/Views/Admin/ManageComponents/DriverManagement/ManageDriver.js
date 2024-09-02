@@ -4,9 +4,9 @@ import DriverModal from "./DriverModal";
 import "./ManageDriver.css"; // Importing CSS specific to ManageDriver
 
 const ManageDriver = () => {
-    const [drivers, setDrivers] = useState([]);
+    const [drivers, setDrivers] = useState([]); // State to store the list of drivers
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentDriver, setCurrentDriver] = useState(null);
+    const [currentDriver, setCurrentDriver] = useState(null); // State to keep track of the driver currently being edited or added
 
     useEffect(() => {
         fetchDrivers();
@@ -14,8 +14,8 @@ const ManageDriver = () => {
 
     const fetchDrivers = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/ClubCurry/driver/getAll');
-            setDrivers(response.data);
+            const response = await axios.get('http://localhost:8080/ClubCurry/driver/getAll'); 
+            setDrivers(response.data); // Update state with fetched drivers
         } catch (error) {
             console.error("Error fetching drivers", error);
         }
@@ -24,17 +24,19 @@ const ManageDriver = () => {
     const handleDelete = async (id) => {
         try {
             await axios.delete(`http://localhost:8080/ClubCurry/driver/delete/${id}`);
-            setDrivers(drivers.filter(driver => driver.id !== id));
+            setDrivers(drivers.filter(driver => driver.id !== id)); // Remove deleted driver from state
         } catch (error) {
             console.error("Error deleting driver", error);
         }
     };
 
+    // Function to open the modal, optionally with a driver to edit
     const openModal = (driver = null) => {
         setCurrentDriver(driver);
         setIsModalOpen(true);
     };
 
+       // Function to close the modal and reset the current driver
     const closeModal = () => {
         setCurrentDriver(null);
         setIsModalOpen(false);

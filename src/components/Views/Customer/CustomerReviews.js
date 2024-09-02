@@ -18,13 +18,18 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
   // Filter reviews for the specific customer
   const customerReviews = existingReviews.filter(review => review.customerId === customerId);
 
+  // Function to show the modal for adding a new review
   const handleOpenModal = () => setShowModal(true);
+
+   // Function to hide the modal for adding a new review and reset form fields
   const handleCloseModal = () => {
     setShowModal(false);
     setAlertMessage('');
     resetFormFields();
   };
 
+
+  // Function to show the modal for editing an existing review
   const handleOpenEditModal = (review) => {
     setEditReview(review);
     setFoodRating(review.foodRating.toString());
@@ -42,6 +47,7 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
     resetFormFields();
   };
 
+  // Function to reset all form fields
   const resetFormFields = () => {
     setFoodRating('0');
     setServiceRating('0');
@@ -61,7 +67,7 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
 
     // Create a new review object
     const newReview = {
-      id: Date.now().toString(),
+      id: Date.now().toString(), // Unique ID for the new review
       customerId,
       customerName: 'Customer', // Replace with actual customer name if available
       foodRating,
@@ -77,6 +83,7 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
     handleCloseModal();
   };
 
+  // Function to handle form submission for editing an existing review
   const handleEditReview = (e) => {
     e.preventDefault();
 
@@ -102,6 +109,7 @@ const CustomerReviews = ({ onAddReview, onEditReview, onDeleteReview, customerId
     handleCloseEditModal();
   };
 
+  // Function to handle deletion of a review
   const handleDeleteReview = (reviewId) => {
     if (window.confirm('Are you sure you want to delete this review?')) {
       onDeleteReview(reviewId);
