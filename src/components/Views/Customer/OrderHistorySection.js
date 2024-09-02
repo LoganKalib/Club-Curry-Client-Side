@@ -137,8 +137,8 @@ const OrderHistorySection = () => {
                   </thead>
                   <tbody>
                     {orders.map((order) => (
-                      <tr key={order.orderId}>
-                        <td>{order.orderId}</td>
+                      <tr key={order.id}>
+                        <td>{order.id}</td>
                         <td>
                           <ul>
                             {order.cart.items.map((item, index) => (
@@ -147,8 +147,8 @@ const OrderHistorySection = () => {
                           </ul>
                         </td>
                         <td>${order.total.toFixed(2)}</td>
-                        <td>{new Date(order.orderDate).toLocaleDateString()}</td>
-                        <td>{order.status}</td>
+                        <td>{new Date(order.ordered).toLocaleDateString()}</td>
+                        <td>{order.isComplete ? "true": "false"}</td>
                       </tr>
                     ))}
                   </tbody>
