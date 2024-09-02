@@ -3,6 +3,7 @@ import { Nav, Tab, Table } from 'react-bootstrap';
 import Cart from './Cart'; // Import the Cart component
 import OrderHistorySection from './OrderHistorySection'; // Ensure correct path
 import CustomerReviews from './CustomerReviews'; // Import the CustomerReviews component
+import Menu from './Menu'; // Import the Menu component
 
 const CustomerDashboard = ({ 
   menuItems, 
@@ -15,6 +16,7 @@ const CustomerDashboard = ({
   onShowSignup, 
   bookings = [], // Default to empty array
   customerId = null, // Default to null
+  addToCart // Add addToCart prop
 }) => {
   const [activeKey, setActiveKey] = useState('bookings');
   const [showCart, setShowCart] = useState(false);
@@ -49,6 +51,9 @@ const CustomerDashboard = ({
 
       <Tab.Container id="left-tabs-example" activeKey={activeKey} onSelect={setActiveKey}>
         <Nav variant="tabs">
+        <Nav.Item>
+            <Nav.Link eventKey="menu">Menu</Nav.Link>
+          </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="bookings">Bookings</Nav.Link>
           </Nav.Item>
@@ -61,6 +66,7 @@ const CustomerDashboard = ({
           <Nav.Item>
             <Nav.Link eventKey="reviews">Reviews</Nav.Link>
           </Nav.Item>
+          
         </Nav>
 
         <Tab.Content>
@@ -118,6 +124,9 @@ const CustomerDashboard = ({
               onDeleteReview={handleDeleteReview}
               customerId={customerId}
             />
+          </Tab.Pane>
+          <Tab.Pane eventKey="menu">
+            <Menu addToCart={addToCart} />
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>

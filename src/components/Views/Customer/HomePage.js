@@ -24,7 +24,7 @@ function HomePage({ setShowBooking, showBooking }) {
         <h3 className="lead mb-4 fade-in-text">
           <b>Welcome to Club Curry. We offer a variety of delicious curries...</b>
         </h3>
-        <p className="lead">
+        <p className="lead-p">
           At Club Curry, we are passionate about bringing the authentic taste of North Indian cuisine to you.<br />
           Our skilled chefs use a blend of traditional Ayurvedic spices and the freshest ingredients to create<br />
           dishes that are both healthy and delicious. Join us for a meal and experience the rich flavors of India.

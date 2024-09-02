@@ -1,32 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Card, Row, Col, Button } from 'react-bootstrap';
+import axios from "axios";
+import {setSelectionRange} from "@testing-library/user-event/dist/utils";
 
 
 const OrderHistorySection = () => {
   // Initial dummy data
-  const [orders, setOrders] = useState([
-    {
-      orderId: 101,
-      items: [{ name: 'Pizza', quantity: 1 }],
-      totalAmount: 12.99,
-      orderDate: '2024-08-28T12:00:00Z',
-      status: 'delivered',
-    },
-    {
-      orderId: 102,
-      items: [{ name: 'Burger', quantity: 2 }],
-      totalAmount: 19.98,
-      orderDate: '2024-08-27T15:00:00Z',
-      status: 'delivered',
-    },
-    {
-      orderId: 103,
-      items: [{ name: 'Sushi', quantity: 1 }],
-      totalAmount: 15.99,
-      orderDate: '2024-08-26T18:00:00Z',
-      status: 'delivered',
-    },
-  ]);
+  const [orders, setOrders] = useState([]);
 
   const [activeDeliveries, setActiveDeliveries] = useState([
     {
@@ -79,12 +59,18 @@ const OrderHistorySection = () => {
   useEffect(() => {
     // This is a placeholder for actual data fetching or socket updates
     // Example: Simulating the driver marking a delivery as "delivered" after 5 seconds
-    const timer = setTimeout(() => {
-      updateDeliveryStatus(201, 'delivered');
-    }, 5000); // 5 seconds delay
-
-    return () => clearTimeout(timer); // Cleanup on unmount
-  }, []);
+    const fetchOrders = async () => {
+      try {
+        const orders =  await axios.get('http://localhost:8080/ClubCurry/orders/getAll');
+        console.log(orders.data);
+        setOrders(orders.data);
+      }
+      catch (error){
+        console.log(error);
+      }
+    }
+    fetchOrders();
+  });
 
   return (
     <div className="order-history-section">
@@ -150,17 +136,17 @@ const OrderHistorySection = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {orders.map(order => (
+                    {orders.map((order) => (
                       <tr key={order.orderId}>
                         <td>{order.orderId}</td>
                         <td>
                           <ul>
-                            {order.items.map((item, index) => (
-                              <li key={index}>{item.name} (x{item.quantity})</li>
+                            {order.cart.items.map((item, index) => (
+                              <li key={index}>{item.menuItem.name} (x{item.quantity})</li>
                             ))}
                           </ul>
                         </td>
-                        <td>${order.totalAmount.toFixed(2)}</td>
+                        <td>${order.total.toFixed(2)}</td>
                         <td>{new Date(order.orderDate).toLocaleDateString()}</td>
                         <td>{order.status}</td>
                       </tr>
