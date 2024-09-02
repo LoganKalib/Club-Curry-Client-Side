@@ -72,7 +72,7 @@ const ManageBooking = () => {
                             <td>{booking.tableNo}</td>
                             <td>{booking.sectionNo}</td>
                             <td>{booking.status}</td>
-                            <td>{booking.bookedBy.name}</td>
+                            <td>{booking.bookedBy.id}</td>
                             <td>
                                 <button className="btn btn-warning mr-2" onClick={() => openModal(booking)}>EDIT</button>
                                 <button className="btn btn-danger" onClick={() => handleDelete(booking.bookingId)}>DELETE</button>
