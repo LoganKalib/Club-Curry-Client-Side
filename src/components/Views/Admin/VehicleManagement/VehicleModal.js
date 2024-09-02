@@ -4,7 +4,7 @@ import "./VehicleModal.css"; // Importing CSS for consistent styling
 
 const VehicleModal = ({ isOpen, onClose, vehicle, onSubmit }) => {
     const [formData, setFormData] = useState({
-        id: "",
+        id: "",    // Initialize with an empty string
         color: "",
         make: "",
         model: ""
@@ -12,10 +12,10 @@ const VehicleModal = ({ isOpen, onClose, vehicle, onSubmit }) => {
 
     useEffect(() => {
         if (vehicle) {
-            setFormData(vehicle);
+            setFormData(vehicle);  // Populate formData with the selected vehicle details if editing
         } else {
             setFormData({
-                id: "",
+                id: "",    // Reset to empty string for new vehicles
                 color: "",
                 make: "",
                 model: ""
@@ -48,7 +48,7 @@ const VehicleModal = ({ isOpen, onClose, vehicle, onSubmit }) => {
     if (!isOpen) return null;
 
     return (
-        <div className={`vehicle-modal-overlay ${isOpen ? "show" : ""}`} >
+        <div className={`vehicle-modal-overlay ${isOpen ? "show" : ""}`}>
             <div className="vehicle-modal-content">
                 <div className="vehicle-modal-header">
                     <h2>{vehicle ? "Edit Vehicle" : "Add Vehicle"}</h2>
@@ -58,6 +58,19 @@ const VehicleModal = ({ isOpen, onClose, vehicle, onSubmit }) => {
                 </div>
                 <div className="vehicle-modal-body">
                     <form onSubmit={handleSubmit}>
+                        {/* ID Input Field */}
+                        <div className="vehicle-form-group">
+                            <label>ID</label>
+                            <input
+                                type="text"
+                                className="vehicle-form-control"
+                                name="id"
+                                value={formData.id}
+                                onChange={handleChange}
+                                disabled={!!vehicle}  // Disable if editing existing vehicle to prevent changing ID
+                                required
+                            />
+                        </div>
                         <div className="vehicle-form-group">
                             <label>Make</label>
                             <input
