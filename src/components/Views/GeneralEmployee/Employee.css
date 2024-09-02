@@ -51,7 +51,7 @@
 }
 
 /* Style the category-grid container */
-.category-grid {
+.menu-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Creates 3 equal columns */
     gap: 20px; /* Space between items */
@@ -61,7 +61,7 @@
 }
 
 /* Style each category-block */
-.category-block {
+.menu-block {
     display: flex;
     flex-direction: column; /* Stack icon and text vertically */
     align-items: center; /* Center items horizontally */
@@ -78,21 +78,21 @@
 }
 
 /* Style the icon within the category-block */
-.category-block i {
+.menu-block i {
     font-size: 35px;
     color: #741c25; /* Red icons initially */
     margin-bottom: 10px; /* Space between icon and text */
 }
 
 /* Hover effect for category-block */
-.category-block:hover {
+.menu-block:hover {
     background-color: #6e1c1c; /* Darker background on hover */
     color: #fff; /* White text color on hover */
     transform: scale(1.05); /* Slightly enlarge on hover for visual feedback */
 }
 
 /* Hover effect for icons inside category-block */
-.category-block:hover i {
+.menu-block:hover i {
     color: #fff; /* White icons on hover */
 }
 
@@ -421,7 +421,7 @@
         font-size: 14px;
     }
 
-    .category-grid {
+    .menu-grid {
         grid-template-columns: repeat(2, 1fr); /* Adjust for smaller screens */
     }
 }

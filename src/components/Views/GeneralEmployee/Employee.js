@@ -8,8 +8,8 @@ const Employee = () => {
     const [activeTab, setActiveTab] = useState('');
     const [orderType, setOrderType] = useState('delivery');
     const [cart, setCart] = useState([]);
-    const [showCategoryModal, setShowCategoryModal] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [showMenuModal, setShowMenuModal] = useState(false);
+    const [selectedMenu, setSelectedMenu] = useState(null);
     const [showCheckoutModal, setShowCheckoutModal] = useState(false);
     const [orders, setOrders] = useState([]);
     
@@ -25,27 +25,27 @@ const Employee = () => {
         navigate('/orderManagement');
     };
 
-    const categories = [
-        { name: 'Curries', icon: 'fa-utensils' },
-        { name: 'Desserts', icon: 'fa-ice-cream' },
-        { name: 'Appetizers', icon: 'fa-pepper-hot' },
+    const menus = [
+        { name: 'Starters', icon: 'fa-utensils' },
+        { name: 'Curries', icon: 'fa-pepper-hot'},
+        { name: 'Mains', icon:  'fa-drumstick-bite'},
         { name: 'Drinks', icon: 'fa-glass-martini-alt' },
-        { name: 'Mains', icon: 'fa-drumstick-bite' },
-        { name: 'Vegetarian', icon: 'fa-leaf' }
+        { name: 'Desserts', icon: 'fa-ice-cream' },
+        { name: 'Specials', icon: 'fa-leaf' }
     ];
 
     const menuItems = {
-        Curries: [
+        Starters: [
             { name: 'Butter Chicken', price: 120 },
             { name: 'Palak Paneer', price: 100 },
             { name: 'Chicken Tikka Masala', price: 130 }
         ],
-        Desserts: [
+        Curries: [
             { name: 'Gulab Jamun', price: 50 },
             { name: 'Rasmalai', price: 60 },
             { name: 'Kheer', price: 55 }
         ],
-        Appetizers: [
+       Mains: [
             { name: 'Samosa', price: 40 },
             { name: 'Pakora', price: 35 },
             { name: 'Papadum', price: 25 }
@@ -55,12 +55,12 @@ const Employee = () => {
             { name: 'Masala Chai', price: 30 },
             { name: 'Fresh Lime Soda', price: 35 }
         ],
-        Mains: [
+        Desserts: [
             { name: 'Tandoori Chicken', price: 150 },
             { name: 'Lamb Biryani', price: 180 },
             { name: 'Fish Curry', price: 160 }
         ],
-        Vegetarian: [
+       Specials: [
             { name: 'Dal Makhani', price: 90 },
             { name: 'Vegetable Korma', price: 110 },
             { name: 'Baingan Bharta', price: 100 }
@@ -140,18 +140,18 @@ const Employee = () => {
             </nav>
             <div className="employee-main-content">
                 <h1 class="employee-header">Club Curry Employee</h1>
-                <div className="category-grid">
-                    {categories.map((category) => (
+                <div className="menu-grid">
+                    {menus.map((menu) => (
                         <div 
-                            key={category.name} 
-                            className="category-block"
+                            key={menu.name} 
+                            className="menu-block"
                             onClick={() => {
-                                setSelectedCategory(category.name);
-                                setShowCategoryModal(true);
+                                setSelectedMenu(menu.name);
+                                setShowMenuModal(true);
                             }}
                         >
-                            <i className={`fas ${category.icon}`}></i>
-                            <p>{category.name}</p>
+                            <i className={`fas ${menu.icon}`}></i>
+                            <p>{menu.name}</p>
                         </div>
                     ))}
                 </div>
@@ -184,7 +184,7 @@ const Employee = () => {
                                         </td>
                                         <td>R{item.price * item.quantity}</td>
                                         <td>
-                                            {['Curries', 'Mains', 'Vegetarian'].includes(item.category) ? (
+                                            {['Curries', 'Mains', 'Vegetarian'].includes(item.menu) ? (
                                                 <select 
                                                     value={item.spiciness} 
                                                     onChange={(e) => updateSpiciness(index, e.target.value)}
@@ -229,7 +229,7 @@ const Employee = () => {
                                 {order.items.map((item, index) => (
                                     <p key={index}>
                                         {item.name} x{item.quantity} - R{item.price * item.quantity}
-                                        {['Curries', 'Mains', 'Vegetarian'].includes(item.category) && ` (Spiciness: ${item.spiciness})`}
+                                        {['Curries', 'Mains', 'Vegetarian'].includes(item.menu) && ` (Spiciness: ${item.spiciness})`}
                                     </p>
                                 ))}
                             </div>
@@ -350,17 +350,17 @@ const Employee = () => {
                     </div>
                 </div>
             )}
-            {showCategoryModal && (
+            {showMenuModal && (
                 <div className="employee-modal">
                     <div className="employee-modal-content">
-                        <span className="close" onClick={() => setShowCategoryModal(false)}>&times;</span>
-                        <h2>{selectedCategory}</h2>
+                        <span className="close" onClick={() => setShowMenuModal(false)}>&times;</span>
+                        <h2>{setSelectedMenu}</h2>
                         <div className="menu-items">
-                            {menuItems[selectedCategory].map((item, index) => (
+                            {menuItems[setSelectedMenu].map((item, index) => (
                                 <div key={index} className="employee-menu-item">
                                     <span>{item.name}</span>
                                     <span>R{item.price}</span>
-                                    <button onClick={() => addToCart({ ...item, category: selectedCategory })}>Add to Cart</button>
+                                    <button onClick={() => addToCart({ ...item, menu: selectedMenu })}>Add to Cart</button>
                                 </div>
                             ))}
                         </div>
