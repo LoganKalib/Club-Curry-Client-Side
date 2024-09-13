@@ -1,7 +1,8 @@
-// src/components/SignupModal.js
 import React, { useState } from 'react';
-import { Modal, Button, Form, Dropdown } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Modal, Button, Form, Row, Col, Dropdown } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import '../../CSS/SignupModal.css';
+import curryCollage from '../../images/currycollage.jpg'; // Import the image
 
 const countryOptions = [
   { code: '+27', name: 'South Africa' },
@@ -45,7 +46,7 @@ const SignupModal = ({ show, handleClose, onSignup }) => {
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [selectedCountry, setSelectedCountry] = useState(countryOptions[0]); // Default to South Africa
-  const navigate = useNavigate(); // Create a navigate instance
+  const navigate = useNavigate();
 
   const handleCountrySelect = (countryCode) => {
     const country = countryOptions.find(c => c.code === countryCode);
@@ -61,83 +62,99 @@ const SignupModal = ({ show, handleClose, onSignup }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Sign Up</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="formBasicName">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="formBasicSurname">
-            <Form.Label>Surname</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter surname"
-              value={surname}
-              onChange={(e) => setSurname(e.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="formBasicPhone">
-            <Form.Label>Phone Number</Form.Label>
-            <div className="d-flex">
-              <Dropdown onSelect={handleCountrySelect}>
-                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                  {selectedCountry.code}
-                </Dropdown.Toggle>
-                <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                  {countryOptions.map((country) => (
-                    <Dropdown.Item key={country.code} eventKey={country.code}>
-                      {country.name} ({country.code})
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
-              <Form.Control
-                type="text"
-                placeholder="Phone number"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="ml-2"
+    <>
+      {show && <div className="custom-backdrop" />} {/* Add custom backdrop here */}
+      <Modal show={show} onHide={handleClose} className="custom-modal" centered>
+        <Modal.Body>
+          <Row className="m-0">
+            {/* Image column */}
+            <Col md={4} className="p-0 img-container">
+              <img 
+                src={curryCollage} // Use the imported image
+                alt="Signup Illustration" 
+                className="img-fluid"
               />
-            </div>
-          </Form.Group>
-          
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Form.Group>
+            </Col>
+            
+            {/* Signup form column */}
+            <Col md={8} className="form-column">
+              <Button className="custom-close-button" onClick={handleClose}>&times;</Button>
+              <div className="form-title">Sign Up</div>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="formBasicName">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Form.Group>
+                <Form.Group controlId="formBasicSurname">
+                  <Form.Label>Surname</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter surname"
+                    value={surname}
+                    onChange={(e) => setSurname(e.target.value)}
+                  />
+                </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Sign Up
-          </Button>
-        </Form>
-      </Modal.Body>
-    </Modal>
+                <Form.Group controlId="formBasicPhone">
+                  <Form.Label>Phone Number</Form.Label>
+                  <div className="d-flex">
+                    <Dropdown onSelect={handleCountrySelect}>
+                      <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                        {selectedCountry.code}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                        {countryOptions.map((country) => (
+                          <Dropdown.Item key={country.code} eventKey={country.code}>
+                            {country.name} ({country.code})
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                    <Form.Control
+                      type="text"
+                      placeholder="Phone number"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      className="ml-2"
+                    />
+                  </div>
+                </Form.Group>
+
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="formBasicPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </Form.Group>
+
+                <Button type="submit" className="custom-button mt-3"> {/* Apply custom button class */}
+                  Sign Up
+                </Button>
+              </Form>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 
