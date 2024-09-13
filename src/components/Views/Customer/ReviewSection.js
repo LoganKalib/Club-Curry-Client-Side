@@ -33,6 +33,7 @@ const Review = ({ review }) => (
   </Card>
 );
 
+// Restrictions for input type 
 Review.propTypes = {
   review: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -49,16 +50,16 @@ Review.propTypes = {
 }; // Updated definition to be in line with the database
 
 const ReviewSection = () => {
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [reviews, setReviews] = useState([]);  // State for storing reviews
+  const [loading, setLoading] = useState(true); // State for loading status
+  const [error, setError] = useState(null); // State for storing errors
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get('http://localhost:8080/ClubCurry/review/getAll'); // Replace with actual API endpoint
         console.log(response);
-        setReviews(response.data);
+        setReviews(response.data); // Update the state with the fetched reviews
       } catch (err) {
         setError(err.message);
       } finally {
@@ -74,14 +75,12 @@ const ReviewSection = () => {
 
   return (
     <div className="review-section">
-      <h2 className="section-heading mb-5 mt-3">Customer Reviews</h2>
+      <h2 className="section-heading mb-5 mt-3">CUSTOMER REVIEWS</h2>
       <div className="existing-reviews">
         {reviews.length > 0 ? (
-          reviews.map((review) => <Review key={review.id} review={review} />)
+          reviews.map((review) => <Review key={review.id} review={review} />) // assigns a unique id to a review
         ) : (
-          <div class="no-reviews">
-  <p>Be the first to share your experience! Your feedback means the world to us. Write a review now!</p>
-</div>
+          <p>No reviews yet. Be the first to leave a review!</p>
         )}
       </div>
     </div>

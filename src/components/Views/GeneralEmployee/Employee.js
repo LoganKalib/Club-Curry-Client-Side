@@ -17,7 +17,7 @@ const Employee = () => {
 
     const handleLogout = () => {
         setIsLoggedIn(false);
-      };
+    };
 
     const navigate = useNavigate();
 
@@ -45,7 +45,7 @@ const Employee = () => {
             { name: 'Rasmalai', price: 60 },
             { name: 'Kheer', price: 55 }
         ],
-       Mains: [
+        Mains: [
             { name: 'Samosa', price: 40 },
             { name: 'Pakora', price: 35 },
             { name: 'Papadum', price: 25 }
@@ -60,7 +60,7 @@ const Employee = () => {
             { name: 'Lamb Biryani', price: 180 },
             { name: 'Fish Curry', price: 160 }
         ],
-       Specials: [
+        Specials: [
             { name: 'Dal Makhani', price: 90 },
             { name: 'Vegetable Korma', price: 110 },
             { name: 'Baingan Bharta', price: 100 }
@@ -123,6 +123,7 @@ const Employee = () => {
     };
 
     const todayDate = new Date().toISOString().split('T')[0];
+    const selectedMenuItems = menuItems[selectedMenu] || [];
 
     return (
         <div className="employee-container">
@@ -139,7 +140,7 @@ const Employee = () => {
                 </ul>
             </nav>
             <div className="employee-main-content">
-                <h1 class="employee-header">Club Curry Employee</h1>
+                <h1 className="employee-header">Club Curry Employee</h1>
                 <div className="menu-grid">
                     {menus.map((menu) => (
                         <div 
@@ -197,7 +198,7 @@ const Employee = () => {
                                                 <span>-</span>
                                             )}
                                         </td>
-                                        <td><button class="btn-remove" onClick={() => removeFromCart(index)}>Remove</button></td>
+                                        <td><button className="btn-remove" onClick={() => removeFromCart(index)}>Remove</button></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -217,9 +218,8 @@ const Employee = () => {
                     </button>
                 </div>
 
-
                 <div className="orders-section" id="orders-section">
-                    <h2 class="orders-header">Orders</h2>
+                    <h2 className="orders-header">Orders</h2>
                     {orders.map((order) => (
                         <div key={order.id} className="order-card">
                             <h4>Order #{order.id}</h4>
@@ -241,112 +241,18 @@ const Employee = () => {
                 <div className="employee-modal">
                     <div className="employee-modal-content">
                         <span className="close" onClick={() => setShowModal(false)}>&times;</span>
-                        <div className="employee-tab">
-                            <button 
-                                className={orderType === 'delivery' ? 'active' : ''} 
-                                onClick={() => setOrderType('delivery')}
+                        <h2>New Order</h2>
+                        <label>
+                            Select Order Type:
+                            <select 
+                                value={orderType}
+                                onChange={(e) => setOrderType(e.target.value)}
                             >
-                                Delivery
-                            </button>
-                            <button 
-                                className={orderType === 'collection' ? 'active' : ''} 
-                                onClick={() => setOrderType('collection')}
-                            >
-                                Collection
-                            </button>
-                            <button 
-                                className={orderType === 'dinein' ? 'active' : ''} 
-                                onClick={() => setOrderType('dinein')}
-                            >
-                                Booking
-                            </button>
-                        </div>
-                        {orderType === 'delivery' && (
-                            <form class="employee-form">
-                                <h2>Delivery</h2>
-                                <div className="employee-form-group">
-                                    <label>Order ID</label>
-                                    <input type="text" required />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Name</label>
-                                    <input type="text" required />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Email</label>
-                                    <input type="email" required />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Delivery Address</label>
-                                    <input type="text" required />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Order Note</label>
-                                    <input type="text" />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Driver</label>
-                                    <select required>
-                                        <option value="">Select Driver</option>
-                                        <option value="driver1">Driver 1</option>
-                                        <option value="driver2">Driver 2</option>
-                                    </select>
-                                </div>
-                                <button type="button" className="confirm-btn" onClick={handleConfirmTakeOrder}>Confirm</button>
-                            </form>
-                        )}
-                        {orderType === 'collection' && (
-                            <form class="employee-form">
-                                <h2>Collection</h2>
-                                <div className="employee-form-group">
-                                    <label>Order ID</label>
-                                    <input type="text" required />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Name</label>
-                                    <input type="text" required />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Phone Number</label>
-                                    <input type="tel" required />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Collection Time</label>
-                                    <input type="time" required />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Order Note</label>
-                                    <input type="text" />
-                                </div>
-                                <button type="button" className="confirm-btn" onClick={handleConfirmTakeOrder}>Confirm</button>
-                            </form>
-                        )}
-                        {orderType === 'dinein' && (
-                            <form class="employee-form">
-                                <h2>Booking</h2>
-                                <div className="employee-form-group">
-                                    <label>Customer Name</label>
-                                    <input type="text" required />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Customer Phone Number</label>
-                                    <input type="tel" required />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Booking Time</label>
-                                    <input type="time" required />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Table Number</label>
-                                    <input type="number" required />
-                                </div>
-                                <div className="employee-form-group">
-                                    <label>Section Number</label>
-                                    <input type="number" required />
-                                </div>
-                                <button type="button" className="confirm-btn" onClick={handleConfirmTakeOrder}>Confirm</button>
-                            </form>
-                        )}
+                                <option value="delivery">Delivery</option>
+                                <option value="takeaway">Takeaway</option>
+                            </select>
+                        </label>
+                        <button onClick={handleConfirmTakeOrder}>Confirm</button>
                     </div>
                 </div>
             )}
@@ -354,15 +260,19 @@ const Employee = () => {
                 <div className="employee-modal">
                     <div className="employee-modal-content">
                         <span className="close" onClick={() => setShowMenuModal(false)}>&times;</span>
-                        <h2>{setSelectedMenu}</h2>
+                        <h2>{selectedMenu}</h2>
                         <div className="menu-items">
-                            {menuItems[setSelectedMenu].map((item, index) => (
-                                <div key={index} className="employee-menu-item">
-                                    <span>{item.name}</span>
-                                    <span>R{item.price}</span>
-                                    <button onClick={() => addToCart({ ...item, menu: selectedMenu })}>Add to Cart</button>
-                                </div>
-                            ))}
+                            {selectedMenuItems.length === 0 ? (
+                                <p>No items available for this menu.</p>
+                            ) : (
+                                selectedMenuItems.map((item, index) => (
+                                    <div key={index} className="employee-menu-item">
+                                        <span>{item.name}</span>
+                                        <span>R{item.price}</span>
+                                        <button onClick={() => addToCart({ ...item, menu: selectedMenu })}>Add to Cart</button>
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </div>
                 </div>
@@ -372,16 +282,8 @@ const Employee = () => {
                     <div className="employee-modal-content">
                         <span className="close" onClick={() => setShowCheckoutModal(false)}>&times;</span>
                         <h2>Checkout</h2>
-                        <div className="checkout-summary">
-                            {cart.map((item, index) => (
-                                <div key={index} className="checkout-item">
-                                    <span>{item.name} x{item.quantity}</span>
-                                    <span>R{item.price * item.quantity}</span>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="total">Total: R{calculateTotal()}</div>
-                        <button className="confirm-btn" onClick={confirmOrder}>Confirm Order</button>
+                        <p>Total Amount: R{calculateTotal()}</p>
+                        <button onClick={confirmOrder}>Confirm Order</button>
                     </div>
                 </div>
             )}
@@ -390,5 +292,3 @@ const Employee = () => {
 };
 
 export default Employee;
-
- 
