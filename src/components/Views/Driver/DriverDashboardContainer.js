@@ -7,11 +7,6 @@ import './DriverDashboardContainer.css'; // Import the CSS file for styling
 const DriverDashboardContainer = ({ onLogout }) => {
   // State to manage the list of deliveries
   const [deliveries, setDeliveries] = useState([
-<<<<<<< HEAD
-=======
-
-    // Expanded sample delivery data
->>>>>>> 2e24ad82beb185633eb0e43ab3a419718f4fa685
     {
       deliveryId: 1,
       orderId: 101,
