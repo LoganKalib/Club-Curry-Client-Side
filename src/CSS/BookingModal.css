@@ -1,0 +1,62 @@
+.booking-modal .modal-header {
+    border-bottom: none;
+    margin-top: 0; /* Remove top margin for heading */
+    margin-bottom: 2px; /* Space between heading and text */
+    font-family: 'Chonburi', sans-serif;
+    font-size: 1.5rem; /* Adjust size as needed */
+    font-weight: bold;
+    
+  }
+  
+  .booking-modal .modal-body {
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+    padding: 20px;
+    color: #000000;
+  }
+  
+  .booking-modal .form-label {
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+  
+  .booking-modal input, .booking-modal select {
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .book-button {
+    background: linear-gradient(45deg, #741c25, #741c25) !important; /* Adjust the colors as needed */
+    border: none;
+    padding: 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+  
+  .book-button:hover {
+    background-color: #6a4ee0;
+  }
+  
+  .modal-footer {
+    border-top: none;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .booking-modal .modal-body {
+      text-align: center;
+    }
+  }
+
+  .image-section {
+    display: flex;
+    justify-content: center; /* Center the image horizontally */
+    height: 100%; /* Ensure it takes the full height of its parent */
+  }
+  
+  .image-section img {
+    width: 100%; /* Make the image take the full width of the container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover the container without distortion */
+  }
+  

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Tab, Tabs, Row, Col, Card, Button, FormControl } from 'react-bootstrap';
 import DriverDashboardHeader from './DriverDashboardHeader';
+import DriverNavbar from './DriverNavBar';
 import './DriverDashboardContainer.css'; // Import the CSS file for styling
 
 const DriverDashboardContainer = ({ onLogout }) => {
   const [deliveries, setDeliveries] = useState([
-    // Expanded sample delivery data
     {
       deliveryId: 1,
       orderId: 101,
@@ -42,7 +42,6 @@ const DriverDashboardContainer = ({ onLogout }) => {
       deliveryTime: '13:25',
       deliveryNote: '',
     },
-    // Add more sample data as needed
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -77,7 +76,6 @@ const DriverDashboardContainer = ({ onLogout }) => {
   const totalNewOrders = outstandingDeliveries.length;
   const totalCompletedOrders = deliveredDeliveries.length;
 
-  // Sample driver profile data
   const driverProfile = {
     name: 'Jane Smith',
     vehicle: 'Toyota Prius',
@@ -88,124 +86,129 @@ const DriverDashboardContainer = ({ onLogout }) => {
   return (
     <div className="driver-dashboard-container">
       <DriverDashboardHeader isLoggedIn={true} onLogout={onLogout} />
-      <div className="tabs-container">
-        <Tabs defaultActiveKey="profile" id="driver-dashboard-tabs">
-          <Tab eventKey="profile" title="Driver Profile">
-            <Row className="m-3">
-              <Col md={4}>
-                {/* Driver Profile Card */}
-                <Card className="dashboard-card mb-3">
-                  <Card.Header>Driver Profile</Card.Header>
-                  <Card.Body>
-                    <p><strong>Name:</strong> {driverProfile.name}</p>
-                    <p><strong>Vehicle:</strong> {driverProfile.vehicle}</p>
-                    <p><strong>License Plate:</strong> {driverProfile.licensePlate}</p>
-                    <p><strong>Contact:</strong> {driverProfile.contact}</p>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={8}>
-                <Row>
-                  {/* Summary Cards */}
-                  <Col md={12} className="mb-3">
-                    <Card className="dashboard-card">
-                      <Card.Header>Total New Orders</Card.Header>
+      <Row>
+        <Col md={2}>
+          <DriverNavbar /> {/* Add the DriverNavbar here */}
+        </Col>
+        <Col md={10}>
+          <div className="tabs-container">
+            <Tabs defaultActiveKey="profile" id="driver-dashboard-tabs">
+              <Tab eventKey="profile" title="Driver Profile">
+                <Row className="m-3">
+                  <Col md={4}>
+                    <Card className="dashboard-card mb-3">
+                      <Card.Header>Driver Profile</Card.Header>
                       <Card.Body>
-                        <p><strong>{totalNewOrders}</strong></p>
+                        <p><strong>Name:</strong> {driverProfile.name}</p>
+                        <p><strong>Vehicle:</strong> {driverProfile.vehicle}</p>
+                        <p><strong>License Plate:</strong> {driverProfile.licensePlate}</p>
+                        <p><strong>Contact:</strong> {driverProfile.contact}</p>
                       </Card.Body>
                     </Card>
                   </Col>
-                  <Col md={12}>
-                    <Card className="dashboard-card">
-                      <Card.Header>Total Completed Orders</Card.Header>
-                      <Card.Body>
-                        <p><strong>{totalCompletedOrders}</strong></p>
-                      </Card.Body>
-                    </Card>
+                  <Col md={8}>
+                    <Row>
+                      <Col md={12} className="mb-3">
+                        <Card className="dashboard-card">
+                          <Card.Header>Total New Orders</Card.Header>
+                          <Card.Body>
+                            <p><strong>{totalNewOrders}</strong></p>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                      <Col md={12}>
+                        <Card className="dashboard-card">
+                          <Card.Header>Total Completed Orders</Card.Header>
+                          <Card.Body>
+                            <p><strong>{totalCompletedOrders}</strong></p>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    </Row>
                   </Col>
                 </Row>
-              </Col>
-            </Row>
-          </Tab>
-          <Tab eventKey="new-orders" title="New Deliveries">
-            <Row className="m-3">
-              {outstandingDeliveries.length > 0 ? (
-                outstandingDeliveries.map((delivery) => (
-                  <Col md={6} lg={4} key={delivery.deliveryId}>
-                    <Card className="dashboard-card mb-3">
-                      <Card.Header>Order ID: {delivery.orderId}</Card.Header>
-                      <Card.Body>
-                        <p><strong>Address:</strong> {delivery.address}</p>
-                        <p><strong>Status:</strong> {delivery.status}</p>
-                        <p><strong>Customer Contact:</strong> {delivery.customerContact}</p>
-                        <p><strong>Customer Name:</strong> {delivery.customerName}</p>
-                        <p><strong>Order:</strong> {delivery.order}</p>
-                        <p><strong>Price:</strong> ${delivery.price.toFixed(2)}</p>
-                        <p><strong>Delivery Note:</strong> {delivery.deliveryNote}</p>
-                        {delivery.status === 'pending' && (
-                          <Button
-                            className="btn btn-primary me-2"
-                            onClick={() => handleUpdateStatus(delivery.deliveryId, 'in transit')}
-                          >
-                            Mark as In Transit
-                          </Button>
-                        )}
-                        {delivery.status === 'in transit' && (
-                          <Button
-                            className="btn btn-success"
-                            onClick={() => handleUpdateStatus(delivery.deliveryId, 'delivered')}
-                          >
-                            Mark as Delivered
-                          </Button>
-                        )}
-                      </Card.Body>
-                    </Card>
+              </Tab>
+              <Tab eventKey="new-orders" title="New Deliveries">
+                <Row className="m-3">
+                  {outstandingDeliveries.length > 0 ? (
+                    outstandingDeliveries.map((delivery) => (
+                      <Col md={6} lg={4} key={delivery.deliveryId}>
+                        <Card className="dashboard-card mb-3">
+                          <Card.Header>Order ID: {delivery.orderId}</Card.Header>
+                          <Card.Body>
+                            <p><strong>Address:</strong> {delivery.address}</p>
+                            <p><strong>Status:</strong> {delivery.status}</p>
+                            <p><strong>Customer Contact:</strong> {delivery.customerContact}</p>
+                            <p><strong>Customer Name:</strong> {delivery.customerName}</p>
+                            <p><strong>Order:</strong> {delivery.order}</p>
+                            <p><strong>Price:</strong> ${delivery.price.toFixed(2)}</p>
+                            <p><strong>Delivery Note:</strong> {delivery.deliveryNote}</p>
+                            {delivery.status === 'pending' && (
+                              <Button
+                                className="btn btn-primary me-2"
+                                onClick={() => handleUpdateStatus(delivery.deliveryId, 'in transit')}
+                              >
+                                Mark as In Transit
+                              </Button>
+                            )}
+                            {delivery.status === 'in transit' && (
+                              <Button
+                                className="btn btn-success"
+                                onClick={() => handleUpdateStatus(delivery.deliveryId, 'delivered')}
+                              >
+                                Mark as Delivered
+                              </Button>
+                            )}
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    ))
+                  ) : (
+                    <Col>
+                      <p>No new deliveries.</p>
+                    </Col>
+                  )}
+                </Row>
+              </Tab>
+              <Tab eventKey="completed-orders" title="Completed Deliveries">
+                <Row className="m-3">
+                  <Col md={12} className="mb-3">
+                    <FormControl
+                      type="text"
+                      placeholder="Search by Order ID"
+                      value={searchTerm}
+                      onChange={handleSearchChange}
+                    />
                   </Col>
-                ))
-              ) : (
-                <Col>
-                  <p>No new deliveries.</p>
-                </Col>
-              )}
-            </Row>
-          </Tab>
-          <Tab eventKey="completed-orders" title="Completed Deliveries">
-            <Row className="m-3">
-              <Col md={12} className="mb-3">
-                <FormControl
-                  type="text"
-                  placeholder="Search by Order ID"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
-              </Col>
-              {filteredDeliveredDeliveries.length > 0 ? (
-                filteredDeliveredDeliveries.map((delivery) => (
-                  <Col md={6} lg={4} key={delivery.deliveryId}>
-                    <Card className="dashboard-card mb-3">
-                      <Card.Header>Order ID: {delivery.orderId}</Card.Header>
-                      <Card.Body>
-                        <p><strong>Address:</strong> {delivery.address}</p>
-                        <p><strong>Status:</strong> {delivery.status}</p>
-                        <p><strong>Customer Contact:</strong> {delivery.customerContact}</p>
-                        <p><strong>Customer Name:</strong> {delivery.customerName}</p>
-                        <p><strong>Order:</strong> {delivery.order}</p>
-                        <p><strong>Price:</strong> ${delivery.price.toFixed(2)}</p>
-                        <p><strong>Delivery Time:</strong> {delivery.deliveryTime}</p>
-                        <p><strong>Delivery Note:</strong> {delivery.deliveryNote}</p>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))
-              ) : (
-                <Col>
-                  <p>No completed deliveries.</p>
-                </Col>
-              )}
-            </Row>
-          </Tab>
-        </Tabs>
-      </div>
+                  {filteredDeliveredDeliveries.length > 0 ? (
+                    filteredDeliveredDeliveries.map((delivery) => (
+                      <Col md={6} lg={4} key={delivery.deliveryId}>
+                        <Card className="dashboard-card mb-3">
+                          <Card.Header>Order ID: {delivery.orderId}</Card.Header>
+                          <Card.Body>
+                            <p><strong>Address:</strong> {delivery.address}</p>
+                            <p><strong>Status:</strong> {delivery.status}</p>
+                            <p><strong>Customer Contact:</strong> {delivery.customerContact}</p>
+                            <p><strong>Customer Name:</strong> {delivery.customerName}</p>
+                            <p><strong>Order:</strong> {delivery.order}</p>
+                            <p><strong>Price:</strong> ${delivery.price.toFixed(2)}</p>
+                            <p><strong>Delivery Time:</strong> {delivery.deliveryTime}</p>
+                            <p><strong>Delivery Note:</strong> {delivery.deliveryNote}</p>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    ))
+                  ) : (
+                    <Col>
+                      <p>No completed deliveries.</p>
+                    </Col>
+                  )}
+                </Row>
+              </Tab>
+            </Tabs>
+          </div>
+        </Col>
+      </Row>
     </div>
   );
 };

@@ -1,94 +1,125 @@
-// src/components/BookingModal.js
 import React, { useState } from 'react';
-import { Modal, Button, Form, Alert } from 'react-bootstrap';
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
+import '../../CSS/BookingModal.css'; // Import your CSS for additional custom styling
+import friends from '../../images/friends.png'; // Import your image
 
-const BookingModal = ({ show, handleClose, handleBooking, isLoggedIn, onShowLogin, onShowSignup }) => {
+const BookingModal = ({ show, handleClose, handleBooking }) => {
+  const [guestName, setGuestName] = useState('');
   const [numPeople, setNumPeople] = useState(1);
+  const [event, setEvent] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
   const handleSubmit = () => {
-    if (!isLoggedIn) {
-      setShowLoginPrompt(true);
-      return;
+    if (guestName && date && time) { // Simple validation
+      handleBooking({ guestName, numPeople, event, date, time });
+      handleClose();
+    } else {
+      alert('Please fill in all required fields.');
     }
-    handleBooking({ numPeople, date, time });
-    handleClose();
-  };
-
-  const handleLoginPromptClose = () => {
-    setShowLoginPrompt(false);
-    onShowLogin();
-  };
-
-  const handleSignupPromptClose = () => {
-    setShowLoginPrompt(false);
-    onShowSignup();
   };
 
   return (
-    <>
-      <Modal show={show} onHide={handleClose} className="booking-modal">
-        <Modal.Header closeButton>
-          <Modal.Title>Book a Table</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formNumPeople">
-              <Form.Label>Number of People</Form.Label>
-              <Form.Control
-                type="number"
-                min="1"
-                max="8"
-                value={numPeople}
-                onChange={(e) => setNumPeople(e.target.value)}
+    <Modal show={show} onHide={handleClose} centered size="lg" className="booking-modal">
+      <div className="modal-content">
+        <Row noGutters>
+          {/* Left Column for the Form */}
+          <Col md={7}>
+            <Modal.Header closeButton className="border-0">
+              <Modal.Title>Reservation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>
+                We provide a convenient online reservation system. Simply select your desired date, time, and party size, and we will make sure that your table is ready upon your arrival.
+              </p>
+              <Form>
+                <Form.Group controlId="formGuestName">
+                  <Form.Label>Your Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Your name"
+                    value={guestName}
+                    onChange={(e) => setGuestName(e.target.value)}
+                  />
+                </Form.Group>
+                <Row>
+                  <Col>
+                    <Form.Group controlId="formNumPeople">
+                      <Form.Label>Guests</Form.Label>
+                      <Form.Control
+                        as="select"
+                        value={numPeople}
+                        onChange={(e) => setNumPeople(e.target.value)}
+                      >
+                        {[...Array(8).keys()].map((num) => (
+                          <option key={num + 1} value={num + 1}>
+                            {num + 1}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group controlId="formEvent">
+                      <Form.Label>Event</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Anniversary?"
+                        value={event}
+                        onChange={(e) => setEvent(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Group controlId="formDate">
+                      <Form.Label>Date</Form.Label>
+                      <Form.Control
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group controlId="formTime">
+                      <Form.Label>Time</Form.Label>
+                      <Form.Control
+                        type="time"
+                        value={time}
+                        onChange={(e) => setTime(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer className="border-0">
+              <Button
+                variant="primary"
+                onClick={handleSubmit}
+                style={{ width: '100%' }}
+                className="book-button"
+              >
+                Book a table
+              </Button>
+            </Modal.Footer>
+          </Col>
+
+          {/* Right Column for the Image */}
+          <Col md={5} className="d-none d-md-block">
+            <div className="image-section">
+              <img
+                src={friends} // Use imported image variable
+                alt="Friends enjoying a meal"
+                className="img-fluid"
               />
-            </Form.Group>
-            <Form.Group controlId="formDate">
-              <Form.Label>Date</Form.Label>
-              <Form.Control
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group controlId="formTime">
-              <Form.Label>Time</Form.Label>
-              <Form.Control
-                type="time"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="outline-light" onClick={handleClose} className="modal-btn">
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSubmit} className="modal-btn">
-            Book Now
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <Modal show={showLoginPrompt} onHide={() => setShowLoginPrompt(false)} centered className="login-prompt-modal">
-        <Modal.Header closeButton>
-          <Modal.Title>Please Log In or Sign Up</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Alert variant="warning">
-            You need to be logged in to proceed with booking.
-          </Alert>
-          <Button variant="primary" onClick={handleLoginPromptClose} className="mr-2">
-            Log In
-          </Button>
-          <Button variant="secondary" onClick={handleSignupPromptClose}>
-            Sign Up
-          </Button>
-        </Modal.Body>
-      </Modal>
-    </>
+            </div>
+          </Col>
+        </Row>
+      </div>
+    </Modal>
   );
 };
 
