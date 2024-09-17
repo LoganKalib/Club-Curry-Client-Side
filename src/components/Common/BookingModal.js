@@ -25,7 +25,7 @@ const BookingModal = ({ show, handleClose, handleBooking }) => {
         <Row noGutters>
           {/* Left Column for the Form */}
           <Col md={7}>
-            <Modal.Header closeButton className="border-0">
+            <Modal.Header  className="border-0">
               <Modal.Title>Reservation</Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -115,6 +115,14 @@ const BookingModal = ({ show, handleClose, handleBooking }) => {
                 alt="Friends enjoying a meal"
                 className="img-fluid"
               />
+            {/* Close Button on Image */}
+            <button
+                type="button"
+                className="close-button"
+                onClick={handleClose}
+              >
+                &times;
+              </button>
             </div>
           </Col>
         </Row>
