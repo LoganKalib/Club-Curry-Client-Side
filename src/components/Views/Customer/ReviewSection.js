@@ -75,7 +75,7 @@ const ReviewSection = () => {
 
   return (
     <div className="review-section">
-      <h2 className="section-heading mb-5 mt-3">CUSTOMER REVIEWS</h2>
+      <h2 className="section-heading mb-5 mt-3">Customer Reviews</h2>
       <div className="existing-reviews">
         {reviews.length > 0 ? (
           reviews.map((review) => <Review key={review.id} review={review} />) // assigns a unique id to a review
