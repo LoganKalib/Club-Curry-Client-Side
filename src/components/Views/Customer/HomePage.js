@@ -21,12 +21,12 @@ function HomePage({ setShowBooking, showBooking }) {
       {/* About Section */}
       <div className="about-section">
         <h1 className="display-7 mb-4 typewriter-title">CLUB CURRY</h1>
-        <h3 className="lead mb-4 fade-in-text">
+        <h2 className="lead mb-4 fade-in-text">
           <b>A Symphony of Authentic Indian Flavors</b>
-        </h3>
+        </h2>
         
         <Button variant="danger" as={Link} to="/menu" className="buttonmen fade-in-text">
-          View Menu & Order
+          View Menu 
         </Button>
       </div>
 
@@ -69,7 +69,7 @@ function HomePage({ setShowBooking, showBooking }) {
 {/* Restaurant Details Section */}
 <div className="restaurant-details-section">
   <div className="details-left">
-  <h2>Visit Us</h2>
+  <h1>Visit Us</h1>
     <div className="map-container">
       {/* Embed Google Maps */}
       

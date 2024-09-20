@@ -1,39 +1,50 @@
-import React, { useState, useEffect } from 'react'; // Import useState and useEffect from React
-import axios from 'axios'; // Import axios for making HTTP requests
-import { Card } from 'react-bootstrap'; // Import Card component from react-bootstrap
-import PropTypes from 'prop-types'; // Import PropTypes for type-checking
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Carousel } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import StarRating from '../../Common/StarRating';
-import '../Customer/CustomerCss/ReviewSection.css'; // Import custom CSS
+import '../Customer/CustomerCss/ReviewSection.css';
+import bg from '../../../images/bg.png';
 
-// Review component to display individual reviews
+// Individual Review Component (with all ratings and floating avatar)
 const Review = ({ review }) => (
-  <Card className="review-card mb-3">
-    <Card.Body>
-      <Card.Title>{review.customer.name}</Card.Title>
-      <Card.Subtitle className="mb-2 text-muted">
-        <div className="rating-container">
-          <div className="rating-item">
-            <strong>Food Rating: </strong>
-            <StarRating rating={review.rating.foodQuality.toString()} />
-          </div>
-          <div className="rating-item">
-            <strong>Service Rating: </strong>
-            <StarRating rating={review.rating.serviceQuality.toString()} />
-          </div>
-          <div className="rating-item">
-            <strong>Atmosphere Rating: </strong>
-            <StarRating rating={review.rating.atmosphereQuality.toString()} />
-          </div>
-        </div>
-      </Card.Subtitle>
-      <Card.Text>
-        <strong>Comments:</strong> {review.note}
-      </Card.Text>
-    </Card.Body>
-  </Card>
+  <div className="review-card-custom">
+    <div className="avatar-wrapper">
+      <img
+        src="https://via.placeholder.com/80x80.png?text=Avatar" // Default placeholder image
+        alt="Customer Avatar"
+        className="customer-avatar"
+      />
+    </div>
+   
+    <h3 className="review-author">{review.customer.name}</h3>
+{/* Horizontal line below the customer name */}
+<hr className="review-divider" />
+
+    {/* Displaying all the ratings */}
+    <div className="rating-section">
+      <div className="rating-item">
+        <p>Food Quality</p>
+        <StarRating rating={review.rating.foodQuality} readOnly />
+      </div>
+      <div className="rating-item">
+        <p>Service Quality</p>
+        <StarRating rating={review.rating.serviceQuality} readOnly />
+      </div>
+      <div className="rating-item">
+        <p>Atmosphere Quality</p>
+        <StarRating rating={review.rating.atmosphereQuality} readOnly />
+      </div>
+    </div>
+
+    {/* Horizontal line below the customer name */}
+    <hr className="review-divider" />
+
+    <p className="review-note">{review.note}</p>
+  </div>
 );
 
-// Restrictions for input type 
+// Prop types validation
 Review.propTypes = {
   review: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -47,19 +58,19 @@ Review.propTypes = {
       atmosphereQuality: PropTypes.number.isRequired,
     }).isRequired,
   }).isRequired,
-}; // Updated definition to be in line with the database
+};
 
+// Main Review Section with Carousel
 const ReviewSection = () => {
-  const [reviews, setReviews] = useState([]);  // State for storing reviews
-  const [loading, setLoading] = useState(true); // State for loading status
-  const [error, setError] = useState(null); // State for storing errors
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/ClubCurry/review/getAll'); // Replace with actual API endpoint
-        console.log(response);
-        setReviews(response.data); // Update the state with the fetched reviews
+        const response = await axios.get('http://localhost:8080/ClubCurry/review/getAll');
+        setReviews(response.data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -74,15 +85,29 @@ const ReviewSection = () => {
   if (error) return <p>Error loading reviews: {error}</p>;
 
   return (
-    <div className="review-section">
-      <h2 className="section-heading mb-5 mt-3">Customer Reviews</h2>
-      <div className="existing-reviews">
-        {reviews.length > 0 ? (
-          reviews.map((review) => <Review key={review.id} review={review} />) // assigns a unique id to a review
-        ) : (
-          <p>No reviews yet. Be the first to leave a review!</p>
-        )}
-      </div>
+    <div className="review-section-custom">
+      <h2 className="section-heading">Customer Reviews</h2>
+      {reviews.length > 0 ? (
+        <Carousel interval={null} className="carousel-container-custom">
+          {reviews.map((review) => (
+            <Carousel.Item key={review.id}>
+              <Review review={review} />
+            </Carousel.Item>
+          ))}
+          <style>
+            {`
+              .carousel-indicators [data-bs-target] {
+                background-color: black; /* Set background color of the indicators to black */
+              }
+              .carousel-indicators .active {
+                background-color: #343a40; /* A darker shade for the active indicator (optional) */
+              }
+            `}
+          </style>
+        </Carousel>
+      ) : (
+        <p>No reviews yet. Be the first to leave a review!</p>
+      )}
     </div>
   );
 };

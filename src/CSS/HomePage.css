@@ -66,12 +66,14 @@ p {
 /* Fade In Animation */
 .fade-in-text {
   opacity: 0;
-  font-size: 3.5rem;
+  font-size: 4.5rem;
   font-family: 'Lato', sans-serif;
   animation: fadeIn 2s ease-in-out forwards;
   animation-delay: 4s; /* Delays until typing finishes */
   margin-bottom: 30px;
 }
+
+
 
 /* Keyframes for Animations */
 @keyframes typing {
@@ -128,6 +130,7 @@ p {
   background-color: #fff; /* Background color */
   max-width: 1200px;
   margin: 0 auto;
+  margin-bottom: 10px;
 }
 
 .about-us-description {
@@ -220,6 +223,7 @@ p {
   font-size: 2rem;
   color: rgba(116, 28, 37, 1);
   margin-bottom: 15px;
+  margin-top: 20px;
 }
 
 .trading-hours ul {
@@ -253,6 +257,8 @@ p {
   padding: 50px;
   background-color: rgba(255, 255, 255, 0.8); /* Light background for contrast */
   color: #000;
+  font-family: 'Chonburi',sans-serif;
+  
   
 }
 
@@ -275,45 +281,53 @@ p {
   padding: 15px;
   margin-bottom: 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex; /* Enable flexbox */
+  
+  
+  flex-direction: column; /* Stack items vertically */
 }
 
 /* Heading Styles */
 .address-section h3,
 .phone-section h3,
 .email-section h3 {
-  margin: 0; /* Remove top margin for heading */
   font-family: 'Chonburi', sans-serif;
   font-size: 1.5rem; /* Adjust size as needed */
   color: #292728; /* Dark color for headings */
+  display: flex; /* Make heading a flex container */
+  align-items: center; /* Center align heading items */
 }
 
 /* Paragraph Styles */
 .address-section p,
 .phone-section p,
 .email-section p {
-  margin: 0; /* Remove default margins */
+  margin: 5px 0 0 30px; /* Add space above paragraph and left alignment */
   padding: 0; /* Remove default padding */
   font-size: 1rem; /* Adjust text size */
   line-height: 1.5; /* Ensure readability */
-  display: block;
-  margin-left: 2rem; /* Space to align with heading */
+ 
 }
 
 /* Icon Background Style */
 .address-section p i,
 .phone-section p i,
-.email-section p i {
-  margin-right: 10px; /* Gap between icon and text */
-  font-size: 2rem; /* Adjust size of icons */
+.email-section p i,
+.address-section h3 i,
+.phone-section h3 i,
+.email-section h3 i {
+  margin-right: 8px; /* Gap between icon and text */
+  font-size: 1.5rem; /* Smaller size for icons */
   display: inline-block;
-  width: 3rem; /* Width of the circle */
-  height: 3rem; /* Height of the circle */
+  width: 2.5rem; /* Adjust width of the circle */
+  height: 2.5rem; /* Adjust height of the circle */
   border-radius: 50%; /* Makes the background circular */
   background: linear-gradient(45deg, #741c25, #741c25) !important; /* Adjust the colors as needed */
   color: #fff; /* Icon color (white) */
   text-align: center; /* Center the icon inside the circle */
-  line-height: 3rem; /* Align icon vertically */
+  line-height: 2.5rem; /* Align icon vertically */
   vertical-align: middle; /* Align icon with text */
+  margin-top: 5px;
 }
 
 /* Map Container */
@@ -327,7 +341,7 @@ p {
 
 .map-container iframe {
   width: 100%;
-  height: 400px; /* Adjust as needed */
+  height: 450px; /* Adjust as needed */
   border: 0;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);

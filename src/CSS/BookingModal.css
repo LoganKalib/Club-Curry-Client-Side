@@ -7,10 +7,10 @@
 }
 
 .booking-modal .modal-body {
-  font-family: 'Arial', sans-serif;
+ 
   font-size: 1rem;
   padding: 20px;
-  color: #000000;
+  color: #6c757d; /* Light grey color for the text */
 }
 
 .booking-modal .form-label {
