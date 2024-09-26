@@ -4,7 +4,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   margin: 0;
-  background-color: lightgrey !important; /* Adjust text color for contrast if needed */
+  background-color: rgb(255, 252, 252) !important; /* Adjust text color for contrast if needed */
 }
 
 .container {

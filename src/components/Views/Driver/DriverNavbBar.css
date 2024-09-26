@@ -1,0 +1,54 @@
+/* Navbar container */
+.driver-navbar {
+    width: 250px;
+    background-color: white; /* White background for the navbar */
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    color: black; /* Black text color */
+}
+
+/* Navbar links styled as padded boxes */
+.driver-nav-link {
+    color: black; /* Default link color is black */
+    background-color: white; /* Default background color is white */
+    padding: 1rem; /* Add padding to make it a box */
+    border-radius: 8px; /* Slightly rounded corners */
+    margin-bottom: 1rem; /* Space between each link */
+    text-align: center; /* Center the text */
+    text-decoration: none; /* Remove underline */
+    font-size: 1.1rem;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Hover effect: pastel red background and maroon text */
+.driver-nav-link:hover {
+    background-color: #FFB6B6; /* Pastel red background */
+    color: #800000; /* Maroon text */
+}
+
+/* Driver profile section */
+.driver-profile {
+    text-align: center;
+    padding: 1rem 0;
+    border-top: 1px solid #ccc;
+}
+
+.profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.driver-name {
+    font-size: 1rem;
+    font-weight: bold;
+    color: black; /* Black name color to match navbar */
+}

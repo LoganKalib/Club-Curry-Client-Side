@@ -1,0 +1,79 @@
+.booking-modal .modal-header .modal-title,
+.booking-modal .modal-header .title-h4 {
+  font-size: 2.5rem ; /* Override any Bootstrap styles */
+  color: #000; /* Or any other color you'd prefer */
+  font-family: 'Chonburi', sans-serif; /* Ensure the custom font is applied */
+
+}
+
+.booking-modal .modal-body {
+ 
+  font-size: 1rem;
+  padding: 20px;
+  color: #6c757d; /* Light grey color for the text */
+}
+
+.booking-modal .form-label {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.booking-modal input, .booking-modal select {
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.book-button {
+  background: linear-gradient(45deg, #741c25, #741c25) !important; /* Keep the gradient */
+  border: none;
+  padding: 15px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.book-button:hover {
+  background-color: #6a4ee0;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+@media screen and (max-width: 768px) {
+  .booking-modal .modal-body {
+    text-align: center;
+  }
+}
+
+/* Image Section Styling */
+.image-section {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center the image vertically */
+  height: 100%; /* Ensure it takes the full height of its parent */
+  position: relative; /* For close button positioning */
+}
+
+.image-section img {
+  width: 100%; /* Make the image take the full width of the container */
+  height: 100%; /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the container without distortion */
+  border-radius: 0 8px 8px 0; /* Round corners for a smooth look */
+}
+
+/* Close Button Styling */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: red;
+}

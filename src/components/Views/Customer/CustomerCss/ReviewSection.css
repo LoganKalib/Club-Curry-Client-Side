@@ -1,52 +1,123 @@
-.review-section {
-    padding: 1rem;
-    
-  }
-  
-  .review-container {
-    max-height: 400px; /* Adjust this value as needed */
-    overflow-y: auto; /* Enables vertical scrolling */
-    border: 1px solid #ddd; /* Optional: adds a border around the scrollable area */
-    border-radius: 8px; /* Optional: rounds the corners of the border */
-    padding: 1rem;
-    background-color: #f8f9fa; /* Optional: sets a background color */
-    margin: auto;
-    
-  }
-  .section-heading {
-    font-size: 2rem;
+.review-card-custom {
+  padding: 3rem 1rem 1rem; /* Added more top padding */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #fff; /* Changed background color of the card */
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding-bottom: 10px;
+}
+/* Carousel Indicators */
+.carousel-indicators [data-bs-target] {
+  background-color: black; /* Set background color of the indicators to black */
+}
+
+.carousel-indicators .active {
+  background-color: #343a40; /* Darker shade for the active indicator (optional) */
+}
+
+
+.avatar-wrapper {
+  margin-top: 30px;
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.customer-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.review-title {
+  margin-top: 50px;
+  font-size: 1.5rem;
+  text-align: center; /* Centered title */
+}
+
+.review-note {
+ 
+  margin-bottom: 20px;
+  margin-top: 20px;
+  text-align: center; /* Centered review text */
+  font-size: 1.2rem; /* Slightly larger text for description */
+  color: #6c757d; /* Light grey color for the text */
+  max-width: 800px; /* Limit the width of the text */
+}
+
+/* Each rating now on a new line and centered */
+.rating-section {
+  display: flex; /* Use flexbox to center items */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+}
+.rating-item {
+  text-align: center;
+  margin-bottom: 20px; /* Spacing between each rating */
+  color: black; /* Set text color to black */
+}
+
+.rating-item p {
+  margin: 1; /* Removed margin around paragraph */
+  font-weight: bold;
+  color: black; /* Set paragraph color to black */
+  text-align:center;
+  font-size: 1rem; /* Slightly larger text for description */
+
+}
+
+/* Styling for the entire review section */
+.review-section-custom {
+  text-align: center;
+  width: 100%;
+  background-image: url('../../../../images/bg.png'); /* Adjust path as needed */
+  background-size: cover; /* Ensure the image covers the entire section */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent repeating of the image */
+  padding: 40px 0; /* Padding around the section */
+  background-color: rgba(173, 119, 119, 0.5); /* Semi-transparent background color (optional) */
+}
+
+.section-heading {
+  font-size: 3rem;
   font-family: 'Chonburi', sans-serif;
-  margin-bottom: 15px;
-  background: linear-gradient(to bottom, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%);
-  }
+  margin-bottom: 30px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6); /* Adding text shadow */
+}
+
+
+.carousel-container-custom {
+  max-width: 950px;
   
-  .review-card {
-    margin-bottom: 1rem;
-  }
-  .no-reviews {
-    background: #fff;
-    color: #3a2c0f; /* Dark text color for contrast */
-    font-family: 'Lato', sans-serif; /* Consistent font style */
-    font-size: 1.2rem; /* Font size for better readability */
-    text-align: center; /* Center-align the text */
-    padding: 20px; /* Padding for spacing around the text */
-    border-radius: 10px; /* Rounded corners */
-    border: 3px solid #3a2c0f; /* Solid dark brown border */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Subtle shadow for depth */
-    margin: 20px auto; /* Center the div horizontally with some top/bottom margin */
-    width: 80%; /* Width of the section */
-    max-width: 600px; /* Max width to prevent stretching on larger screens */
-    line-height: 1.5; /* Line height for readability */
-  }
-  
-  .no-reviews p {
-    font-size: 1.2rem; /* Slightly larger font size */
-    font-weight: bold; /* Bold text for emphasis */
-    margin: 0; /* Remove default margin */
-  }
-  
-  .no-reviews:hover {
-    background-color: #e0f7fa; /* Light background color on hover */
-    border-color: #0056b3; /* Change border color on hover */
-  }
-  
+  margin: 0 auto;
+  padding: 50px;
+  background-color: #fff; /* White background for the carousel container */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow for the carousel */
+}
+.review-author {
+  margin-top: 80px; /* Adjust margin to fit the design */
+  font-size: 2rem; /* Same size as before */
+  color: #333; /* Same color */
+  text-align: center; /* Centered heading */
+  font-family: 'Chonburi', sans-serif;
+}
+
+.review-divider {
+  border: none; /* Remove default border */
+  height: 1px; /* Set the height of the line */
+  background-color: #681010; /* Set color of the line */
+  margin: 15px 0; /* Add spacing above and below the line */
+}
