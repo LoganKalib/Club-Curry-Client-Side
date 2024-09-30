@@ -236,57 +236,54 @@ const Employee = () => {
                         </div>
                     ))}
                 </div>
-            </div>
-            {showModal && (
-                <div className="employee-modal">
-                    <div className="employee-modal-content">
-                        <span className="close" onClick={() => setShowModal(false)}>&times;</span>
-                        <h2>New Order</h2>
-                        <label>
-                            Select Order Type:
-                            <select 
-                                value={orderType}
-                                onChange={(e) => setOrderType(e.target.value)}
-                            >
-                                <option value="delivery">Delivery</option>
-                                <option value="takeaway">Takeaway</option>
-                            </select>
-                        </label>
-                        <button onClick={handleConfirmTakeOrder}>Confirm</button>
-                    </div>
-                </div>
-            )}
-            {showMenuModal && (
-                <div className="employee-modal">
-                    <div className="employee-modal-content">
-                        <span className="close" onClick={() => setShowMenuModal(false)}>&times;</span>
-                        <h2>{selectedMenu}</h2>
-                        <div className="menu-items">
-                            {selectedMenuItems.length === 0 ? (
-                                <p>No items available for this menu.</p>
+
+                {showModal && (
+                    <div className="orders-modal">
+                        <div className="modal-content">
+                            <h2>New Order</h2>
+                            <button className="close-modal" onClick={() => setShowModal(false)}>X</button>
+                            <div className="order-type-toggle">
+                                <button onClick={() => setOrderType('delivery')} className={orderType === 'delivery' ? 'active' : ''}>Delivery</button>
+                                <button onClick={() => setOrderType('takeout')} className={orderType === 'takeout' ? 'active' : ''}>Takeout</button>
+                            </div>
+                            {orderType === 'delivery' ? (
+                                <p>Delivery details form...</p>
                             ) : (
-                                selectedMenuItems.map((item, index) => (
-                                    <div key={index} className="employee-menu-item">
-                                        <span>{item.name}</span>
-                                        <span>R{item.price}</span>
-                                        <button onClick={() => addToCart({ ...item, menu: selectedMenu })}>Add to Cart</button>
-                                    </div>
-                                ))
+                                <p>Takeout details form...</p>
                             )}
+                            <button onClick={handleConfirmTakeOrder}>Confirm Order</button>
                         </div>
                     </div>
-                </div>
-            )}
-            {showCheckoutModal && (
-                <div className="employee-modal">
-                    <div className="employee-modal-content">
-                        <span className="close" onClick={() => setShowCheckoutModal(false)}>&times;</span>
-                        <h2>Checkout</h2>
-                        <p>Total Amount: R{calculateTotal()}</p>
-                        <button onClick={confirmOrder}>Confirm Order</button>
+                )}
+
+                {showMenuModal && (
+                    <div className="orders-modal">
+                        <div className="modal-content">
+                            <h2>{selectedMenu}</h2>
+                            <button className="close-modal" onClick={() => setShowMenuModal(false)}>X</button>
+                            <ul>
+                                {selectedMenuItems.map((item, index) => (
+                                    <li key={index}>
+                                        {item.name} - R{item.price}
+                                        <button onClick={() => addToCart(item)}>Add to Cart</button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+
+                {showCheckoutModal && (
+                    <div className="orders-modal">
+                        <div className="modal-content">
+                            <h2>Checkout</h2>
+                            <button className="close-modal" onClick={() => setShowCheckoutModal(false)}>X</button>
+                            <p>Your total is: R{calculateTotal()}</p>
+                            <button onClick={confirmOrder}>Confirm Order</button>
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

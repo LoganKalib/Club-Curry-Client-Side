@@ -303,7 +303,7 @@ p {
 .phone-section p,
 .email-section p {
   margin: 5px 0 0 30px; /* Add space above paragraph and left alignment */
-  padding: 0; /* Remove default padding */
+  padding: 5; /* Remove default padding */
   font-size: 1rem; /* Adjust text size */
   line-height: 1.5; /* Ensure readability */
  
@@ -318,7 +318,7 @@ p {
 .email-section h3 i {
   margin-right: 8px; /* Gap between icon and text */
   font-size: 1.5rem; /* Smaller size for icons */
-  display: inline-block;
+
   width: 2.5rem; /* Adjust width of the circle */
   height: 2.5rem; /* Adjust height of the circle */
   border-radius: 50%; /* Makes the background circular */
@@ -326,7 +326,7 @@ p {
   color: #fff; /* Icon color (white) */
   text-align: center; /* Center the icon inside the circle */
   line-height: 2.5rem; /* Align icon vertically */
-  vertical-align: middle; /* Align icon with text */
+ 
   margin-top: 5px;
 }
 
