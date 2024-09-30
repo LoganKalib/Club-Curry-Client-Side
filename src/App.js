@@ -16,6 +16,7 @@ import OrderHistorySection from './components/Views/Customer/OrderHistorySection
 import ReviewSection from './components/Views/Customer/ReviewSection';
 import OrderManagement from './components/Views/GeneralEmployee/OrderManagement';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
 import './CSS/Cart.css';
@@ -25,26 +26,12 @@ import './CSS/Overlay.css';
 import './CSS/HomePage.css';
 import AdminDashboard from "./components/Views/Admin/AdminDashboard";
 
-const ADMIN_CREDENTIALS = {
-  username: 'admin@email.com',
-  password: 'admin123',
-};
-
-const DRIVER_CREDENTIALS = {
-  username: 'driver@email.com',
-  password: 'driver123',
-};
-
-const EMPLOYEE_CREDENTIALS = {
-  username: 'employee@email.com',
-  password: 'employee123',
-};
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isDriver, setIsDriver] = useState(false);
-  const [isEmployee, setIsEmployee] = useState(false); // Define isEmployee state
+  const [isEmployee, setIsEmployee] = useState(false);
+  const [isCustomer, setIsCustomer] = useState(false); // New state for Customer
   const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
@@ -55,32 +42,85 @@ function App() {
   const [orderHistory, setOrderHistory] = useState([]);
   const [reviews, setReviews] = useState([]);
 
-  const handleLogin = (userData) => {
-    if (userData.email === ADMIN_CREDENTIALS.username && userData.password === ADMIN_CREDENTIALS.password) {
-      setIsLoggedIn(true);
-      setIsAdmin(true);
-      setIsDriver(false);
-      setIsEmployee(false);
-      setUser(userData);
-    } else if (userData.email === DRIVER_CREDENTIALS.username && userData.password === DRIVER_CREDENTIALS.password) {
-      setIsLoggedIn(true);
-      setIsDriver(true);
-      setIsAdmin(false);
-      setIsEmployee(false);
-      setUser(userData);
-    } else if (userData.email === EMPLOYEE_CREDENTIALS.username && userData.password === EMPLOYEE_CREDENTIALS.password) {
-      setIsLoggedIn(true);
-      setIsEmployee(true);
-      setIsAdmin(false);
-      setIsDriver(false);
-      setUser(userData);
-    } else {
-      setIsLoggedIn(true);
-      setUser(userData);
-      setIsAdmin(false);
-      setIsDriver(false);
-      setIsEmployee(false);
+  const handleLogin = async (userData) => {
+    try {
+      // Try logging in as Admin
+      let response = await axios.post('http://localhost:8080/ClubCurry/admin/login', {
+        username: userData.email,
+        password: userData.password,
+      });
+
+      if (response.status === 200 && response.data) {
+        setIsLoggedIn(true);
+        setIsAdmin(true);
+        setUser(userData);
+        localStorage.setItem('token', response.data); // Store JWT
+        setShowLogin(false);
+        return;
+      }
+    } catch (error) {
+      console.log('Admin login failed. Trying Driver...');
     }
+
+    try {
+      // Try logging in as Driver
+      let response = await axios.post('http://localhost:8080/ClubCurry/driver/login', {
+        username: userData.email,
+        password: userData.password,
+      });
+
+      if (response.status === 200 && response.data) {
+        setIsLoggedIn(true);
+        setIsDriver(true);
+        setUser(userData);
+        localStorage.setItem('token', response.data); // Store JWT
+        setShowLogin(false);
+        return;
+      }
+    } catch (error) {
+      console.log('Driver login failed. Trying Employee...');
+    }
+
+    try {
+      // Try logging in as Employee
+      let response = await axios.post('http://localhost:8080/ClubCurry/employee/login', {
+        username: userData.email,
+        password: userData.password,
+      });
+
+      if (response.status === 200 && response.data) {
+        setIsLoggedIn(true);
+        setIsEmployee(true);
+        setUser(userData);
+        localStorage.setItem('token', response.data); // Store JWT
+        setShowLogin(false);
+        return;
+      }
+    } catch (error) {
+      console.log('Employee login failed. Trying Customer...');
+    }
+
+    try {
+      // Finally, try logging in as Customer
+      let response = await axios.post('http://localhost:8080/ClubCurry/customer/login', {
+        username: userData.email,
+        password: userData.password,
+      });
+
+      if (response.status === 200 && response.data) {
+        setIsLoggedIn(true);
+        setIsCustomer(true); // Set state for Customer role
+        setUser(userData);
+        localStorage.setItem('token', response.data); // Store JWT
+        setShowLogin(false);
+        return;
+      }
+    } catch (error) {
+      console.log('Customer login failed. Invalid credentials.');
+    }
+
+    // If we get here, all login attempts failed
+    alert('Invalid username or password');
     setShowLogin(false);
   };
 
@@ -95,7 +135,9 @@ function App() {
     setIsLoggedIn(false);
     setIsAdmin(false);
     setIsDriver(false);
-    setIsEmployee(false); // Ensure all states are reset
+    setIsEmployee(false);
+    setIsCustomer(false); // Reset customer state on logout
+    localStorage.removeItem('token'); // Optional: Clear token on logout
   };
 
   const addToCart = (item) => {
@@ -126,8 +168,8 @@ function App() {
 
   const handleCheckout = () => {
     alert('Checkout is not yet implemented.');
-    setOrderHistory([...orderHistory, ...cartItems]); // Simulate order history
-    setCartItems([]); // Clear cart after checkout
+    setOrderHistory([...orderHistory, ...cartItems]);
+    setCartItems([]);
   };
 
   const handleBooking = (bookingData) => {
@@ -162,10 +204,10 @@ function App() {
                   isDriver ? (
                     <DriverDashboardContainer onLogout={handleLogout} />
                   ) : isAdmin ? (
-                    <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
+                    <AdminDashboard />
                   ) : isEmployee ? (
-                    <Employee /> // Employee dashboard route
-                  ) : (
+                    <Employee />
+                  ) : isCustomer ? ( // Check if the user is a Customer
                     <CustomerDashboard
                       cartItems={cartItems}
                       menuItems={menuItems}
@@ -179,6 +221,8 @@ function App() {
                       customerReviews={reviews.filter(review => review.customerId === user.id)}
                       onAddReview={handleAddReview}
                     />
+                  ) : (
+                    <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
                   )
                 ) : (
                   <HomePage setShowBooking={setShowBooking} showBooking={showBooking} />
@@ -186,17 +230,12 @@ function App() {
               }
             />
             <Route path="/menu" element={<Menu addToCart={addToCart} items={menuItems} />} />
-            <Route
-              path="/admin"
-              element={isAdmin ? <AdminDashboard initialItems={menuItems} onUpdateItems={setMenuItems} /> : <div>Access Denied</div>}
-            />
+            <Route path="/admin" element={isAdmin ? <AdminDashboard /> : <div>Access Denied</div>} />
             <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
             <Route path="/employee" element={isEmployee ? <Employee /> : <div>Access Denied</div>} />
             <Route path="/order-history" element={<OrderHistorySection orders={orderHistory} />} />
             <Route path="/reviews" element={<ReviewSection existingReviews={reviews} onAddReview={handleAddReview} />} />
-            <Route path="/employee" element={<Employee />} />
             <Route path="/orderManagement" element={<OrderManagement />} />
-
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>
         </Container>
