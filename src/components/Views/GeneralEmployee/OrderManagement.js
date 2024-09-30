@@ -1,243 +1,250 @@
 import React, { useState } from 'react';
-import EmployeeHeader from './EmployeeHeader';
+import EmployeeNavbar from './EmployeeNavbar'; // Import EmployeeNavbar
 import './OrderManagement.css';
 
-// Mock data for demonstration purposes
-const deliveryData = [
-    { id: 1, deliveryId: 'D001', name: 'John Doe', deliveryTime: '12:00', address1: '123 Main St', address2: '', eta: '15 mins', status: 'Pending' },
-    // Add more data as needed
-];
+// Modal component for viewing details
+const OrdersModal = ({ order, onClose }) => {
+  if (!order) return null; // Don't render if no order is selected
 
-const bookingData = [
-    { id: 1, bookingId: 'B001', name: 'Jane Doe', date: '2024-09-01', time: '19:00', tableNumber: '12', sectionNumber: 'A', status: 'Pending', bookedBy: 'Employee 1' },
-    // Add more data as needed
-];
+  return (
+    <div className="orders-modal-overlay">
+      <div className="orders-modal">
+        <h2>Order Details</h2>
+        <div className="modal-content">
+          <p><strong>Order ID:</strong> {order.orderId}</p>
+          <p><strong>Payment Type:</strong> {order.paymentMethod}</p>
+          <p><strong>Customer Name:</strong> {order.customerName ? order.customerName : 'Walk-in Customer'}</p>
+
+          <h3>Cart Items</h3>
+          {order.cart && order.cart.items.length > 0 ? (
+            <ul>
+              {order.cart.items.map((item, index) => (
+                <li key={index}>
+                  <p><strong>{item.menuItemName}</strong> x {item.quantity}</p>
+                  <p>Price: {item.price}</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No items in cart</p>
+          )}
+        </div>
+        <button className="modal-close-btn" onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+};
 
 const OrderManagement = () => {
-    const [showDeliveryModal, setShowDeliveryModal] = useState(false);
-    const [selectedDeliveryOrder, setSelectedDeliveryOrder] = useState(null);
-    const [showBookingModal, setShowBookingModal] = useState(false);
-    const [selectedBooking, setSelectedBooking] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [orders, setOrders] = useState([
+    { id: 1, orderId: '12345', date: '2024-09-30', time: '12:30 PM', collectionType: 'Dine-in', customerName: 'John Doe', status: 'Pending', paymentMethod: 'Cash', cart: { items: [{ menuItemName: 'Burger', quantity: 2, price: '50.00' }, { menuItemName: 'Fries', quantity: 1, price: '20.00' }] } },
+    { id: 2, orderId: '23456', deliveryId: 'D001', date: '2024-09-30', time: '1:00 PM', collectionType: 'Delivery', customerName: 'Jane Smith', status: 'In Transit', paymentMethod: 'Card', cart: { items: [{ menuItemName: 'Pizza', quantity: 1, price: '100.00' }] } },
+    { id: 3, orderId: '34567', date: '2024-09-30', time: '1:30 PM', collectionType: 'Pickup', customerName: null, status: 'Pending', paymentMethod: 'Cash', cart: { items: [{ menuItemName: 'Salad', quantity: 1, price: '30.00' }] } },
+    { id: 4, orderId: '45678', deliveryId: 'D002', date: '2024-09-30', time: '2:00 PM', collectionType: 'Delivery', customerName: 'Bob Brown', status: 'Cancelled', paymentMethod: 'Card', cart: { items: [{ menuItemName: 'Soda', quantity: 1, price: '15.00' }] } },
+    { id: 5, orderId: '56789', date: '2024-09-30', time: '2:30 PM', collectionType: 'Dine-in', customerName: null, status: 'Preparing', paymentMethod: 'Card', cart: { items: [{ menuItemName: 'Steak', quantity: 1, price: '150.00' }] } },
+    { id: 6, orderId: '67890', date: '2024-09-30', time: '3:00 PM', collectionType: 'Pickup', customerName: 'Alice Green', status: 'Completed', paymentMethod: 'Cash', cart: { items: [{ menuItemName: 'Sandwich', quantity: 1, price: '40.00' }] } },
+  ]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
-    // Handlers for delivery modal
-    const handleEditDeliveryOrder = (order) => {
-        setSelectedDeliveryOrder(order);
-        setShowDeliveryModal(true);
-    };
-
-    const handleCloseDeliveryModal = () => {
-        setShowDeliveryModal(false);
-        setSelectedDeliveryOrder(null);
-    };
-
-    const handleSaveDelivery = () => {
-        // Axios ingestion will go here for delivery
-        console.log('Delivery order saved:', selectedDeliveryOrder);
-        handleCloseDeliveryModal();
-    };
-
-    const handleDeliveryChange = (e) => {
-        const { name, value } = e.target;
-        setSelectedDeliveryOrder(prevOrder => ({
-            ...prevOrder,
-            [name]: value,
-        }));
-    };
-
-    // Handlers for booking modal
-    const handleEditBooking = (booking) => {
-        setSelectedBooking(booking);
-        setShowBookingModal(true);
-    };
-
-    const handleCloseBookingModal = () => {
-        setShowBookingModal(false);
-        setSelectedBooking(null);
-    };
-
-    const handleSaveBooking = () => {
-        // Axios ingestion will go here for booking
-        console.log('Booking saved:', selectedBooking);
-        handleCloseBookingModal();
-    };
-
-    const handleBookingChange = (e) => {
-        const { name, value } = e.target;
-        setSelectedBooking(prevBooking => ({
-            ...prevBooking,
-            [name]: value,
-        }));
-    };
-
-    return (
-        <div className="order-management-container">
-            <EmployeeHeader isLoggedIn={true} onLogout={() => console.log('Logged out')} />
-            <h1 className="order-header">Order Management</h1>
-
-            <div className="order-container">
-                <h2>Delivery</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Delivery ID</th>
-                            <th>Order ID</th>
-                            <th>Customer Name</th>
-                            <th>Delivery Time</th>
-                            <th>Address 1</th>
-                            <th>Address 2</th>
-                            <th>ETA</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {deliveryData.map(order => (
-                            <tr key={order.id}>
-                                <td>{order.deliveryId}</td>
-                                <td>{order.id}</td>
-                                <td>{order.name}</td>
-                                <td>{order.deliveryTime}</td>
-                                <td>{order.address1}</td>
-                                <td>{order.address2}</td>
-                                <td>{order.eta}</td>
-                                <td>{order.status}</td>
-                                <td><button className="OM-btn-edit" onClick={() => handleEditDeliveryOrder(order)}>Edit Order</button></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-            {showDeliveryModal && (
-                <div className="OM-modal">
-                    <div className="OM-modal-content">
-                        <span className="OM-close" onClick={handleCloseDeliveryModal}>&times;</span>
-                        <h2>Edit Delivery Order</h2>
-                        <div className="OM-form-group">
-                            <label>Delivery ID:</label>
-                            <input type="text" value={selectedDeliveryOrder.deliveryId} readOnly />
-                        </div>
-                        <div className="OM-form-group">
-                            <label>Order ID:</label>
-                            <input type="text" value={selectedDeliveryOrder.id} readOnly />
-                        </div>
-                        <div className="OM-form-group">
-                            <label>Customer Name:</label>
-                            <input type="text" value={selectedDeliveryOrder.name} onChange={handleDeliveryChange} name="name" />
-                        </div>
-                        <div className="OM-form-group">
-                            <label>Delivery Time:</label>
-                            <input type="time" value={selectedDeliveryOrder.deliveryTime} onChange={handleDeliveryChange} name="deliveryTime" />
-                        </div>
-                        <div className="OM-form-group">
-                            <label>Address 1:</label>
-                            <input type="text" value={selectedDeliveryOrder.address1} onChange={handleDeliveryChange} name="address1" />
-                        </div>
-                        <div className="OM-form-group">
-                            <label>Address 2:</label>
-                            <input type="text" value={selectedDeliveryOrder.address2} onChange={handleDeliveryChange} name="address2" />
-                        </div>
-                        <div className="OM-form-group">
-                            <label>ETA:</label>
-                            <select value={selectedDeliveryOrder.eta} onChange={handleDeliveryChange} name="eta">
-                                <option value="15 mins">15 mins</option>
-                                <option value="30 mins">30 mins</option>
-                                <option value="45 mins">45 mins</option>
-                                <option value="55 mins">55 mins</option>
-                            </select>
-                        </div>
-                        <div className="OM-form-group">
-                            <label>Status:</label>
-                            <select value={selectedDeliveryOrder.status} onChange={handleDeliveryChange} name="status">
-                                <option value="Pending">Pending</option>
-                                <option value="Transit">Transit</option>
-                                <option value="Delivered">Delivered</option>
-                            </select>
-                        </div>
-                        <button className="OM-btn-save" onClick={handleSaveDelivery}>Save</button>
-                    </div>
-                </div>
-            )}
-
-            <div className="order-container">
-                <h2>Bookings</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Booking ID</th>
-                            <th>Customer Name</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Table Number</th>
-                            <th>Section Number</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {bookingData.map(booking => (
-                            <tr key={booking.id}>
-                                <td>{booking.bookingId}</td>
-                                <td>{booking.name}</td>
-                                <td>{booking.date}</td>
-                                <td>{booking.time}</td>
-                                <td>{booking.tableNumber}</td>
-                                <td>{booking.sectionNumber}</td>
-                                <td>{booking.status}</td>
-                                <td><button className="book-btn-edit" onClick={() => handleEditBooking(booking)}>Edit Booking</button></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-            {showBookingModal && (
-                <div className="book-modal">
-                    <div className="book-modal-content">
-                        <span className="book-close" onClick={handleCloseBookingModal}>&times;</span>
-                        <h2>Edit Booking</h2>
-                        <div className="book-form-group">
-                            <label>Booking ID:</label>
-                            <input type="text" value={selectedBooking.bookingId} readOnly />
-                        </div>
-                        <div className="book-form-group">
-                            <label>Customer Name:</label>
-                            <input type="text" value={selectedBooking.name} onChange={handleBookingChange} name="name" />
-                        </div>
-                        <div className="book-form-group">
-                            <label>Date:</label>
-                            <input type="date" value={selectedBooking.date} onChange={handleBookingChange} name="date" />
-                        </div>
-                        <div className="book-form-group">
-                            <label>Time:</label>
-                            <input type="time" value={selectedBooking.time} onChange={handleBookingChange} name="time" />
-                        </div>
-                        <div className="book-form-group">
-                            <label>Table Number:</label>
-                            <input type="text" value={selectedBooking.tableNumber} onChange={handleBookingChange} name="tableNumber" />
-                        </div>
-                        <div className="book-form-group">
-                            <label>Section Number:</label>
-                            <input type="text" value={selectedBooking.sectionNumber} onChange={handleBookingChange} name="sectionNumber" />
-                        </div>
-                        <div className="book-form-group">
-                            <label>Booked By:</label>
-                            <input type="text" value={selectedBooking.bookedBy} readOnly />
-                        </div>
-                        <div className="book-form-group">
-                            <label>Status:</label>
-                            <select value={selectedBooking.status} onChange={handleBookingChange} name="status">
-                                <option value="Pending">Pending</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Denied">Denied</option>
-                            </select>
-                        </div>
-                        <button className="book-btn-save" onClick={handleSaveBooking}>Save</button>
-                    </div>
-                </div>
-            )}
-        </div>
+  const handleStatusChange = (orderId, newStatus) => {
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order.id === orderId && order.status !== 'Cancelled'
+          ? { ...order, status: newStatus }
+          : order
+      )
     );
+  };
+
+  const handleViewDetails = (order) => {
+    setSelectedOrder(order); // Set the selected order to be viewed in modal
+  };
+
+  const handleCloseModal = () => {
+    setSelectedOrder(null); // Close the modal
+  };
+
+  const getStatusOptions = (collectionType) => {
+    if (collectionType === 'Delivery') {
+      return ['Pending', 'In Transit', 'Delivered', 'Cancelled'];
+    } else if (collectionType === 'Dine-in') {
+      return ['Pending', 'Preparing', 'Completed', 'Cancelled'];
+    } else {
+      return ['Pending', 'Ready for Pickup', 'Completed', 'Cancelled'];
+    }
+  };
+
+  const filteredOrders = orders.filter(order =>
+    order.orderId.includes(searchQuery) ||
+    (order.customerName && order.customerName.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+
+  return (
+    <div className="order-management">
+      <EmployeeNavbar /> {/* Add the EmployeeNavbar component */}
+      <h2>Order Management</h2>
+      <input
+        type="text"
+        placeholder="Search by Order ID or Customer Name"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="search-bar"
+      />
+
+      {/* Dine-in Orders Table */}
+      <div className="table-container">
+        <h3>Dine-in Orders</h3>
+        <table className="order-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Customer</th>
+              <th>Payment Type</th>
+              <th>Status</th>
+              <th>Actions</th> {/* New column for actions */}
+            </tr>
+          </thead>
+          <tbody>
+            {filteredOrders
+              .filter((order) => order.collectionType === 'Dine-in')
+              .map((order) => (
+                <tr key={order.id}>
+                  <td>{order.orderId}</td>
+                  <td>{order.date}</td>
+                  <td>{order.time}</td>
+                  <td>{order.customerName ? order.customerName : 'Walk-in Customer'}</td>
+                  <td>{order.paymentMethod}</td>
+                  <td>
+                    <select
+                      value={order.status}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                      disabled={order.status === 'Cancelled'}
+                    >
+                      {getStatusOptions(order.collectionType).map((statusOption) => (
+                        <option key={statusOption} value={statusOption}>
+                          {statusOption}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                  <td>
+                    <button onClick={() => handleViewDetails(order)}>
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Delivery Orders Table */}
+      <div className="table-container">
+        <h3>Delivery Orders</h3>
+        <table className="order-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Delivery ID</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Customer</th>
+              <th>Payment Type</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredOrders
+              .filter((order) => order.collectionType === 'Delivery')
+              .map((order) => (
+                <tr key={order.id}>
+                  <td>{order.orderId}</td>
+                  <td>{order.deliveryId}</td>
+                  <td>{order.date}</td>
+                  <td>{order.time}</td>
+                  <td>{order.customerName}</td>
+                  <td>{order.paymentMethod}</td>
+                  <td>
+                    <select
+                      value={order.status}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                      disabled={order.status === 'Cancelled'}
+                    >
+                      {getStatusOptions(order.collectionType).map((statusOption) => (
+                        <option key={statusOption} value={statusOption}>
+                          {statusOption}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                  <td>
+                    <button onClick={() => handleViewDetails(order)}>
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pickup Orders Table */}
+      <div className="table-container">
+        <h3>Pickup Orders</h3>
+        <table className="order-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Customer</th>
+              <th>Payment Type</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredOrders
+              .filter((order) => order.collectionType === 'Pickup')
+              .map((order) => (
+                <tr key={order.id}>
+                  <td>{order.orderId}</td>
+                  <td>{order.date}</td>
+                  <td>{order.time}</td>
+                  <td>{order.customerName ? order.customerName : 'Walk-in Customer'}</td>
+                  <td>{order.paymentMethod}</td>
+                  <td>
+                    <select
+                      value={order.status}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                      disabled={order.status === 'Cancelled'}
+                    >
+                      {getStatusOptions(order.collectionType).map((statusOption) => (
+                        <option key={statusOption} value={statusOption}>
+                          {statusOption}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                  <td>
+                    <button onClick={() => handleViewDetails(order)}>
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Modal for viewing order details */}
+      <OrdersModal order={selectedOrder} onClose={handleCloseModal} />
+    </div>
+  );
 };
 
 export default OrderManagement;

@@ -11,11 +11,13 @@ const Review = ({ review }) => (
   <div className="review-card-custom">
     <div className="avatar-wrapper">
       <img
-        src="https://via.placeholder.com/80x80.png?text=Avatar" // Default placeholder image
-        alt="Customer Avatar"
+  src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" // New Flaticon image
+  alt="Customer Avatar"
         className="customer-avatar"
       />
     </div>
+
+   
    
     <h3 className="review-author">{review.customer.name}</h3>
 {/* Horizontal line below the customer name */}
