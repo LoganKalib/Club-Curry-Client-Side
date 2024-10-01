@@ -17,6 +17,14 @@ import ReviewSection from './components/Views/Customer/ReviewSection';
 import OrderManagement from './components/Views/GeneralEmployee/OrderManagement';
 import EmployeeLayout from './components/Views/GeneralEmployee/EmployeeLayout';
 import Bookings from './components/Views/GeneralEmployee/Bookings';
+import Starters from './components/Views/GeneralEmployee/Menu/Starters';
+import Specials from './components/Views/GeneralEmployee/Menu/Mains';
+import Drinks from './components/Views/GeneralEmployee/Menu/Drinks';
+import Desserts from './components/Views/GeneralEmployee/Menu/Desserts';
+import Curries from './components/Views/GeneralEmployee/Menu/Curries';
+import Mains from './components/Views/GeneralEmployee/Menu/Mains';
+
+
 import { v4 as uuidv4 } from 'uuid';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
@@ -203,6 +211,12 @@ function App() {
                   element={isEmployee ? <Employee /> : <div>Access Denied</div>} 
                />
                  <Route path="/orderManagement" element={<OrderManagement />} />
+                 <Route path="/drinks" element={<Drinks />} />
+                <Route path="/starters" element={<Starters />} />
+                <Route path="/mains" element={<Mains />} />
+                <Route path="/curries" element={<Curries />} />
+              <Route path="/desserts" element={<Desserts />} />
+              <Route path="/specials" element={<Specials />} />
                  <Route path="/bookings" element={<Bookings />} />
         </Route>
             <Route path="*" element={<div>Page Not Found</div>} />

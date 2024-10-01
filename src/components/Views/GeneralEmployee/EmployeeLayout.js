@@ -9,9 +9,14 @@ const EmployeeLayout = ({ isLoggedIn, onLogout }) => { // Accept props
       <EmployeeHeader isLoggedIn={isLoggedIn} onLogout={onLogout} /> {/* Pass props */}
       <nav className="side-nav">
         <ul>
-          <li><a href="/new-order"><i className="fas fa-plus-circle"></i> New Order</a></li>
-          <li><a href="/orderManagement"><i className="fas fa-clock"></i> Order Management</a></li>
-          <li><a href="/bookings"><i className="fas fa-calendar-alt"></i> Bookings</a></li>
+          <li><a href="/orderManagement"><i className="fas fa-receipt"></i> Order Management</a></li>
+          <li><a href="/employee"><i className="fas fa-th-list"></i> All Categories</a></li>
+          <li><a href="/drinks"><i className="fas fa-glass-cheers"></i> Drinks</a></li>
+          <li><a href="/starters"><i className="fas fa-utensils"></i> Starters</a></li>
+          <li><a href="/mains"><i className="fas fa-drumstick-bite"></i> Mains</a></li>
+          <li><a href="/curries"><i className="fas fa-pepper-hot"></i> Curries</a></li>
+          <li><a href="/desserts"><i className="fas fa-ice-cream"></i> Desserts</a></li>
+          <li><a href="/specials"><i className="fas fa-star"></i> Specials</a></li>
         </ul>
       </nav>
       <div className="employee-main-content">
