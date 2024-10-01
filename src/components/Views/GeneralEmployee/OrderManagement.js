@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import EmployeeNavbar from './EmployeeNavbar'; // Import EmployeeNavbar
 import './OrderManagement.css';
 
 // Modal component for viewing details
@@ -82,7 +81,7 @@ const OrderManagement = () => {
 
   return (
     <div className="order-management">
-      <EmployeeNavbar /> {/* Add the EmployeeNavbar component */}
+     
       <h2>Order Management</h2>
       <input
         type="text"

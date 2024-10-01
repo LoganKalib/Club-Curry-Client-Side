@@ -7,7 +7,7 @@
     position: fixed;
     height: 100vh;
     box-sizing: border-box;
-    border-right: 2px solid #333; /* Border on the right side of the side-nav */
+    border-right: 1px solid #dedede; /* Border on the right side of the side-nav */
     display: flex;
     flex-direction: column; /* Stack items vertically */
 }
