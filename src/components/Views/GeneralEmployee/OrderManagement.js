@@ -117,7 +117,7 @@ const OrderManagement = () => {
                   <td>{order.customerName ? order.customerName : 'Walk-in Customer'}</td>
                   <td>{order.paymentMethod}</td>
                   <td>
-                    <select
+                    <select class="status-dropdown"
                       value={order.status}
                       onChange={(e) => handleStatusChange(order.id, e.target.value)}
                       disabled={order.status === 'Cancelled'}
@@ -129,8 +129,8 @@ const OrderManagement = () => {
                       ))}
                     </select>
                   </td>
-                  <td>
-                    <button onClick={() => handleViewDetails(order)}>
+                  <td class="action-cell">
+                    <button onClick={() => handleViewDetails(order)} class="btn-view-details">
                       View Details
                     </button>
                   </td>
@@ -180,8 +180,8 @@ const OrderManagement = () => {
                       ))}
                     </select>
                   </td>
-                  <td>
-                    <button onClick={() => handleViewDetails(order)}>
+                  <td class="action-cell">
+                    <button onClick={() => handleViewDetails(order)} class="btn-view-details">
                       View Details
                     </button>
                   </td>
@@ -229,8 +229,8 @@ const OrderManagement = () => {
                       ))}
                     </select>
                   </td>
-                  <td>
-                    <button onClick={() => handleViewDetails(order)}>
+                  <td class="action-cell">
+                    <button onClick={() => handleViewDetails(order)} class="btn-view-details">
                       View Details
                     </button>
                   </td>
