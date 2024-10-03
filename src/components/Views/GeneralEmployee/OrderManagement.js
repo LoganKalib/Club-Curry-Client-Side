@@ -20,7 +20,7 @@ const OrdersModal = ({ order, onClose }) => {
               {order.cart.items.map((item, index) => (
                 <li key={index}>
                   <p><strong>{item.menuItemName}</strong> x {item.quantity}</p>
-                  <p>Price: {item.price}</p>
+                  <p>Price: R {item.price}</p>
                 </li>
               ))}
             </ul>
@@ -82,7 +82,8 @@ const OrderManagement = () => {
   return (
     <div className="order-management">
      
-      <h2>Order Management</h2>
+      <h2 id="OM-header">Order Management</h2>
+
       <input
         type="text"
         placeholder="Search by Order ID or Customer Name"
@@ -103,7 +104,7 @@ const OrderManagement = () => {
               <th>Customer</th>
               <th>Payment Type</th>
               <th>Status</th>
-              <th>Actions</th> {/* New column for actions */}
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>

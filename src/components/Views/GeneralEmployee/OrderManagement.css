@@ -6,14 +6,19 @@
     margin-left: 130px;
   }
   
-  .order-header {
-    color: #000;
+  #OM-header {
+    color: #fff;
+    font-size: 3em;
+    background-color:rgb(194, 48, 63);
+    border-radius: 10px;
+    margin-bottom: 20px;
   }
 
   .search-bar {
     margin-bottom: 20px;
     padding: 10px;
-    width: 90%;
+    width: 100%;
+    max-width: 600px;
     border-radius: 10px;
     font-size: 16px;
   }
