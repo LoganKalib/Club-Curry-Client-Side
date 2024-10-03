@@ -1,12 +1,34 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import EmployeeHeader from './EmployeeHeader'; // Make sure to import EmployeeHeader
+import React, { useContext } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import EmployeeHeader from './EmployeeHeader'; 
+import OrderSummary from './OrderSummary'; 
+import OrderContext from './OrderContext';
 import './Employee.css';
 
-const EmployeeLayout = ({ isLoggedIn, onLogout }) => { // Accept props
+const EmployeeLayout = ({ isLoggedIn, onLogout }) => {
+  // Correctly use useContext to access OrderContext
+  const { orderSummary, setOrderSummary } = useContext(OrderContext); 
+
+  const addToOrder = (product) => {
+    const existingItem = orderSummary.find(item => item.id === product.id);
+    if (existingItem) {
+      existingItem.quantity += 1; // Increase quantity if already in the order
+      setOrderSummary([...orderSummary]); // Update the orderSummary state
+    } else {
+      setOrderSummary([...orderSummary, { ...product, quantity: 1 }]); // Add new item
+    }
+  };
+
+  const onSubmitOrder = () => {
+    setOrderSummary([]); // Clear the order summary
+  };
+
+  const location = useLocation(); 
+  const showOrderSummary = !['/orderManagement', '/employee'].includes(location.pathname);
+
   return (
     <div className="employee-container">
-      <EmployeeHeader isLoggedIn={isLoggedIn} onLogout={onLogout} /> {/* Pass props */}
+      <EmployeeHeader isLoggedIn={isLoggedIn} onLogout={onLogout} />
       <nav className="side-nav">
         <ul>
           <li><a href="/orderManagement"><i className="fas fa-receipt"></i> Order Management</a></li>
@@ -20,9 +42,9 @@ const EmployeeLayout = ({ isLoggedIn, onLogout }) => { // Accept props
         </ul>
       </nav>
       <div className="employee-main-content">
-        {/* This is where the specific page content will be rendered */}
-        <Outlet />
+        <Outlet context={{ addToOrder }} /> {/* Only pass addToOrder */}
       </div>
+      {showOrderSummary && <OrderSummary summary={orderSummary} onSubmitOrder={onSubmitOrder} />}
     </div>
   );
 };

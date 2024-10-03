@@ -34,6 +34,7 @@ import './CSS/Footer.css';
 import './CSS/Overlay.css';
 import './CSS/HomePage.css';
 import AdminDashboard from "./components/Views/Admin/AdminDashboard";
+import { OrderProvider } from './components/Views/GeneralEmployee/OrderContext';
 
 const ADMIN_CREDENTIALS = {
   username: 'admin@email.com',
@@ -150,6 +151,7 @@ function App() {
   };
 
   return (
+    <OrderProvider> {/* Wrap application with OrderProvider */}
     <Router>
       <div className="App">
         {!isDriver && (
@@ -215,8 +217,8 @@ function App() {
                 <Route path="/starters" element={<Starters />} />
                 <Route path="/mains" element={<Mains />} />
                 <Route path="/curries" element={<Curries />} />
-              <Route path="/desserts" element={<Desserts />} />
-              <Route path="/specials" element={<Specials />} />
+                <Route path="/desserts" element={<Desserts />} />
+                <Route path="/specials" element={<Specials />} />
                  <Route path="/bookings" element={<Bookings />} />
         </Route>
             <Route path="*" element={<div>Page Not Found</div>} />
@@ -247,7 +249,8 @@ function App() {
         />
       </div>
     </Router>
-  );
+    </OrderProvider> 
+      );
 }
 
 export default App;
