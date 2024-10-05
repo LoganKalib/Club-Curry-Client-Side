@@ -1,143 +1,190 @@
-.order-header {
+/* General styles */
+.order-management {
     padding: 20px;
-    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    width: 90%;
+    margin-left: 130px;
+  }
+  
+  #OM-header {
     color: #fff;
-    background-color: #962727;
+    font-size: 3em;
+    background-color:rgb(194, 48, 63);
     border-radius: 10px;
-}
-
-.order-management-container {
-    padding: 20px;
-    text-align: center;
-    margin-left: 0;
-}
-
-.order-container {
     margin-bottom: 20px;
-}
+  }
 
-.order-container th {
-    background-color: #0056b3;
-    color: #f4f4f4;
-}
-
-.collection-container th {
-    background-color: #02832d;
-    color: #f4f4f4;
-}
-
-.booking-container th {
-    background-color: #83025c;
-    color: #f4f4f4;
-}
-
-table {
+  .search-bar {
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+  
+  /* Table styles */
+  .table-container {
+    margin-bottom: 30px;
+  }
+  
+  .order-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 0 auto;
-    margin-bottom: 30px;
-}
-
-th, td {
-    padding: 10px;
-    border: 1px solid #afafaf;
-    text-align: center;
-    background-color: #e6e6e6;
-    color: #000;
-}
-
-th {
-    background-color: #f4f4f4;
-    color: black;
-}
-
-.OM-btn-edit, .book-btn-edit {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    text-align: center;
-    border-radius: 5px;
-}
-
-.OM-btn-edit:hover, .book-btn-edit:hover {
-    background-color: #0056b3;
-}
-
-.OM-modal, .book-modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    overflow: hidden;
-}
-
-.OM-modal-content, .book-modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-    max-width: 90%;
-    text-align: left;
-    max-height: 80%;
-    overflow-y: auto;
-}
-
-.OM-close, .book-close {
-    float: right;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.OM-close:hover, .book-close:hover {
-    color: red;
-}
-
-.OM-form-group, .book-form-group {
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-.OM-form-group label, .book-form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.OM-form-group input, .OM-form-group select,
-.book-form-group input, .book-form-group select {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border-radius: 5px;
+  }
+  
+  .order-table th,
+  .order-table td {
     border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .order-table th {
+   background-color:  rgba(116, 28, 37);
+   color: #fff;
 }
 
-.OM-form-group input[type="date"], .OM-form-group input[type="time"],
-.book-form-group input[type="date"], .book-form-group input[type="time"],
-.OM-form-group select, .book-form-group select {
-    padding: 6px;
+td select {
+  width: 100%; 
+  padding: 10px 5px;
+  font-size: 16px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.OM-btn-save, .book-btn-save {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    text-align: center;
-    border-radius: 5px;
-    width: 100%;
+/* Border changes on hover/focus */
+td select:hover, 
+td select:focus {
+  border-color: #5884fc; 
+  box-shadow: 0 0 8px rgba(88, 132, 252, 0.3); 
+  outline: none;
+  cursor: pointer;
 }
 
-.OM-btn-save:hover, .book-btn-save:hover {
-    background-color: #218838;
+td select option {
+  padding: 10px;
+}
+
+.action-cell {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100%; 
+}
+
+.btn-view-details {
+  background-color: #5884fc; 
+  color: white;
+  padding: 10px 20px; 
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-view-details:hover {
+  background-color: #103a7e;
+}
+  
+/* General modal styles */
+.orders-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal container */
+.orders-modal {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal header */
+.orders-modal h2 {
+  margin: 0 0 15px;
+  font-size: 25px;
+  background-color:  rgba(116, 28, 37);
+  border-radius: 10px;
+  padding: 10px;
+  color: #ffffff
+}
+
+.orders-modal h3 {
+  margin: 0 0 15px;
+  font-size: 20px;
+  background-color:  rgba(116, 28, 37);
+  border-radius: 10px;
+  padding: 10px;
+  color: #ffffff
+}
+
+/* Modal content styles */
+.modal-content {
+  margin-bottom: 20px;
+  font-size: 16px; 
+  color: #555;
+}
+
+/* Modal item list */
+.modal-content ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.modal-content li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px; 
+  background-color: #f9f9f9;
+}
+
+/* Close button styles */
+.modal-close-btn {
+  background: #007bff;
+  color: white;
+  width: 150px;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+/* Close button hover effect */
+.modal-close-btn:hover {
+  background: #0056b3;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .orders-modal {
+      width: 50%;
+  }
+
+  .modal-content {
+      font-size: 14px;
+  }
+
+  .modal-close-btn {
+      padding: 8px 12px;
+  }
 }

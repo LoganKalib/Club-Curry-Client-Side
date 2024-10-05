@@ -15,6 +15,16 @@ import Employee from './components/Views/GeneralEmployee/Employee';
 import OrderHistorySection from './components/Views/Customer/OrderHistorySection';
 import ReviewSection from './components/Views/Customer/ReviewSection';
 import OrderManagement from './components/Views/GeneralEmployee/OrderManagement';
+import EmployeeLayout from './components/Views/GeneralEmployee/EmployeeLayout';
+import Bookings from './components/Views/GeneralEmployee/Bookings';
+import Starters from './components/Views/GeneralEmployee/Menu/Starters';
+import Specials from './components/Views/GeneralEmployee/Menu/Mains';
+import Drinks from './components/Views/GeneralEmployee/Menu/Drinks';
+import Desserts from './components/Views/GeneralEmployee/Menu/Desserts';
+import Curries from './components/Views/GeneralEmployee/Menu/Curries';
+import Mains from './components/Views/GeneralEmployee/Menu/Mains';
+
+
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -25,6 +35,22 @@ import './CSS/Footer.css';
 import './CSS/Overlay.css';
 import './CSS/HomePage.css';
 import AdminDashboard from "./components/Views/Admin/AdminDashboard";
+import { OrderProvider } from './components/Views/GeneralEmployee/OrderContext';
+
+const ADMIN_CREDENTIALS = {
+  username: 'admin@email.com',
+  password: 'admin123',
+};
+
+const DRIVER_CREDENTIALS = {
+  username: 'driver@email.com',
+  password: 'driver123',
+};
+
+const EMPLOYEE_CREDENTIALS = {
+  username: 'employee@email.com',
+  password: 'employee123',
+};
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -182,6 +208,7 @@ function App() {
   };
 
   return (
+    <OrderProvider> {/* Wrap application with OrderProvider */}
     <Router>
       <div className="App">
         {!isDriver && (
@@ -232,10 +259,24 @@ function App() {
             <Route path="/menu" element={<Menu addToCart={addToCart} items={menuItems} />} />
             <Route path="/admin" element={isAdmin ? <AdminDashboard /> : <div>Access Denied</div>} />
             <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
-            <Route path="/employee" element={isEmployee ? <Employee /> : <div>Access Denied</div>} />
             <Route path="/order-history" element={<OrderHistorySection orders={orderHistory} />} />
             <Route path="/reviews" element={<ReviewSection existingReviews={reviews} onAddReview={handleAddReview} />} />
-            <Route path="/orderManagement" element={<OrderManagement />} />
+            
+            <Route element={<EmployeeLayout isLoggedIn={isLoggedIn} onLogout={handleLogout} />}>
+          {/* Conditional rendering of the Employee route */}
+               <Route 
+                 path="/employee" 
+                  element={isEmployee ? <Employee /> : <div>Access Denied</div>} 
+               />
+                 <Route path="/orderManagement" element={<OrderManagement />} />
+                 <Route path="/drinks" element={<Drinks />} />
+                <Route path="/starters" element={<Starters />} />
+                <Route path="/mains" element={<Mains />} />
+                <Route path="/curries" element={<Curries />} />
+                <Route path="/desserts" element={<Desserts />} />
+                <Route path="/specials" element={<Specials />} />
+                 <Route path="/bookings" element={<Bookings />} />
+        </Route>
             <Route path="*" element={<div>Page Not Found</div>} />
           </Routes>
         </Container>
@@ -264,7 +305,8 @@ function App() {
         />
       </div>
     </Router>
-  );
+    </OrderProvider> 
+      );
 }
 
 export default App;

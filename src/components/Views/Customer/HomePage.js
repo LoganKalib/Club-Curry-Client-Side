@@ -69,7 +69,7 @@ function HomePage({ setShowBooking, showBooking }) {
 {/* Restaurant Details Section */}
 <div className="restaurant-details-section">
   <div className="details-left">
-  <h1>Visit Us</h1>
+  
     <div className="map-container">
       {/* Embed Google Maps */}
       
