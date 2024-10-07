@@ -119,26 +119,6 @@ function App() {
     localStorage.removeItem('token');
   };
 
-  useEffect(() => {
-    // Check for existing token and set initial state if it exists
-    const token = localStorage.getItem('token');
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      // Determine userRole based on the stored token
-      // Since you mentioned you don't derive role from the JWT, this is a placeholder
-      const existingRole = determineUserRoleBasedOnToken(token);
-      setIsLoggedIn(true);
-      setUserRole(existingRole);
-    }
-  }, []);
-
-  const determineUserRoleBasedOnToken = (token) => {
-    // Replace this with logic to determine the role based on which API returned the token
-    // A hypothetical implementation could be based on stored information or some other logic
-    // If you have logic based on previous conditions, implement it here, for now, it can return null
-    return null; // Placeholder: implement your logic here
-  };
-
   return (
     <OrderProvider>
       <Router>
