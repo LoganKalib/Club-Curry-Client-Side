@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import OrderContext from './OrderContext';
 import './OrderSummary.css'; // Assuming you have the CSS file for styling
 
-const OrderSummary = ({ summary, onSubmitOrder, addOrderToHistory }) => {
+const OrderSummary = ({ summary, onSubmitOrder }) => {
+    const { addToOrder } = useContext(OrderContext); // Use context to get addToOrder
     const [confirmationMessage, setConfirmationMessage] = useState('');
 
     // Calculate the total price of the order
@@ -16,7 +18,7 @@ const OrderSummary = ({ summary, onSubmitOrder, addOrderToHistory }) => {
         const orderNumber = Math.floor(Math.random() * 10000); // Random order number for demo purposes
 
         // Call the function to submit the order
-        addOrderToHistory({ orderNumber, summary, totalPrice });
+        addToOrder({ orderNumber, summary, totalPrice });
 
         // Set confirmation message
         setConfirmationMessage(`Order #${orderNumber} has been created.`);
