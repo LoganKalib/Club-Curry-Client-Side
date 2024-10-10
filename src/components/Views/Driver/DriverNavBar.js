@@ -13,11 +13,7 @@ const DriverNavbar = () => {
   return (
     <div className="driver-navbar">
       <Nav className="flex-column">
-        <Nav.Item>
-          <Link to="/driver/dashboard" className="nav-link">
-            Dashboard
-          </Link>
-        </Nav.Item>
+        
         <Nav.Item>
           <Link to="/driver/active-deliveries" className="driver-nav-link">
             Active Deliveries
