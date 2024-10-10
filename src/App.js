@@ -11,6 +11,7 @@ import SignupModal from './components/Common/SignupModal';
 import Cart from './components/Views/Customer/Cart';
 import BookingModal from './components/Common/BookingModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
+import DriverNavbar from './components/Views/Driver/DriverNavBar';
 import Employee from './components/Views/GeneralEmployee/Employee';
 import OrderHistorySection from './components/Views/Customer/OrderHistorySection';
 import ReviewSection from './components/Views/Customer/ReviewSection';
@@ -23,6 +24,7 @@ import Drinks from './components/Views/GeneralEmployee/Menu/Drinks';
 import Desserts from './components/Views/GeneralEmployee/Menu/Desserts';
 import Curries from './components/Views/GeneralEmployee/Menu/Curries';
 import Mains from './components/Views/GeneralEmployee/Menu/Mains';
+import DriverProfile from './components/Views/Driver/DriverProfile';
 
 
 import { v4 as uuidv4 } from 'uuid';
@@ -203,6 +205,7 @@ function App() {
               element={isAdmin ? <AdminDashboard initialItems={menuItems} onUpdateItems={setMenuItems} /> : <div>Access Denied</div>}
             />
             <Route path="/driver" element={<DriverDashboardContainer onLogout={handleLogout} />} />
+            <Route path="/driver/profile" element={<DriverProfile />} /> 
             <Route path="/order-history" element={<OrderHistorySection orders={orderHistory} />} />
             <Route path="/reviews" element={<ReviewSection existingReviews={reviews} onAddReview={handleAddReview} />} />
             
@@ -213,6 +216,7 @@ function App() {
                   element={isEmployee ? <Employee /> : <div>Access Denied</div>} 
                />
                  <Route path="/orderManagement" element={<OrderManagement />} />
+                 
                  <Route path="/drinks" element={<Drinks />} />
                 <Route path="/starters" element={<Starters />} />
                 <Route path="/mains" element={<Mains />} />

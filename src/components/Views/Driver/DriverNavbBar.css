@@ -1,40 +1,59 @@
-/* Navbar container */
+/* Style the driver navbar container */
 .driver-navbar {
-    width: 250px;
-    background-color: white; /* White background for the navbar */
-    height: 100vh;
+    margin-left: -12%;
+    width: 20%;
+    background-color: #fff;
+    padding: 20px;
     position: fixed;
-    top: 0;
-    left: 0;
+    height: 100vh;
+    box-sizing: border-box;
+    border-right: 1px solid #dedede; /* Border on the right side of the navbar */
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1rem;
-    color: black; /* Black text color */
+    flex-direction: column; /* Stack items vertically */
 }
 
-/* Navbar links styled as padded boxes */
+/* Remove default list styling for links */
+.driver-navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style the driver navbar links */
 .driver-nav-link {
-    color: black; /* Default link color is black */
-    background-color: white; /* Default background color is white */
-    padding: 1rem; /* Add padding to make it a box */
-    border-radius: 8px; /* Slightly rounded corners */
-    margin-bottom: 1rem; /* Space between each link */
-    text-align: center; /* Center the text */
-    text-decoration: none; /* Remove underline */
-    font-size: 1.1rem;
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: block;
+    text-decoration: none;
+    color: #741c25; /* Initial text color */
+    padding: 15px 50px; /* Add horizontal padding for space in front */
+    border: none; /* Remove border */
+    border-radius: 0; /* Remove rounded corners */
+    background: none; /* No background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add subtle shadow for shading effect */
+    margin-bottom: 10px; /* Space between items */
+   margin-top: 5px;
+    width: 80%; /* Span full width of the navbar */
+    text-align: center; /* Center align text */
+    transition: background-color 0.2s ease, color 0.3s ease; /* Smooth transition for hover effects */
 }
 
-/* Hover effect: pastel red background and maroon text */
+/* Hover effect for driver navbar links */
 .driver-nav-link:hover {
-    background-color: #FFB6B6; /* Pastel red background */
-    color: #800000; /* Maroon text */
+    color: #fff; /* White text color on hover */
+    background: rgba(116, 28, 37, 0.6); /* Darker background on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Darker shadow on hover for more pronounced shading */
 }
+
+/* Active link styling */
+.driver-nav-link.active {
+    color: #fff; /* White text color for active link */
+    background: rgba(116, 28, 37, 0.8); /* Slightly darker background for active link */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Consistent shadow for active link */
+}
+
 
 /* Driver profile section */
 .driver-profile {
+    margin-top: 230px;
     text-align: center;
     padding: 1rem 0;
     border-top: 1px solid #ccc;
@@ -52,3 +71,4 @@
     font-weight: bold;
     color: black; /* Black name color to match navbar */
 }
+
