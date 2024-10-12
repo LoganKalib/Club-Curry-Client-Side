@@ -1,0 +1,157 @@
+/* Background for entire dashboard */
+.customer-dashboard {
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #ebebed; /* Light background color similar to screenshot */
+    min-height: 100vh; /* Ensure it takes the full height of the screen */
+    min-width: 100%;
+    margin-bottom: 50px;
+  }
+  
+  /* Welcome Section */
+  .welcome-section {
+    text-align: center;
+    margin-bottom: 40px;
+    background-color: #ffffff; /* White background for the welcome section */
+    padding: 60px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; /* Center the content vertically */
+    align-items: center; /* Center the content horizontally */
+  }
+  
+  .welcome-section h2 {
+    font-size: 2.5rem;
+    color:  rgba(116, 28, 37, 1);;
+    margin-top: 10px; /* Reduce top margin to decrease space above */
+    margin-bottom: 20px;
+  }
+  
+ 
+  .welcome-section p {
+    font-size: 1.2rem;
+    color: #666; /* Subtle gray for description */
+  }
+  
+  .view-menu-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color:  rgba(116, 28, 37, 1);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-menu-btn:hover {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid  rgba(116, 28, 37, 1);
+    color:  rgba(116, 28, 37, 1);
+}
+  
+  /* Menu Section */
+  .menu-section {
+    margin-top: 40px;
+  }
+  
+  .menu-section h3 {
+    font-size: 2.5rem; /* Match the size of the "Welcome Back" heading */
+    font-weight: bold; /* Make it bold */
+    text-align: center;
+    margin-bottom: 30px;
+    color:  rgb(0, 0, 0);;
+    font-family: 'Arial', sans-serif; /* Match the font family */
+  }
+  
+  
+  /* Responsive grid for menu items - 3 per row */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 items per row */
+    gap: 20px;
+    justify-items: center;
+  }
+  
+  /* Menu Item Styles */
+  .menu-item {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex; /* Flexbox for side-by-side layout */
+    justify-content: space-between; /* Ensure space between text and image */
+    align-items: center; /* Vertically align text and image */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    
+  }
+  
+  .menu-item:hover {
+    transform: translateY(-5px); /* Adds hover effect */
+  }
+  
+  /* Menu item details (name, description, button) */
+  .menu-item-details {
+    flex: 1; /* Take remaining space after image */
+    text-align: left;
+  }
+  
+  /* Image inside the menu item */
+  .menu-item img {
+    max-width: 150px; /* Adjust image size */
+    border-radius: 10px;
+    height: 150px;
+    object-fit: cover;
+    margin-left: 20px; /* Add space between text and image */
+  }
+  
+  /* Menu Item Text */
+  .menu-item h4 {
+    font-size: 1.4rem;
+    margin: 0; /* Remove margin to align text with image */
+    font-weight: bold; /* Make the heading bold */
+
+  }
+  
+  .menu-item p {
+    font-size: 1rem;
+    color: #777;
+    margin: 10px 0 0;
+  }
+  
+  .order-now-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: rgba(116, 28, 37, 1);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .order-now-btn:hover {
+    background-color: rgba(116, 28, 37, 1);
+}
+  
+  /* Mobile responsiveness */
+  @media screen and (max-width: 768px) {
+    .menu-grid {
+      grid-template-columns: 1fr; /* Stack items on smaller screens */
+    }
+  
+    .menu-item {
+      flex-direction: column; /* Stack text and image vertically on mobile */
+      align-items: flex-start;
+    }
+  
+    .menu-item img {
+      margin: 20px 0 0 0; /* Add margin above the image */
+      height: auto;
+    }
+  }
+  

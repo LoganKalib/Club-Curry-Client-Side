@@ -3,7 +3,7 @@ import { Navbar, Button, Nav } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import '../Customer/CustomerCss/CustomerDashboardHeader.css'; // Import the CSS file for styling
 
-const CustomerDashboardHeader = ({ isLoggedIn, onLogout }) => {
+const CustomerDashboardHeader = ({ isLoggedIn, onLogout, onShowCart }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -15,25 +15,29 @@ const CustomerDashboardHeader = ({ isLoggedIn, onLogout }) => {
     <Navbar className="navbar" expand="lg" fixed="top">
       <Navbar.Brand href="#home">
         <img
-          src={`${process.env.PUBLIC_URL}/logo.png`} // Update to use your logo
+          src={`${process.env.PUBLIC_URL}/logo.png`} 
           alt="Club Curry Logo"
-          height="40" // Adjust the height according to your needs
+          height="40" 
         />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <NavLink to="/menu" className="nav-link">Menu</NavLink>
-          <NavLink to="/bookings" className="nav-link">Bookings</NavLink>
-          <NavLink to="/cart" className="nav-link">Cart</NavLink>
-          <NavLink to="/order-history" className="nav-link">Order History</NavLink>
-          <NavLink to="/reviews" className="nav-link">Reviews</NavLink>
+          <NavLink to="/customer-dashboard-menu" className="nav-link">Menu</NavLink>
+          <NavLink to="/customer-dashboard-bookings" className="nav-link">Bookings</NavLink>
+          <NavLink to="/customer-dashboard-order-history" className="nav-link">Order History</NavLink>
+          <NavLink to="/customer-dashboard-reviews" className="nav-link">Reviews</NavLink>
         </Nav>
         <div className="buttons-container">
-          {isLoggedIn && ( // Only show the logout button if the user is logged in
-            <Button variant="outline-light" onClick={handleLogout}>
-              Logout
-            </Button>
+          {isLoggedIn && ( // Only show buttons if logged in
+            <>
+              <Button variant="outline-light" onClick={onShowCart} className="ml-2">
+                <i className="fas fa-shopping-cart"></i> Cart
+              </Button>
+              <Button variant="outline-light" onClick={handleLogout} className="ml-2">
+                Logout
+              </Button>
+            </>
           )}
         </div>
       </Navbar.Collapse>

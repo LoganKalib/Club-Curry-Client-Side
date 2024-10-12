@@ -1,120 +1,96 @@
-import React, { useState } from 'react';
-import { Tab, Table } from 'react-bootstrap';
-import Cart from './Cart';
-import OrderHistorySection from './OrderHistorySection';
-import CustomerReviews from './CustomerReviews';
-import Menu from './Menu';
-import CustomerDashboardHeader from './CustomerDashboardHeader'; // Import the new header component
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import CustomerDashboardHeader from './CustomerDashboardHeader';
+import './CustomerCss/CustomerDashboard.css';
+import axios from 'axios';
 
-const CustomerDashboard = ({ 
-  menuItems, 
-  cartItems, 
-  onRemoveItem, 
-  onUpdateQuantity, 
-  onCheckout, 
-  isLoggedIn, 
-  onShowLogin, 
-  onShowSignup, 
-  bookings = [], 
-  customerId = null, 
-  addToCart, 
-  onLogout // Pass the onLogout function
+const CustomerDashboard = ({
+  cartItems,
+  onRemoveItem,
+  onUpdateQuantity,
+  onCheckout,
+  isLoggedIn,
+  onShowLogin,
+  onShowSignup,
+  bookings = [],
+  customerId = null,
+  addToCart,
+  onLogout,
+  customerName = 'Aaniquah', // Default name for the customer
 }) => {
-  const [activeKey, setActiveKey] = useState('bookings');
-  const [showCart, setShowCart] = useState(false);
-  const [existingReviews, setExistingReviews] = useState([]);
+  const [specials, setSpecials] = useState([]); // State to hold specials
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
+  const navigate = useNavigate(); // Initialize useNavigate
 
-  const handleShowCart = () => setShowCart(true);
-  const handleCloseCart = () => setShowCart(false);
+  // Fetch specials data on component mount
+  useEffect(() => {
+    const fetchSpecials = async () => {
+      setLoading(true); // Set loading to true when starting the fetch
+      try {
+        // Fetch all menu items
+        const response = await axios.get('http://localhost:8080/ClubCurry/menuItem/getAll');
+        
+        // Fetch all menus to get the ID for "Specials"
+        const menuResponse = await axios.get('http://localhost:8080/ClubCurry/menu/getAll');
+        const specialsMenu = menuResponse.data.find(menu => menu.name === "Specials");
+        
+        if (specialsMenu) {
+          // Filter items belonging to the "Specials" menu
+          const specialItems = response.data.filter(item => item.menuId.id === specialsMenu.id);
+          setSpecials(specialItems);
+        } else {
+          console.warn('Specials menu not found.');
+        }
+      } catch (error) {
+        setError('Error fetching specials. Please try again later.'); // Set error state
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
+    };
 
-  const customerBookings = customerId ? bookings.filter(booking => booking.customerId === customerId) : [];
+    fetchSpecials();
+  }, []);
 
-  const handleAddReview = (newReview) => {
-    setExistingReviews([...existingReviews, newReview]);
-  };
-
-  const handleEditReview = (updatedReview) => {
-    setExistingReviews(existingReviews.map(review =>
-      review.id === updatedReview.id ? updatedReview : review
-    ));
-  };
-
-  const handleDeleteReview = (reviewId) => {
-    setExistingReviews(existingReviews.filter(review => review.id !== reviewId));
+  const handleViewMenu = () => {
+    navigate('/menu'); // Navigate to the Menu route
   };
 
   return (
     <div className="customer-dashboard">
-      <CustomerDashboardHeader isLoggedIn={isLoggedIn} onLogout={onLogout} /> {/* Use the custom header here */}
-      
-      <h2>Your Dashboard</h2>
+      {/* Header Section */}
+      <CustomerDashboardHeader isLoggedIn={isLoggedIn} onLogout={onLogout} />
 
-      <Tab.Container id="left-tabs-example" activeKey={activeKey} onSelect={setActiveKey}>
-        <Tab.Content>
-          <Tab.Pane eventKey="bookings">
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Booking ID</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Guests</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {customerBookings.length > 0 ? (
-                  customerBookings.map((booking) => (
-                    <tr key={booking.id}>
-                      <td>{booking.id}</td>
-                      <td>{booking.date}</td>
-                      <td>{booking.time}</td>
-                      <td>{booking.guests}</td>
-                      <td>{booking.status}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="5">No bookings available</td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
-          </Tab.Pane>
+      {/* Welcome Section */}
+      <div className="welcome-section">
+        <h2>Welcome Back, {customerName}!</h2>
+        <p>Discover our delicious specials and manage your orders with ease.</p>
+        <button onClick={handleViewMenu} className="view-menu-btn">View Menu</button> {/* View Menu Button */}
+      </div>
 
-          <Tab.Pane eventKey="cart">
-            <Cart
-              cartItems={cartItems || []}
-              onRemoveItem={onRemoveItem}
-              onUpdateQuantity={onUpdateQuantity}
-              onCheckout={onCheckout}
-              showCart={showCart}
-              onCloseCart={handleCloseCart}
-              isLoggedIn={isLoggedIn}
-              onShowLogin={onShowLogin}
-              onShowSignup={onShowSignup}
-            />
-          </Tab.Pane>
-
-          <Tab.Pane eventKey="order-history">
-            <OrderHistorySection />
-          </Tab.Pane>
-
-          <Tab.Pane eventKey="reviews">
-            <CustomerReviews
-              existingReviews={existingReviews}
-              onAddReview={handleAddReview}
-              onEditReview={handleEditReview}
-              onDeleteReview={handleDeleteReview}
-              customerId={customerId}
-            />
-          </Tab.Pane>
-
-          <Tab.Pane eventKey="menu">
-            <Menu addToCart={addToCart} />
-          </Tab.Pane>
-        </Tab.Content>
-      </Tab.Container>
+      {/* Specials Section */}
+      <div className="menu-section">
+        <h3>ClubCurry Specials</h3>
+        <div className="menu-grid">
+          {loading && <p>Loading specials...</p>} {/* Loading Indicator */}
+          {error && <p className="error-message">{error}</p>} {/* Error Message */}
+          {specials.length > 0 ? (
+            specials.map(item => (
+              <div key={item.id} className="menu-item">
+                <div className="menu-item-details">
+                  <h4>{item.name}</h4>
+                  <p>{item.description}</p>
+                  <p>Price: R{item.price}</p>
+                  <button onClick={() => addToCart(item)} className="order-now-btn">Order Now</button>
+                </div>
+                <img src={`http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`} alt={item.name} className="menu-item-image" />
+              </div>
+            ))
+          ) : (
+            <p>No specials available at the moment. Please check back later!</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
