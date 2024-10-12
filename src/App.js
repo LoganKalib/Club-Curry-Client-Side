@@ -99,7 +99,7 @@ function App() {
         
         // Set the token and user state
         localStorage.setItem('token', response.data);
-        axios.defaults.headers.common['Authorization'] = response.data
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`
         setIsLoggedIn(true);
         setUserRole(role);
         setShowLogin(false);
