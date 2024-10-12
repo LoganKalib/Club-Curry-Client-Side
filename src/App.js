@@ -21,7 +21,7 @@ import './CSS/HomePage.css';
 import AdminDashboard from './components/Views/Admin/AdminDashboard';
 import { OrderProvider } from './components/Views/GeneralEmployee/OrderContext';
 
-function AppRoutes({ isLoggedIn, userRole }) {
+function AppRoutes({ isLoggedIn, userRole ,setIsLoggedIn}) {
   const navigate = useNavigate();
 
   // This effect will run when userRole changes
@@ -50,7 +50,7 @@ function AppRoutes({ isLoggedIn, userRole }) {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/customer-dashboard" element={isLoggedIn && userRole === 'customer' ? <CustomerDashboard /> : <div>Page Not Found</div>} />
+      <Route path="/customer-dashboard" element={isLoggedIn && userRole === 'customer' ? <CustomerDashboard isLoggedIn={isLoggedIn} onLogout={() => setIsLoggedIn(false)} /> : <div>Page Not Found</div>} />
       <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard /> : <div>Page Not Found</div>} />
       <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer /> : <div>Page Not Found</div>} />
       <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee /> : <div>Page Not Found</div>} />
@@ -134,6 +134,7 @@ function App() {
             <AppRoutes 
               isLoggedIn={isLoggedIn}
               userRole={userRole}
+              setIsLoggedIn={setIsLoggedIn}
             />
           </Container>
 
