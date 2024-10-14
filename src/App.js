@@ -53,10 +53,27 @@ function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/customer-dashboard" element={isLoggedIn && userRole === 'customer' ? <CustomerDashboard isLoggedIn={isLoggedIn} onLogout={onLogout} /> : <div>Page Not Found</div>} />
-      <Route path="/customer-dashboard-menu" element={<Menu />} />
-      <Route path="/customer-dashboard-order-history" element={<OrderHistorySection />} />
-      <Route path="/customer-dashboard-reviews" element={<CustomerReviews />} />
+      {isLoggedIn && userRole === 'customer' && (
+        <>
+          <Route
+            path="/customer-dashboard"
+            element={<CustomerDashboard isLoggedIn={isLoggedIn} onLogout={onLogout} />}
+          />
+                <Route path="/customer-dashboard-order-history"
+                 element={<OrderHistorySection />} />
+
+          <Route
+            path="/customer-dashboard-order-history"
+            element={<OrderHistorySection />}
+          />
+          <Route
+            path="/customer-dashboard-reviews"
+            element={<CustomerReviews />}
+          />
+        </>
+      )}
+
+     
       <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard /> : <div>Page Not Found</div>} />
       <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer /> : <div>Page Not Found</div>} />
       <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee /> : <div>Page Not Found</div>} />
