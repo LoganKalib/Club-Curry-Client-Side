@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Tab, Tabs, Row, Col, Card, Button, FormControl } from 'react-bootstrap';
 import DriverDashboardHeader from './DriverDashboardHeader';
 import DriverNavbar from './DriverNavBar';
+import DriverProfile from './DriverProfile'; // Import the DriverProfile component
 import './DriverDashboardContainer.css'; // Import the CSS file for styling
 
 const DriverDashboardContainer = ({ onLogout }) => {
@@ -80,8 +81,6 @@ const DriverDashboardContainer = ({ onLogout }) => {
   const totalNewOrders = outstandingDeliveries.length;
   const totalCompletedOrders = deliveredDeliveries.length;
 
- 
-
   return (
     <div className="driver-dashboard-container">
       <DriverDashboardHeader isLoggedIn={true} onLogout={onLogout} />
@@ -90,6 +89,7 @@ const DriverDashboardContainer = ({ onLogout }) => {
           <DriverNavbar /> {/* Add the DriverNavbar here */}
         </Col>
         <Col md={10}>
+          <DriverProfile /> {/* Render DriverProfile here */}
           <div className="tabs-container">
             <Tabs defaultActiveKey="new-orders" id="driver-dashboard-tabs">
               <Tab eventKey="new-orders" title="New Deliveries">

@@ -31,7 +31,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add subtle shadow for shading effect */
     margin-bottom: 20px; /* Space between items */
     margin-top: 20px;
-    width: 100%; /* Span full width of the side-nav */
+    width: 80%; /* Span full width of the side-nav */
     text-align: center; /* Center align text */
     transition: background-color 0.2s ease, color 0.3s ease; /* Smooth transition for hover effects */
 }
@@ -113,4 +113,35 @@
     transition: opacity 0.3s ease-in-out; /* Smooth transition */
 }
 
+/* Employee.css */
 
+/* Style the menu buttons to look like links */
+.menu-button-l {
+    display: flex; /* Use flexbox for centering */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    text-decoration: none; /* No underline */
+    color: #741c25; /* Text color */
+    padding: 15px; /* Padding for the button */
+    background-color: white; /* White background */
+    border: none; /* Remove border */
+    width: 100%; /* Full width */
+    text-align: center; /* Center text */
+    cursor: pointer; /* Pointer cursor */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add subtle shadow for shading effect */
+    transition: background-color 0.2s ease, color 0.3s ease; /* Smooth transition */
+    margin-bottom: 10px; /* Add space between buttons */
+
+}
+
+/* Style for the icon within the button */
+.menu-button-l i {
+    margin-right: 8px; /* Add space between the icon and text */
+}
+
+/* Hover effect for menu buttons */
+.menu-button-l:hover {
+    color: #fff; /* Change text color to white on hover */
+    background-color: #741c25; /* Change background color on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
+}
