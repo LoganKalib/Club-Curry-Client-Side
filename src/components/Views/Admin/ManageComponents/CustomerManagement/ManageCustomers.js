@@ -80,7 +80,6 @@ const ManageCustomers = () => {
                             <th>Email</th>
                             <th>Name</th>
                             <th>Surname</th>
-                            <th>Password</th>
                             <th>Mobile Number</th>
                             <th>Addresses</th>
                             <th>Actions</th>
@@ -92,7 +91,6 @@ const ManageCustomers = () => {
                                 <td>{customer.email}</td>
                                 <td>{customer.name}</td>
                                 <td>{customer.surname}</td>
-                                <td>{customer.password}</td>
                                 <td>{customer.mobileNo}</td>
                                 <td>
                                     {customer.addresses && customer.addresses.length > 0 ? (

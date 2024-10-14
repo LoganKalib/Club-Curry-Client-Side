@@ -1,10 +1,8 @@
+// Employee.js
 import React from 'react';
-import { useOutletContext } from 'react-router-dom';
-import './Employee.css'; 
+import './Employee.css';
 
-const Employee = () => {
-    const { addToOrder } = useOutletContext(); // Get addToOrder function from context
-
+const Employee = ({ addToOrder }) => {
     const products = [
         { id: 1, name: 'Zinger Burger', price: 150, image: 'path/to/zinger-burger.jpg' },
         { id: 2, name: 'Pizza', price: 100, image: 'path/to/pizza.jpg' },

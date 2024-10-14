@@ -1,165 +1,127 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Card, Row, Col, Button } from 'react-bootstrap';
-import axios from "axios";
-import {setSelectionRange} from "@testing-library/user-event/dist/utils";
-
+import { Card, Row, Col, Button, Modal, ProgressBar } from 'react-bootstrap';
+import './CustomerCss/OrderHistorySection.css'; // Import the CSS file
+import CustomerDashboardHeader from './CustomerDashboardHeader';
+import axios from 'axios'; 
 
 const OrderHistorySection = () => {
-  // Initial dummy data
-  const [orders, setOrders] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [deliveries, setDeliveries] = useState([]);
 
-  const [activeDeliveries, setActiveDeliveries] = useState([
-    {
-      deliveryId: 201,
-      orderId: 104,
-      items: [{ name: 'Pasta', quantity: 1 }],
-      totalAmount: 11.99,
-      customerName: 'Michael Brown',
-      address: '321 Maple Ave',
-      status: 'in transit',
-    },
-    {
-      deliveryId: 202,
-      orderId: 105,
-      items: [{ name: 'Salad', quantity: 2 }],
-      totalAmount: 8.99,
-      customerName: 'Laura White',
-      address: '654 Pine St',
-      status: 'pending',
-    },
-  ]);
-
-  // Function to simulate driver updating the status
-  const updateDeliveryStatus = (deliveryId, newStatus) => {
-    setActiveDeliveries(prevDeliveries => {
-      const updatedDeliveries = prevDeliveries.map(delivery =>
-        delivery.deliveryId === deliveryId
-          ? { ...delivery, status: newStatus }
-          : delivery
-      );
-
-      // Move delivered delivery to orders
-      if (newStatus === 'delivered') {
-        const deliveredDelivery = updatedDeliveries.find(delivery => delivery.deliveryId === deliveryId);
-        setOrders(prevOrders => [...prevOrders, {
-          orderId: deliveredDelivery.orderId,
-          items: deliveredDelivery.items,
-          totalAmount: deliveredDelivery.totalAmount,
-          orderDate: new Date().toISOString(),
-          status: newStatus,
-        }]);
-        return updatedDeliveries.filter(delivery => delivery.deliveryId !== deliveryId);
+  useEffect(() => {
+    // Fetch deliveries from the backend 
+    const fetchDeliveries = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/ClubCurry/delivery/getAll'); 
+        setDeliveries(response.data);
+      } catch (error) {
+        console.error('Error fetching deliveries:', error);
       }
+    };
 
-      return updatedDeliveries;
-    });
+    fetchDeliveries();
+  }, []);
+
+  // Handle Modal show/hide
+  const handleShowModal = (order) => {
+    setSelectedOrder(order);
+    setShowModal(true);
   };
 
-  // Simulate driver status update after component mounts
-  useEffect(() => {
-    // This is a placeholder for actual data fetching or socket updates
-    // Example: Simulating the driver marking a delivery as "delivered" after 5 seconds
-    const fetchOrders = async () => {
-      try {
-        const orders =  await axios.get('http://localhost:8080/ClubCurry/orders/getAll');
-        console.log(orders.data);
-        setOrders(orders.data);
-      }
-      catch (error){
-        console.log(error);
-      }
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  // Get progress bar value based on the status
+  const getProgress = (status) => {
+    switch (status) {
+      case 'PENDING':
+        return 33;
+      case 'IN_TRANSIT':
+        return 66;
+      case 'DELIVERED':
+        return 100;
+      default:
+        return 0;
     }
-    fetchOrders();
-  });
+  };
 
   return (
     <div className="order-history-section">
-      <Row>
-        <Col md={6}>
-          {/* Active Deliveries Section */}
-          <Card className="mb-4">
-            <Card.Header>Active Deliveries</Card.Header>
-            <Card.Body>
-              {activeDeliveries.length > 0 ? (
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Delivery ID</th>
-                      <th>Order ID</th>
-                      <th>Items</th>
-                      <th>Total Amount</th>
-                      <th>Customer Name</th>
-                      <th>Address</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {activeDeliveries.map(delivery => (
-                      <tr key={delivery.deliveryId}>
-                        <td>{delivery.deliveryId}</td>
-                        <td>{delivery.orderId}</td>
-                        <td>
-                          <ul>
-                            {delivery.items.map((item, index) => (
-                              <li key={index}>{item.name} (x{item.quantity})</li>
-                            ))}
-                          </ul>
-                        </td>
-                        <td>${delivery.totalAmount.toFixed(2)}</td>
-                        <td>{delivery.customerName}</td>
-                        <td>{delivery.address}</td>
-                        <td>{delivery.status}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              ) : (
-                <p>No active deliveries.</p>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={6}>
-          {/* Completed Orders Section */}
-          <Card>
-            <Card.Header>Order History</Card.Header>
-            <Card.Body>
-              {orders.length > 0 ? (
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Order ID</th>
-                      <th>Items</th>
-                      <th>Total Amount</th>
-                      <th>Order Date</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.map((order) => (
-                      <tr key={order.id}>
-                        <td>{order.id}</td>
-                        <td>
-                          <ul>
-                            {order.cart.items.map((item, index) => (
-                              <li key={index}>{item.menuItem.name} (x{item.quantity})</li>
-                            ))}
-                          </ul>
-                        </td>
-                        <td>${order.total.toFixed(2)}</td>
-                        <td>{new Date(order.ordered).toLocaleDateString()}</td>
-                        <td>{order.isComplete ? "true": "false"}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              ) : (
-                <p>No completed orders found.</p>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
+    <CustomerDashboardHeader /> {/* Add this line */}
+    <h2>Your Orders</h2>
+      <div className="orders-container">
+        {deliveries
+          .filter(order => order.isDelivered) 
+          .map(order => (
+            <div key={order.id} className="order-card">
+              <Card className="mb-4">
+                <Card.Body>
+                  <Card.Title>Order #{order.id}</Card.Title>
+                  <p><strong>Store:</strong> {order.order.restaurantName}</p>
+                  <p><strong>Date:</strong> {new Date(order.completed).toLocaleDateString()}</p> {/* Displaying date */}
+                  <p><strong>Time:</strong> {order.timeOfDelivery}</p> {/* Displaying time */}
+                  <p><strong>Cost:</strong> ${order.order.total.toFixed(2)}</p>
+                  <p><strong>Payment:</strong> {order.order.paymentMethod}</p>
+                  <p><strong>Status:</strong> {order.status}</p>
+                  <Button variant="primary" className="mt-2">Reorder</Button>
+                </Card.Body>
+              </Card>
+            </div>
+          ))}
+      </div>
+
+      {/* Delivery Status Section */}
+      <h2>Delivery Status</h2>
+      <Row className="delivery-status-container">
+        {deliveries
+          .filter(order => !order.isDelivered) // Filter for ongoing deliveries
+          .map(order => (
+            <Col md={4} key={order.id}>
+              <Card className="mb-4">
+                <Card.Body>
+                  <p><strong>Store:</strong> {order.order.restaurantName}</p>
+                  <p><strong>Order #:</strong> {order.id}</p>
+                  <p><strong>Date:</strong> {new Date(order.completed).toLocaleDateString()}</p> {/* Displaying date */}
+                  <p><strong>Time:</strong> {order.timeOfDelivery}</p> {/* Displaying time */}
+                  <Button
+                    variant="outline-primary"
+                    onClick={() => handleShowModal(order)}
+                  >
+                    Track Order
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
       </Row>
+
+      {/* Modal for Tracking Orders */}
+      {selectedOrder && (
+        <Modal show={showModal} onHide={handleCloseModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Track Order #{selectedOrder.id}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h5>Store: {selectedOrder.order.restaurantName}</h5>
+            <p>Status: {selectedOrder.status}</p>
+            <p><strong>Date:</strong> {new Date(selectedOrder.completed).toLocaleDateString()}</p> {/* Displaying date */}
+            <p><strong>Time:</strong> {selectedOrder.timeOfDelivery}</p> {/* Displaying time */}
+            <ProgressBar animated now={getProgress(selectedOrder.status)} />
+            <p>
+              {selectedOrder.status === 'PENDING' && 'Your order is being prepared.'}
+              {selectedOrder.status === 'IN_TRANSIT' && 'Your order is on its way!'}
+              {selectedOrder.status === 'DELIVERED' && 'Your order has been delivered!'}
+            </p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
     </div>
   );
 };

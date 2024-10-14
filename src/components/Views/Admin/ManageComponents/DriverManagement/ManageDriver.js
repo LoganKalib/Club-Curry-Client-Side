@@ -60,7 +60,6 @@ const ManageDriver = () => {
                         <th>Name</th>
                         <th>Surname</th>
                         <th>Username</th>
-                        <th>Password</th>
                         <th>Petrol Allowance</th>
                         <th>Registration ID</th>
                         <th>Actions</th>
@@ -73,7 +72,6 @@ const ManageDriver = () => {
                             <td>{driver.name}</td>
                             <td>{driver.surname}</td>
                             <td>{driver.username}</td>
-                            <td>{driver.password}</td>
                             <td>{driver.petrolAllowance}</td>
                             <td>{driver.registration.id}</td>
                             <td>
