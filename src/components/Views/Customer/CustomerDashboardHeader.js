@@ -24,7 +24,6 @@ const CustomerDashboardHeader = ({ isLoggedIn, onLogout, onShowCart }) => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <NavLink to="/customer-dashboard-menu" className="nav-link">Menu</NavLink>
-          <NavLink to="/customer-dashboard-bookings" className="nav-link">Bookings</NavLink>
           <NavLink to="/customer-dashboard-order-history" className="nav-link">Order History</NavLink>
           <NavLink to="/customer-dashboard-reviews" className="nav-link">Reviews</NavLink>
         </Nav>

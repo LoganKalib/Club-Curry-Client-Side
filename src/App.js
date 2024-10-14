@@ -6,7 +6,6 @@ import Footer from './components/Common/Footer';
 import Menu from './components/Views/Customer/Menu';
 import CustomerReviews from './components/Views/Customer/CustomerReviews';
 import OrderHistorySection from './components/Views/Customer/OrderHistorySection';
-import CustomerBookings from './components/Views/Customer/CustomerBookings';
 import HomePage from './components/Views/Customer/HomePage';
 import CustomerDashboard from './components/Views/Customer/CustomerDashboard';
 import CustomerDashboardHeader from './components/Views/Customer/CustomerDashboardHeader';
@@ -56,7 +55,6 @@ function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
       <Route path="/" element={<HomePage />} />
       <Route path="/customer-dashboard" element={isLoggedIn && userRole === 'customer' ? <CustomerDashboard isLoggedIn={isLoggedIn} onLogout={onLogout} /> : <div>Page Not Found</div>} />
       <Route path="/customer-dashboard-menu" element={<Menu />} />
-      <Route path="/customer-dashboard-bookings" element={<CustomerBookings />} />
       <Route path="/customer-dashboard-order-history" element={<OrderHistorySection />} />
       <Route path="/customer-dashboard-reviews" element={<CustomerReviews />} />
       <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard /> : <div>Page Not Found</div>} />
