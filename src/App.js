@@ -12,6 +12,7 @@ import CustomerDashboardHeader from './components/Views/Customer/CustomerDashboa
 import LoginModal from './components/Common/LoginModal';
 import SignupModal from './components/Common/SignupModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
+import Employee from './components/Views/GeneralEmployee/Employee';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
@@ -21,7 +22,7 @@ import './CSS/Footer.css';
 import './CSS/Overlay.css';
 import './CSS/HomePage.css';
 import AdminDashboard from './components/Views/Admin/AdminDashboard';
-import EmployeeLayout from "./components/Views/GeneralEmployee/EmployeeLayout";
+import { OrderProvider } from './components/Views/GeneralEmployee/OrderContext';
 
 function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
   const navigate = useNavigate();
@@ -52,13 +53,31 @@ function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/customer-dashboard" element={isLoggedIn && userRole === 'customer' ? <CustomerDashboard isLoggedIn={isLoggedIn} onLogout={onLogout} /> : <div>Page Not Found</div>} />
-      <Route path="/customer-dashboard-menu" element={<Menu />} />
-      <Route path="/customer-dashboard-order-history" element={<OrderHistorySection />} />
-      <Route path="/customer-dashboard-reviews" element={<CustomerReviews />} />
+      {isLoggedIn && userRole === 'customer' && (
+        <>
+          <Route
+            path="/customer-dashboard"
+            element={<CustomerDashboard isLoggedIn={isLoggedIn} onLogout={onLogout} />}
+          />
+                <Route path="/customer-dashboard-order-history"
+                 element={<OrderHistorySection />} />
+
+          <Route
+            path="/customer-dashboard-order-history"
+            element={<OrderHistorySection />}
+          />
+          
+         
+        </>
+      )}
+
+     
       <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard /> : <div>Page Not Found</div>} />
       <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer /> : <div>Page Not Found</div>} />
-      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <EmployeeLayout /> : <div>Page Not Found</div>} />
+      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee /> : <div>Page Not Found</div>} />
+      <Route
+            path="/customer-dashboard-reviews"
+            element={<CustomerReviews />}/>
       <Route path="/menu" element={<Menu />} />
       <Route path="*" element={<div>Page Not Found</div>} />
     </Routes>
@@ -122,6 +141,7 @@ function App() {
   };
 
   return (
+    <OrderProvider>
       <Router>
         <div className="App">
           {/* Conditionally render Header or CustomerDashboardHeader */}
@@ -161,6 +181,7 @@ function App() {
           />
         </div>
       </Router>
+    </OrderProvider>
   );
 }
 

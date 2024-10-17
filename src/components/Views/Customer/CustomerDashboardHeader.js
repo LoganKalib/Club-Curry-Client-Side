@@ -23,7 +23,7 @@ const CustomerDashboardHeader = ({ isLoggedIn, onLogout, onShowCart }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <NavLink to="/customer-dashboard-menu" className="nav-link">Menu</NavLink>
+          <NavLink to="/customer-dashboard" className="nav-link">Dashboard</NavLink>
           <NavLink to="/customer-dashboard-order-history" className="nav-link">Order History</NavLink>
           <NavLink to="/customer-dashboard-reviews" className="nav-link">Reviews</NavLink>
         </Nav>

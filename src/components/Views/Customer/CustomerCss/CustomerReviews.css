@@ -1,19 +1,79 @@
-.review-section {
-  background-color: #f4f4f4;
-  padding: 20px;
-  border-radius: 10px;
+/* Review Section */
+
+
+.review-image{
+  width: 100%;
+
+  height: auto;
 }
 
 .feedback-section {
-  background-color: #fff3e0; /* Light orange background */
-  border: 1px solid #ffcc80; /* Slightly darker border */
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center items vertically */
+  justify-content: space-between; /* Space between text and QR image */
+  padding: 10px; /* Padding for the feedback section */
+  background-color: #f8f9fa; /* Light background color */
+  border: 1px solid #dee2e6; /* Optional border */
+  border-radius: 8px; /* Rounded corners */
+  margin: 20px 0; /* Margin above and below */
+
 }
 
+.feedback-text {
+  flex: 1; /* Allow text to take available space */
+  margin-right: 20px; /* Space between text and QR image */
+  font-size: 1.2rem; /* Slightly larger text for description */
+  color: #6c757d; /* Light grey color for the text */
+  max-width: 800px; /* Limit the width of the text */
+  line-height: 1.6; /* Increase line height for readability */
+  padding-left: 20px; /* Indent the text to the left */
+}
+
+.add-review-button {
+  padding: 10px 20px; /* Padding for the button */
+  background-color: #007bff; /* Primary button color */
+  color: #fff; /* Button text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-top: 10px; /* Add some space above the button */
+  padding-left: 20px;
+}
+
+
+
+.qr-image {
+  width: auto; /* Set width according to your design */
+  height: 500px; /* Adjust height as needed */
+}
+
+
+
+
+
 .feedback-section h3 {
-  color: #e65100; /* Dark orange for the header */
+  color: rgb(0, 0, 0); /* Primary dark red color for headers */
+  font-family: 'Chonburi', sans-serif; /* Cohesive heading font */
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  padding-left: 1px;
+}
+
+
+.reviews-container {
+  margin-top: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reviews-container h3 {
+  color: rgba(116, 28, 37, 1); /* Primary dark red color for headers */
+  font-family: 'Chonburi', sans-serif; /* Cohesive heading font */
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  padding-left: 1px;
 }
 
 .reviews-slider {
@@ -21,24 +81,44 @@
   align-items: center;
   overflow: hidden; /* Hides overflow content */
   position: relative; /* For positioning arrows */
+  margin: 20px 0;
+  gap: 20px; /* Adds space between the arrows and the reviews */
 }
 
 .reviews-list {
   display: flex;
   flex-direction: row;
   transition: transform 0.5s ease; /* Smooth transition */
-  /* Set a width to allow scrolling */
-  width: calc(100% * 3); /* Adjust based on number of reviews displayed */
+  width: calc(100% * 3); /* Adjust based on the number of reviews displayed */
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+.reviews-list::-webkit-scrollbar {
+  display: none;  /* Hide scrollbar in Chrome, Safari, and Opera */
+}
+
+.review-body {
+  text-align: center; /* Center the text */
 }
 
 .review-card {
-  background-color: #ffffff;
-  padding: 15px;
+  background-color: #fff; /* White background for contrast */
+  padding: 1.5rem; /* Cohesive padding */
   border-radius: 8px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-  flex: 0 0 33.33%; /* Three cards in a row */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border: 1px solid rgba(116, 28, 37, 0.1); /* Lighter border for cohesion */
+  flex: 0 0 300px; /* Set fixed width for cards */
   box-sizing: border-box; /* Include padding and border in the width */
+  margin: 0 10px; /* Space below each card */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition */
+}
+
+.review-card:hover {
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
 }
 
 .review-header {
@@ -49,7 +129,7 @@
 }
 
 .review-timestamp {
-  color: #999;
+  color: #6c757d; /* Light grey for timestamps */
   font-size: 0.9rem;
 }
 
@@ -57,26 +137,119 @@
   margin-top: 10px;
 }
 
-.arrow {
-  background-color: #007bff; /* Button color */
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  position: absolute; /* Position arrows relative to the slider */
-  z-index: 10;
-}
-
-.left-arrow {
-  left: 10px; /* Position left arrow */
-}
-
-.right-arrow {
-  right: 10px; /* Position right arrow */
-}
-
 @media (max-width: 768px) {
-  .review-card {
-    padding: 10px;
+  .reviews-list {
+    flex-direction: column; /* Stack cards vertically on smaller screens */
+    align-items: center; /* Center items */
   }
+
+  .review-card {
+    flex: 0 0 auto; /* Allow cards to take up full width */
+    max-width: 90%; /* Limit width for better visibility */
+    margin: 10px 0; /* Add margin between cards */
+    padding: 1rem; /* Adjust padding for smaller screens */
+  }
+}
+
+/* CustomerReviews.css */
+
+/* General review section styling */
+.review-section {
+  padding: 20px;
+}
+
+/* Restaurant Details Section */
+.restaurant-details-section {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1800px; /* Adjust based on your layout needs */
+  color: #fff;
+  overflow: hidden; /* Ensure content stays within bounds */
+  
+}
+
+/* Restaurant Details Left Column */
+.details-left {
+  flex: 1;
+  padding: 50px;
+  background-color: rgba(255, 255, 255, 0.8); /* Light background for contrast */
+  color: #000;
+  font-family: 'Chonburi', sans-serif;
+}
+
+/* Restaurant Details Right Column */
+.details-right {
+  flex: 1;
+  padding: 50px;
+  background-color: rgba(255, 255, 255, 0.8); /* Light background for contrast */
+}
+
+/* Address, Phone, and Email Sections */
+.address-section,
+.phone-section,
+.email-section {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex; /* Enable flexbox */
+  flex-direction: column; /* Stack items vertically */
+}
+
+/* Heading Styles */
+.address-section h3,
+.phone-section h3,
+.email-section h3 {
+  font-family: 'Chonburi', sans-serif;
+  font-size: 1.75rem; /* Slightly larger for emphasis */
+  color: #292728; /* Dark color for headings */
+  margin-bottom: 10px; /* Space below headings */
+  display: flex; /* Make heading a flex container */
+  align-items: center; /* Center align heading items */
+}
+
+/* Paragraph Styles */
+.address-section p,
+.phone-section p,
+.email-section p {
+  margin: 5px 0 0 30px; /* Add space above paragraph and left alignment */
+  padding: 5; /* Remove default padding */
+  font-size: 1rem; /* Adjust text size */
+  line-height: 1.5; /* Ensure readability */
+}
+
+/* Icon Background Style */
+.address-section p i,
+.phone-section p i,
+.email-section p i,
+.address-section h3 i,
+.phone-section h3 i,
+.email-section h3 i {
+  margin-right: 8px; /* Gap between icon and text */
+  font-size: 1.5rem; /* Smaller size for icons */
+  width: 2.5rem; /* Adjust width of the circle */
+  height: 2.5rem; /* Adjust height of the circle */
+  border-radius: 50%; /* Makes the background circular */
+  background: linear-gradient(45deg, #741c25, #741c25) !important; /* Adjust the colors as needed */
+  color: #fff; /* Icon color (white) */
+  text-align: center; /* Center the icon inside the circle */
+  line-height: 2.5rem; /* Align icon vertically */
+  margin-top: 5px;
+}
+
+/* Map Container */
+.map-container {
+  margin-top: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 450px; /* Adjust as needed */
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
