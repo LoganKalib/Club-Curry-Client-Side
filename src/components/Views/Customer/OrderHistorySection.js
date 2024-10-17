@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, Button, Modal, ProgressBar } from 'react-bootstrap';
 import './CustomerCss/OrderHistorySection.css'; // Import the CSS file
 import CustomerDashboardHeader from './CustomerDashboardHeader';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+
 import axios from 'axios'; 
 
 const OrderHistorySection = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [deliveries, setDeliveries] = useState([]);
+  const navigate = useNavigate(); // Initialize useNavigate
+
 
   useEffect(() => {
     // Fetch deliveries from the backend 

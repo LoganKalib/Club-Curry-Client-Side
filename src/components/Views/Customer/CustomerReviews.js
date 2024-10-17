@@ -3,6 +3,18 @@ import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import StarRating from '../../Common/StarRating';
 import '../Customer/CustomerCss/CustomerReviews.css';
+import review from '../../../images/review.png';
+import QR from '../../../images/QR.png';
+
+// Mapping numeric ratings to enum values
+const ratingValues = {
+  0: 'ZERO',
+  1: 'ONE',
+  2: 'TWO',
+  3: 'THREE',
+  4: 'FOUR',
+  5: 'FIVE',
+};
 
 const CustomerReviews = ({ onAddReview, onDeleteReview }) => {
   const [existingReviews, setExistingReviews] = useState([
@@ -28,35 +40,12 @@ const CustomerReviews = ({ onAddReview, onDeleteReview }) => {
       comments: 'Loved the ambiance and the variety of dishes. Highly recommend the lasagna!',
       timestamp: '1 week ago',
     },
-    {
-      id: '3',
-      customerId: '102',
-      customerName: 'John D.',
-      foodRating: 5,
-      serviceRating: 4,
-      atmosphereRating: 5,
-      recommendedDishes: ['Butter Chicken', 'Naan'],
-      comments: 'Amazing food and great atmosphere!',
-      timestamp: '3 days ago',
-    },
-    {
-      id: '4',
-      customerId: '103',
-      customerName: 'Sarah K.',
-      foodRating: 3,
-      serviceRating: 5,
-      atmosphereRating: 4,
-      recommendedDishes: ['Biryani'],
-      comments: 'The biryani was good, but a bit too spicy for my taste.',
-      timestamp: '1 week ago',
-    },
   ]);
 
   const [showModal, setShowModal] = useState(false);
-  const [foodRating, setFoodRating] = useState('0');
-  const [serviceRating, setServiceRating] = useState('0');
-  const [atmosphereRating, setAtmosphereRating] = useState('0');
-  const [recommendedDishes, setRecommendedDishes] = useState('');
+  const [foodRating, setFoodRating] = useState('ZERO'); // Changed to string representation
+  const [serviceRating, setServiceRating] = useState('ZERO'); // Changed to string representation
+  const [atmosphereRating, setAtmosphereRating] = useState('ZERO'); // Changed to string representation
   const [comments, setComments] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
 
@@ -71,17 +60,17 @@ const CustomerReviews = ({ onAddReview, onDeleteReview }) => {
   };
 
   const resetFormFields = () => {
-    setFoodRating('0');
-    setServiceRating('0');
-    setAtmosphereRating('0');
-    setRecommendedDishes('');
+    setFoodRating('ZERO');
+    setServiceRating('ZERO');
+    setAtmosphereRating('ZERO');
+
     setComments('');
   };
 
   const handleSubmitReview = (e) => {
     e.preventDefault();
 
-    if (foodRating === '0' || serviceRating === '0' || atmosphereRating === '0' || !comments) {
+    if (foodRating === 'ZERO' || serviceRating === 'ZERO' || atmosphereRating === 'ZERO' || !comments) {
       setAlertMessage('Please fill in all required fields.');
       return;
     }
@@ -90,10 +79,9 @@ const CustomerReviews = ({ onAddReview, onDeleteReview }) => {
       id: Date.now().toString(),
       customerId,
       customerName: 'Customer', // Replace with actual customer name
-      foodRating,
-      serviceRating,
-      atmosphereRating,
-      recommendedDishes: recommendedDishes.split(',').map((dish) => dish.trim()),
+      foodRating: Object.keys(ratingValues).find(key => ratingValues[key] === foodRating),
+      serviceRating: Object.keys(ratingValues).find(key => ratingValues[key] === serviceRating),
+      atmosphereRating: Object.keys(ratingValues).find(key => ratingValues[key] === atmosphereRating),
       comments,
       timestamp: new Date().toLocaleDateString(),
     };
@@ -111,27 +99,34 @@ const CustomerReviews = ({ onAddReview, onDeleteReview }) => {
   };
 
   return (
-    
     <div className="review-section">
-      {/* Enhanced feedback section */}
-      <div className="feedback-section">
-        <h3>We Value Your Feedback! 🌟</h3>
-        <p>
-          At <strong>ClubCurry</strong>, we believe every dish tells a story, and your feedback helps us create a
-          better dining experience. Whether it's a delightful meal or a suggestion for improvement, we want to hear from you!
-        </p>
-        <p>
-          As a token of appreciation, every reviewer will receive a <strong>10% discount</strong> on their next visit. Don't forget to ask us about it!
-        </p>
-        <p>
-          Your insights are vital to our journey of culinary excellence. Thank you for being part of our family!
-        </p>
-        <p>
-          🍽️ Join us for our upcoming <strong>Wine Tasting Night</strong> on Friday! Limited seats available.
-        </p>
-      </div>
 
+
+<img src={review} 
+            alt="review header"
+            className="review-image"
+             />
+      {/* Feedback Section */}
+  <div className="feedback-section">
+  <div className="feedback-text">
+  <h3>Thank you for being part of our family!</h3>
+    <p>
+      As a token of appreciation, every reviewer will receive a <strong>10% discount</strong> on their next visit. Don't forget to ask us about it!
+    </p>
+    <p>
+      Your insights are vital to our journey of culinary excellence. 
+    </p>
+    
+    <Button variant="primary" onClick={handleOpenModal} className="add-review-button">
+      Add Review
+    </Button>
+    </div>
+    <img src={QR} alt="QR code" className="qr-image" />
+    
+  </div>
+  <div className="reviews-container">
       <h3>Your Reviews</h3>
+      
 
       {customerReviews.length === 0 ? (
         <p>No reviews found. Click below to make a review.</p>
@@ -148,14 +143,22 @@ const CustomerReviews = ({ onAddReview, onDeleteReview }) => {
                   <span className="review-timestamp">{review.timestamp}</span>
                 </div>
                 <div className="review-body">
+                <div className="rating-item">
                   <p><strong>Food Rating:</strong> {review.foodRating}/5</p>
-                  <StarRating rating={review.foodRating} />
+                  <StarRating rating={ratingValues[review.foodRating]} readOnly />
+                  </div>
+                  <div className="rating-item">
                   <p><strong>Service Rating:</strong> {review.serviceRating}/5</p>
-                  <StarRating rating={review.serviceRating} />
-                  <p><strong>Atmosphere Rating:</strong> {review.atmosphereRating}/5</p>
-                  <StarRating rating={review.atmosphereRating} />
-                  <p><strong>Recommended Dishes:</strong> {review.recommendedDishes.join(', ')}</p>
-                  <p><strong>Comments:</strong> {review.comments}</p>
+                  <StarRating rating={ratingValues[review.serviceRating]} readOnly />
+                  </div>
+                  <div className="rating-item">
+                    <p><strong>Atmosphere Rating:</strong> {review.atmosphereRating}/5</p>
+                  <StarRating rating={ratingValues[review.atmosphereRating]} readOnly />
+
+                  </div>
+                  <div className="rating-item">
+                  <p><strong></strong> {review.comments}</p>
+                  </div>
                 </div>
                 <div className="review-actions">
                   <Button variant="danger" onClick={() => handleDeleteReview(review.id)}>
@@ -170,40 +173,72 @@ const CustomerReviews = ({ onAddReview, onDeleteReview }) => {
           </button>
         </div>
       )}
+      </div>
 
-      <Button variant="primary" onClick={handleOpenModal} className="mt-3">
-        Add Review
-      </Button>
+      {/* Restaurant Details Section */}
+      <div className="restaurant-details-section">
+        <div className="details-left">
+          <div className="map-container">
+            {/* Embed Google Maps */}
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3309.872085711296!2d18.419742215223726!3d-33.92486898064242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc6765df2fa921%3A0x73daccbd1e24d63d!2sCape%20Town%20City%20Centre%2C%20Cape%20Town%2C%208000!5e0!3m2!1sen!2sza!4v1691409942597!5m2!1sen!2sza"
+              width="100%"
+              height="100%"
+              allowFullScreen=""
+              loading="lazy"
+              title="Google Maps"
+            ></iframe>
+          </div>
+          <p>Click map to view Google Maps</p>
+        </div>
+        <div className="details-right">
+          <div className="address-section">
+            <p>
+              <i className="fas fa-map-marker-alt"></i>
+              <strong>Address</strong>
+            </p>
+            <p className="address-description">Come say hello and enjoy some good food!</p>
+            <p className="address-details">123 Spice Avenue, Cape Town, 8000</p>
+          </div>
+          <div className="phone-section">
+            <p>
+              <i className="fas fa-phone"></i>
+              <strong>Phone</strong>
+            </p>
+            <p className="phone-details">+27 21 123 4567</p>
+          </div>
+          <div className="email-section">
+            <p>
+              <i className="fas fa-envelope"></i>
+              <strong>Email</strong>
+            </p>
+            <p className="email-description">Chat with us</p>
+            <p className="email-details">contact@clubcurry.co.za</p>
+          </div>
+        </div>
+      </div>
 
       {/* Modal for adding a review */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Leave a Review</Modal.Title>
+          <Modal.Title>Add Your Review</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {alertMessage && <Alert variant="info">{alertMessage}</Alert>}
+          {alertMessage && <Alert variant="success">{alertMessage}</Alert>}
           <Form onSubmit={handleSubmitReview}>
-            <Form.Group controlId="foodRating">
+            <Form.Group>
               <Form.Label>Food Rating</Form.Label>
-              <StarRating rating={foodRating} onRate={setFoodRating} />
+              <StarRating rating={foodRating} onRate={(rate) => setFoodRating(ratingValues[rate])} />
             </Form.Group>
-            <Form.Group controlId="serviceRating" className="mt-3">
+            <Form.Group>
               <Form.Label>Service Rating</Form.Label>
-              <StarRating rating={serviceRating} onRate={setServiceRating} />
+              <StarRating rating={serviceRating} onRate={(rate) => setServiceRating(ratingValues[rate])} />
             </Form.Group>
-            <Form.Group controlId="atmosphereRating" className="mt-3">
+            <Form.Group>
               <Form.Label>Atmosphere Rating</Form.Label>
-              <StarRating rating={atmosphereRating} onRate={setAtmosphereRating} />
+              <StarRating rating={atmosphereRating} onRate={(rate) => setAtmosphereRating(ratingValues[rate])} />
             </Form.Group>
-            <Form.Group controlId="recommendedDishes" className="mt-3">
-              <Form.Label>Recommended Dishes (comma separated)</Form.Label>
-              <Form.Control
-                type="text"
-                value={recommendedDishes}
-                onChange={(e) => setRecommendedDishes(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group controlId="comments" className="mt-3">
+            <Form.Group>
               <Form.Label>Comments</Form.Label>
               <Form.Control
                 as="textarea"
@@ -213,7 +248,7 @@ const CustomerReviews = ({ onAddReview, onDeleteReview }) => {
                 required
               />
             </Form.Group>
-            <Button variant="primary" type="submit" className="mt-3">
+            <Button type="submit" variant="primary">
               Submit Review
             </Button>
           </Form>
