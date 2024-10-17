@@ -59,13 +59,7 @@ function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
             path="/customer-dashboard"
             element={<CustomerDashboard isLoggedIn={isLoggedIn} onLogout={onLogout} />}
           />
-                <Route path="/customer-dashboard-order-history"
-                 element={<OrderHistorySection />} />
-
-          <Route
-            path="/customer-dashboard-order-history"
-            element={<OrderHistorySection />}
-          />
+                
           
          
         </>
@@ -78,6 +72,9 @@ function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
       <Route
             path="/customer-dashboard-reviews"
             element={<CustomerReviews />}/>
+
+<Route path="/customer-dashboard-order-history"
+                 element={<OrderHistorySection />} />
       <Route path="/menu" element={<Menu />} />
       <Route path="*" element={<div>Page Not Found</div>} />
     </Routes>
