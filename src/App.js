@@ -12,7 +12,6 @@ import CustomerDashboardHeader from './components/Views/Customer/CustomerDashboa
 import LoginModal from './components/Common/LoginModal';
 import SignupModal from './components/Common/SignupModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
-import Employee from './components/Views/GeneralEmployee/Employee';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
@@ -22,7 +21,7 @@ import './CSS/Footer.css';
 import './CSS/Overlay.css';
 import './CSS/HomePage.css';
 import AdminDashboard from './components/Views/Admin/AdminDashboard';
-import { OrderProvider } from './components/Views/GeneralEmployee/OrderContext';
+import EmployeeLayout from "./components/Views/GeneralEmployee/EmployeeLayout";
 
 function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
   const navigate = useNavigate();
@@ -74,7 +73,7 @@ function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
      
       <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard /> : <div>Page Not Found</div>} />
       <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer /> : <div>Page Not Found</div>} />
-      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee /> : <div>Page Not Found</div>} />
+      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <EmployeeLayout /> : <div>Page Not Found</div>} />
       <Route
             path="/customer-dashboard-reviews"
             element={<CustomerReviews />}/>
@@ -141,7 +140,6 @@ function App() {
   };
 
   return (
-    <OrderProvider>
       <Router>
         <div className="App">
           {/* Conditionally render Header or CustomerDashboardHeader */}
@@ -181,7 +179,6 @@ function App() {
           />
         </div>
       </Router>
-    </OrderProvider>
   );
 }
 
