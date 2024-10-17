@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FaStar } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import './StarRating.css';
 
-// Mapping enum values to numeric ratings
 const ratingValues = {
   ZERO: 0,
   ONE: 1,
@@ -14,13 +13,11 @@ const ratingValues = {
 };
 
 const StarRating = ({ rating, onRate, readOnly }) => {
-  const currentRating = ratingValues[rating]; // Get numeric rating based on enum
+  const currentRating = ratingValues[rating] || 0;
 
   const handleClick = (rate) => {
-    if (!readOnly) {
-      if (onRate) {
-        onRate(rate);
-      }
+    if (!readOnly && onRate) {
+      onRate(rate);
     }
   };
 
@@ -39,7 +36,7 @@ const StarRating = ({ rating, onRate, readOnly }) => {
 };
 
 StarRating.propTypes = {
-  rating: PropTypes.oneOf(Object.keys(ratingValues)).isRequired, // Enum keys as valid props
+  rating: PropTypes.oneOf(Object.keys(ratingValues)).isRequired,
   onRate: PropTypes.func,
   readOnly: PropTypes.bool,
 };
