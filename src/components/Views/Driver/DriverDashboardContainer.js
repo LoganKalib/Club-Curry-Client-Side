@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Tab, Tabs, Row, Col, Card, Button, FormControl } from 'react-bootstrap';
+import { Row, Col, Card, Button, FormControl } from 'react-bootstrap';
+import '../Driver/DriverCSS/DriverDashboardContainer.css';
 import DriverDashboardHeader from './DriverDashboardHeader';
 import DriverNavbar from './DriverNavBar';
-import './DriverDashboardContainer.css'; // Import the CSS file for styling
+import ActiveDeliveries from '../Driver/ActiveDeliveries';
+import CompletedDeliveries from '../Driver/CompletedDeliveries';
+import Deliveries from '../Driver/Deliveries';
+import DriverProfile from '../Driver/DriverProfile';
 
 const DriverDashboardContainer = ({ onLogout }) => {
   // State to manage the list of deliveries
@@ -46,6 +50,7 @@ const DriverDashboardContainer = ({ onLogout }) => {
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeSection, setActiveSection] = useState('active-deliveries'); // Track the active section
 
   // Function to update the status of a delivery
   const handleUpdateStatus = (deliveryId, newStatus) => {
@@ -77,86 +82,34 @@ const DriverDashboardContainer = ({ onLogout }) => {
     delivery.orderId.toString().includes(searchTerm)
   );
 
-  const totalNewOrders = outstandingDeliveries.length;
-  const totalCompletedOrders = deliveredDeliveries.length;
-
- 
-
   return (
     <div className="driver-dashboard-container">
       <DriverDashboardHeader isLoggedIn={true} onLogout={onLogout} />
       <Row>
         <Col md={2}>
-          <DriverNavbar /> {/* Add the DriverNavbar here */}
+          <DriverNavbar 
+            activeSection={activeSection} 
+            setActiveSection={setActiveSection} // Pass down the state and setter
+          />
         </Col>
         <Col md={10}>
+          {/* Conditionally render the active section's component */}
           <div className="tabs-container">
-            <Tabs defaultActiveKey="new-orders" id="driver-dashboard-tabs">
-              <Tab eventKey="new-orders" title="New Deliveries">
-                <Row className="m-3">
-                  {outstandingDeliveries.length > 0 ? (
-                    outstandingDeliveries.map((delivery) => (
-                      <Col md={6} lg={4} key={delivery.deliveryId}>
-                        <Card className="dashboard-card mb-3">
-                          <Card.Header>Order ID: {delivery.orderId}</Card.Header>
-                          <Card.Body>
-                            {/* Delivery details */}
-                            {delivery.status === 'pending' && (
-                              <Button
-                                className="btn btn-primary me-2"
-                                onClick={() => handleUpdateStatus(delivery.deliveryId, 'in transit')}
-                              >
-                                Mark as In Transit
-                              </Button>
-                            )}
-                            {delivery.status === 'in transit' && (
-                              <Button
-                                className="btn btn-success"
-                                onClick={() => handleUpdateStatus(delivery.deliveryId, 'delivered')}
-                              >
-                                Mark as Delivered
-                              </Button>
-                            )}
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    ))
-                  ) : (
-                    <Col>
-                      <p>No new deliveries.</p>
-                    </Col>
-                  )}
-                </Row>
-              </Tab>
-              <Tab eventKey="completed-orders" title="Completed Deliveries">
-                <Row className="m-3">
-                  <Col md={12} className="mb-3">
-                    <FormControl
-                      type="text"
-                      placeholder="Search by Order ID"
-                      value={searchTerm}
-                      onChange={handleSearchChange}
-                    />
-                  </Col>
-                  {filteredDeliveredDeliveries.length > 0 ? (
-                    filteredDeliveredDeliveries.map((delivery) => (
-                      <Col md={6} lg={4} key={delivery.deliveryId}>
-                        <Card className="dashboard-card mb-3">
-                          <Card.Header>Order ID: {delivery.orderId}</Card.Header>
-                          <Card.Body>
-                            {/* Delivery details */}
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    ))
-                  ) : (
-                    <Col>
-                      <p>No completed deliveries.</p>
-                    </Col>
-                  )}
-                </Row>
-              </Tab>
-            </Tabs>
+            {activeSection === 'active-deliveries' && (
+              <ActiveDeliveries
+                deliveries={outstandingDeliveries}
+                handleUpdateStatus={handleUpdateStatus}
+              />
+            )}
+            {activeSection === 'completed-deliveries' && (
+              <CompletedDeliveries
+                deliveries={filteredDeliveredDeliveries}
+                handleSearchChange={handleSearchChange}
+                searchTerm={searchTerm}
+              />
+            )}
+            {activeSection === 'deliveries' && <Deliveries deliveries={deliveries} />}
+            {activeSection === 'profile' && <DriverProfile />}
           </div>
         </Col>
       </Row>

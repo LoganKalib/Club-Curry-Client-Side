@@ -1,0 +1,77 @@
+/* Style the driver navbar container */
+.driver-navbar {
+    margin-left: 1rem;
+    width: 18%;
+    background-color: #fff;
+    padding: 18px;
+    position: fixed;
+    height: 100vh;
+    box-sizing: border-box;
+    border-right: 1px solid #dedede; /* Border on the right side of the navbar */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    margin-right: auto;
+}
+
+/* Style for the button container */
+.driver-navbar-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+/* Style for each button */
+.driver-nav-button {
+    background-color: #fff;
+    border: 1px solid #dedede;
+    color: #741c25; /* Initial text color */
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    width: 80%;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover effect */
+.driver-nav-button:hover {
+    background-color: rgba(116, 28, 37, 0.6);
+    color: white;
+}
+
+/* Active button styling */
+.driver-nav-button.active {
+    background-color: rgba(116, 28, 37, 0.8);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Driver profile section */
+.driver-profile {
+    margin-top: auto; /* Push the profile to the bottom */
+    text-align: center;
+    padding: 1rem 0;
+    border-top: 1px solid #ccc;
+}
+
+.profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.driver-name {
+    font-size: 1rem;
+    font-weight: bold;
+    color: black; /* Black name color to match navbar */
+}
+
+/* Style the driver dashboard container */
+.driver-dashboard-container {
+    flex-grow: 1; /* Allow this to take remaining space */
+    padding: 0px;
+    background-color: #f9f9f9; /* Light background for dashboard content */
+    border-left: 1px solid #dedede; /* Optional left border for separation */
+}

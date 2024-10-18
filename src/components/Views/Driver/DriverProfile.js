@@ -3,7 +3,7 @@ import { Tab, Tabs, Row, Col, Card, Button, FormControl } from 'react-bootstrap'
 import DriverDashboardHeader from './DriverDashboardHeader';
 import DriverNavbar from './DriverNavBar';
 import DriverProfile from './DriverProfile'; // Import the DriverProfile component
-import './DriverDashboardContainer.css'; // Import the CSS file for styling
+import './DriverCSS/DriverDashboardContainer.css'; // Import the CSS file for styling
 
 const DriverDashboardContainer = ({ onLogout }) => {
   // State to manage the list of deliveries

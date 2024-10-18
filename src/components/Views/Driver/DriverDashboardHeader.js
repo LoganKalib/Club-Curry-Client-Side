@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Button, Nav } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
-import './DriverDashboardHeader.css'; // Import the CSS file for styling
+import '../Driver/DriverCSS/DriverDashboardHeader.css'
 
 const DriverDashboardHeader = ({ isLoggedIn, onLogout }) => {
   const navigate = useNavigate();
@@ -23,12 +23,10 @@ const DriverDashboardHeader = ({ isLoggedIn, onLogout }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <NavLink to="/active-deliveries" className="nav-link">
-            Active Deliveries
+          <NavLink to="/driver" className="nav-link">
+            Dashboard
           </NavLink>
-          <NavLink to="/completed-deliveries" className="nav-link">
-            Completed Deliveries
-          </NavLink>
+         
         </Nav>
         <div className="buttons-container">
           {isLoggedIn && (
