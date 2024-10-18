@@ -24,7 +24,6 @@ import './CSS/Footer.css';
 import './CSS/Overlay.css';
 import './CSS/HomePage.css';
 import AdminDashboard from './components/Views/Admin/AdminDashboard';
-import { OrderProvider } from './components/Views/GeneralEmployee/OrderContext';
 
 function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
   const navigate = useNavigate();
