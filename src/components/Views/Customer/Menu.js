@@ -27,21 +27,44 @@ const Menu = ({ addToCart }) => {
     loadItems();
   }, []);
 
-  const structureMenuItems = (items) => {
+  const structureMenuItems = async (items) => {
     const structured = {};
-    items.forEach(item => {
+  
+    await Promise.all(items.map(async (item) => {
       const category = item.menuId.name;
       if (!structured[category]) {
         structured[category] = [];
       }
-      structured[category].push({
-        id: item.id,
-        name: item.name,
-        description: item.description,
-        image: `http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`,
-        price: item.price,
-      });
-    });
+  
+      // Fetch the image data (binary)
+      try {
+        const response = await axios.get(`http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`, {
+          responseType: 'blob' // Expecting binary data
+        });
+  
+        // Create a URL for the image blob
+        const imageUrl = URL.createObjectURL(response.data);
+        
+        structured[category].push({
+          id: item.id,
+          name: item.name,
+          description: item.description,
+          image: imageUrl, // Now storing the object URL
+          price: item.price,
+        });
+      } catch (error) {
+        console.error('Error fetching image for item:', item.id, error);
+        // Handle image fetching error; you can set a default image here if required
+        structured[category].push({
+          id: item.id,
+          name: item.name,
+          description: item.description,
+          image:'fail', // Placeholder for missing images
+          price: item.price,
+        });
+      }
+    }));
+  
     setStructuredMenu(structured);
   };
 
@@ -76,7 +99,8 @@ const Menu = ({ addToCart }) => {
                 onClick={() => handleShow(category, item)}
               >
                 <img src={item.image} alt={item.name} />
-                <span className="menu-text">
+                <br></br>
+                  <span className="menu-text">
                   <strong>{item.name}</strong>
                   <br/>
                   R{item.price.toFixed(2)}
