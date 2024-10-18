@@ -38,7 +38,29 @@ const CustomerDashboard = ({
         if (specialsMenu) {
           // Filter items belonging to the "Specials" menu
           const specialItems = response.data.filter(item => item.menuId.id === specialsMenu.id);
-          setSpecials(specialItems);
+
+          // Fetch images for special items
+          const specialItemsWithImages = await Promise.all(specialItems.map(async (item) => {
+            try {
+              const imageResponse = await axios.get(`http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`, {
+                responseType: 'blob', // Expecting binary data
+              });
+              const imageUrl = URL.createObjectURL(imageResponse.data); // Create object URL for the image
+              
+              return {
+                ...item,
+                image: imageUrl, // Add image URL to the item
+              };
+            } catch (error) {
+              console.error('Error fetching image for item:', item.id, error);
+              return {
+                ...item,
+                image: 'path/to/default/image.png', // Set to default image if fetching fails
+              };
+            }
+          }));
+
+          setSpecials(specialItemsWithImages); // Update state with special items and their images
         } else {
           console.warn('Specials menu not found.');
         }
@@ -83,7 +105,7 @@ const CustomerDashboard = ({
                   <p>Price: R{item.price}</p>
                   <button onClick={() => addToCart(item)} className="order-now-btn">Order Now</button>
                 </div>
-                <img src={`http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`} alt={item.name} className="menu-item-image" />
+                <img src={item.image} alt={item.name} className="menu-item-image" /> {/* Use the object URL for the image */}
               </div>
             ))
           ) : (
