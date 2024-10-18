@@ -33,21 +33,44 @@ const MenuAdmin = () => {
     loadData();
   }, []);
 
-  const structureMenuItems = (items) => {
+  const structureMenuItems = async (items) => {
     const structured = {};
-    items.forEach(item => {
+  
+    await Promise.all(items.map(async (item) => {
       const category = item.menuId.name;
       if (!structured[category]) {
         structured[category] = [];
       }
-      structured[category].push({
-        id: item.id,
-        name: item.name,
-        description: item.description,
-        image: `http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`,
-        price: item.price,
-      });
-    });
+  
+      // Fetch the image data (binary)
+      try {
+        const response = await axios.get(`http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`, {
+          responseType: 'blob' // Expecting binary data
+        });
+  
+        // Create a URL for the image blob
+        const imageUrl = URL.createObjectURL(response.data);
+        
+        structured[category].push({
+          id: item.id,
+          name: item.name,
+          description: item.description,
+          image: imageUrl, // Now storing the object URL
+          price: item.price,
+        });
+      } catch (error) {
+        console.error('Error fetching image for item:', item.id, error);
+        // Handle image fetching error; you can set a default image here if required
+        structured[category].push({
+          id: item.id,
+          name: item.name,
+          description: item.description,
+          image:'fail', // Placeholder for missing images
+          price: item.price,
+        });
+      }
+    }));
+  
     setStructuredMenu(structured);
   };
 
@@ -240,9 +263,9 @@ const MenuAdmin = () => {
           <div key={category} className="menu-category">
             <div style={{ alignItems: 'center', paddingBottom: '20px' }}>
               <h4>{category}</h4>
-              <Button variant="danger" onClick={() => handleDeleteCategory(category)}>
+              {/* <Button variant="danger" onClick={() => handleDeleteCategory(category)}>
                 Delete whole menu
-              </Button>
+              </Button> */}
             </div>
             {structuredMenu[category].map(item => (
               <div 
