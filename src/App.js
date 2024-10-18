@@ -138,7 +138,7 @@ function App() {
   };
 
   return (
-    <OrderProvider>
+   
       <Router>
         <div className="App">
           {/* Conditionally render Header or CustomerDashboardHeader */}
@@ -178,7 +178,7 @@ function App() {
           />
         </div>
       </Router>
-    </OrderProvider>
+  
   );
 }
 
