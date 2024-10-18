@@ -3,7 +3,6 @@ import { Card, Row, Col, Button, Modal, ProgressBar } from 'react-bootstrap';
 import './CustomerCss/OrderHistorySection.css'; // Import the CSS file
 import CustomerDashboardHeader from './CustomerDashboardHeader';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-
 import axios from 'axios'; 
 
 const OrderHistorySection = () => {
@@ -12,12 +11,13 @@ const OrderHistorySection = () => {
   const [deliveries, setDeliveries] = useState([]);
   const navigate = useNavigate(); // Initialize useNavigate
 
+  const customerEmail = "customer@example.com"; // Replace this with the actual logged-in customer's email
 
   useEffect(() => {
-    // Fetch deliveries from the backend 
+    // Fetch deliveries for the specific customer
     const fetchDeliveries = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/ClubCurry/delivery/getAll'); 
+        const response = await axios.get(`http://localhost:8080/ClubCurry/delivery/getByCustomerEmail/${customerEmail}`);
         setDeliveries(response.data);
       } catch (error) {
         console.error('Error fetching deliveries:', error);
@@ -25,7 +25,7 @@ const OrderHistorySection = () => {
     };
 
     fetchDeliveries();
-  }, []);
+  }, [customerEmail]);
 
   // Handle Modal show/hide
   const handleShowModal = (order) => {
@@ -53,8 +53,8 @@ const OrderHistorySection = () => {
 
   return (
     <div className="order-history-section">
-    <CustomerDashboardHeader /> {/* Add this line */}
-    <h2>Your Orders</h2>
+      <CustomerDashboardHeader /> {/* Add this line */}
+      <h2>Your Orders</h2>
       <div className="orders-container">
         {deliveries
           .filter(order => order.isDelivered) 

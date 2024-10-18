@@ -1,9 +1,7 @@
 import React from 'react';
-import { Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import './DriverNavbBar.css';
+import '../Driver/DriverCSS/DriverNavbBar.css';
 
-const DriverNavbar = () => {
+const DriverNavbar = ({ activeSection, setActiveSection }) => {
   // Driver profile data
   const driverProfile = {
     name: 'Jane Smith',
@@ -12,29 +10,32 @@ const DriverNavbar = () => {
 
   return (
     <div className="driver-navbar">
-      <Nav className="flex-column">
-        
-        <Nav.Item>
-          <Link to="/driver/active-deliveries" className="driver-nav-link">
-            Active Deliveries
-          </Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Link to="/driver/completed-deliveries" className="driver-nav-link">
-            Completed Deliveries
-          </Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Link to="/driver/my-deliveries" className="driver-nav-link">
-            My Deliveries
-          </Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Link to="/driver/profile" className="driver-nav-link">
-            Profile
-          </Link>
-        </Nav.Item>
-      </Nav>
+      <div className="driver-navbar-buttons">
+        <button 
+          className={`driver-nav-button ${activeSection === 'active-deliveries' ? 'active' : ''}`} 
+          onClick={() => setActiveSection('active-deliveries')}
+        >
+          Active Deliveries
+        </button>
+        <button 
+          className={`driver-nav-button ${activeSection === 'completed-deliveries' ? 'active' : ''}`} 
+          onClick={() => setActiveSection('completed-deliveries')}
+        >
+          Completed Deliveries
+        </button>
+        <button 
+          className={`driver-nav-button ${activeSection === 'deliveries' ? 'active' : ''}`} 
+          onClick={() => setActiveSection('deliveries')}
+        >
+          My Deliveries
+        </button>
+        <button 
+          className={`driver-nav-button ${activeSection === 'profile' ? 'active' : ''}`} 
+          onClick={() => setActiveSection('profile')}
+        >
+          Profile
+        </button>
+      </div>
 
       {/* Driver profile section */}
       <div className="driver-profile">
