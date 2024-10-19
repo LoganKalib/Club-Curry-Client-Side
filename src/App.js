@@ -14,7 +14,6 @@ import SignupModal from './components/Common/SignupModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
 //import Deliveries from './components/Views/Driver/Deliveries';
 import BookingTest from './components/Common/BookingTest';
-import Employee from './components/Views/GeneralEmployee/Employee';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
@@ -24,7 +23,8 @@ import './CSS/Footer.css';
 import './CSS/Overlay.css';
 import './CSS/HomePage.css';
 import AdminDashboard from './components/Views/Admin/AdminDashboard';
-import Cart from './components/Views/Customer/Cart'; // Import Cart component
+import Cart from './components/Views/Customer/Cart';
+import EmployeeLayout from "./components/Views/GeneralEmployee/EmployeeLayout"; // Import Cart component
 
 function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
       <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard /> : <div>Page Not Found</div>} />
       <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer  onLogout={onLogout} /> : <div>Page Not Found</div>} />
       
-      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee /> : <div>Page Not Found</div>} />
+      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <EmployeeLayout /> : <div>Page Not Found</div>} />
       <Route path="/customer-dashboard-reviews" element={<CustomerReviews />}/>
       <Route path="/customer-dashboard-order-history" element={<OrderHistorySection />} />
       <Route path="/customer-dashboard-bookings" element={<BookingTest />} />
