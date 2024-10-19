@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col, Card, Button, FormControl } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import '../Driver/DriverCSS/DriverDashboardContainer.css';
 import DriverDashboardHeader from './DriverDashboardHeader';
 import DriverNavbar from './DriverNavBar';
@@ -51,6 +51,12 @@ const DriverDashboardContainer = ({ onLogout }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [activeSection, setActiveSection] = useState('active-deliveries'); // Track the active section
+
+  // Example state for performance metrics
+  const [activeDeliveries, setActiveDeliveries] = useState(125);
+  const [activeChange, setActiveChange] = useState(-5); // Example percentage change
+  const [averageDeliveries, setAverageDeliveries] = useState(80);
+  const [averageChange, setAverageChange] = useState(-3);
 
   // Function to update the status of a delivery
   const handleUpdateStatus = (deliveryId, newStatus) => {
@@ -110,6 +116,59 @@ const DriverDashboardContainer = ({ onLogout }) => {
             )}
             {activeSection === 'deliveries' && <Deliveries deliveries={deliveries} />}
             {activeSection === 'profile' && <DriverProfile />}
+            {activeSection === 'performance-overview' && (
+              <div className="performance-overview">
+                <h2 className="overview-title">Performance Overview</h2>
+                <Row>
+                  <Col md={6}>
+                    <Card className="overview-card">
+                      <Card.Body>
+                        <div className="delivery-metrics">
+                          <div>
+                            <h3 className="metric-title">Active Deliveries</h3>
+                            <h1 className="metric-value">{activeDeliveries}</h1>
+                            <span className={`metric-change ${activeChange < 0 ? 'down' : 'up'}`}>
+                              {activeChange}% {activeChange < 0 ? '▼' : '▲'}
+                            </span>
+                          </div>
+                          <div className="metric-graph">
+                            <div className="bar-graph">
+                              <div className="bar" style={{ height: '70%' }}></div>
+                              <div className="bar" style={{ height: '50%' }}></div>
+                              <div className="bar" style={{ height: '80%' }}></div>
+                              <div className="bar" style={{ height: '60%' }}></div>
+                            </div>
+                          </div>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col md={6}>
+                    <Card className="overview-card">
+                      <Card.Body>
+                        <div className="delivery-metrics">
+                          <div>
+                            <h3 className="metric-title">Average Deliveries</h3>
+                            <h1 className="metric-value">{averageDeliveries}</h1>
+                            <span className={`metric-change ${averageChange < 0 ? 'down' : 'up'}`}>
+                              {averageChange}% {averageChange < 0 ? '▼' : '▲'}
+                            </span>
+                          </div>
+                          <div className="metric-graph">
+                            <div className="bar-graph">
+                              <div className="bar" style={{ height: '70%' }}></div>
+                              <div className="bar" style={{ height: '60%' }}></div>
+                              <div className="bar" style={{ height: '50%' }}></div>
+                              <div className="bar" style={{ height: '80%' }}></div>
+                            </div>
+                          </div>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                </Row>
+              </div>
+            )}
           </div>
         </Col>
       </Row>

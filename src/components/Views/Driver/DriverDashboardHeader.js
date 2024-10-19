@@ -22,12 +22,7 @@ const DriverDashboardHeader = ({ isLoggedIn, onLogout }) => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <NavLink to="/driver" className="nav-link">
-            Dashboard
-          </NavLink>
-         
-        </Nav>
+        
         <div className="buttons-container">
           {isLoggedIn && (
             <Button variant="outline-light" onClick={handleLogout}>

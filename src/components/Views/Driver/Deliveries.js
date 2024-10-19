@@ -1,55 +1,69 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import '../Driver/DriverCSS/Deliveries.css';
 
 const Deliveries = ({ deliveries = [], onUpdateStatus }) => {
-  const outstandingDeliveries = deliveries.filter(delivery => delivery.status !== 'delivered');
+  // Filter only pending deliveries
+  const pendingDeliveries = deliveries.filter(delivery => delivery.status === 'pending');
+
+  // Calculate total deliveries and percentage (for demo purposes, using static values)
+  const totalPendingDeliveries = pendingDeliveries.length;
+  const previousTotalDeliveries = 100; // Example previous value for total deliveries
+  const percentagePending = ((totalPendingDeliveries / previousTotalDeliveries) * 100) || 0;
 
   return (
     <div className="deliveries-container">
-      <h2>Outstanding Deliveries</h2>
+      <h2>Pending Deliveries</h2>
+      
+      <div className="deliveries-summary">
+        <h4>Total Pending Deliveries</h4>
+        <h1>{totalPendingDeliveries}</h1>
+        <div className="progress-circle">
+          <CircularProgressbar
+            value={percentagePending}
+            text={`${Math.round(percentagePending)}%`}
+            styles={buildStyles({
+              pathColor: '#FF9800', // Customize color for the progress bar
+              textColor: '#333',
+              trailColor: '#e0e0e0',
+            })}
+          />
+        </div>
+      </div>
+
       <table className="table table-striped">
         <thead>
           <tr>
             <th>Order ID</th>
-            <th>Food Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
             <th>Customer Name</th>
+            <th>Customer Contact</th>
+            <th>Address</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {outstandingDeliveries.length === 0 ? (
+          {pendingDeliveries.length === 0 ? (
             <tr>
-              <td colSpan="7">No outstanding deliveries</td>
+              <td colSpan="6">No pending deliveries</td>
             </tr>
           ) : (
-            outstandingDeliveries.map(delivery => (
+            pendingDeliveries.map(delivery => (
               <tr key={delivery.deliveryId}>
                 <td>{delivery.orderId}</td>
-                <td>{delivery.order}</td>
-                <td>${delivery.price.toFixed(2)}</td>
-                <td>{delivery.quantity}</td>
                 <td>{delivery.customerName}</td>
+                <td>{delivery.customerContact}</td>
+                <td>{delivery.address}</td>
                 <td>{delivery.status}</td>
                 <td>
-                  {delivery.status === 'pending' && (
-                    <button
-                      className="btn btn-warning"
-                      onClick={() => onUpdateStatus(delivery.deliveryId, 'in transit')}
-                    >
-                      In Transit
-                    </button>
-                  )}
-                  {delivery.status === 'in transit' && (
-                    <button
-                      className="btn btn-success"
-                      onClick={() => onUpdateStatus(delivery.deliveryId, 'delivered')}
-                    >
-                      Delivered
-                    </button>
-                  )}
+                  <button
+                    className="btn btn-warning"
+                    onClick={() => onUpdateStatus(delivery.deliveryId, 'in transit')}
+                  >
+                    In Transit
+                  </button>
                 </td>
               </tr>
             ))
