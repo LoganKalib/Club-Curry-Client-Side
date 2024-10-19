@@ -8,7 +8,8 @@ import CompletedDeliveries from '../Driver/CompletedDeliveries';
 import Deliveries from '../Driver/Deliveries';
 import DriverProfile from '../Driver/DriverProfile';
 
-const DriverDashboardContainer = ({ onLogout }) => {
+const DriverDashboardContainer = ({ onLogout, decodedValue }) => {
+  console.log(decodedValue);
   // State to manage the list of deliveries
   const [deliveries, setDeliveries] = useState([
     {
