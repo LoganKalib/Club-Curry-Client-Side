@@ -12,16 +12,7 @@ const EmployeeLayout = ({ isLoggedIn, onLogout }) => {
   const [currentMenuId, setCurrentMenuId] = useState(null); // State for current menu ID
   const location = useLocation(); 
   const showOrderSummary = !['/orderManagement', '/employee'].includes(location.pathname);
-  const products = [
-    { id: 1, name: 'Zinger Burger', price: 150, image: 'path/to/zinger-burger.jpg', menuId: 1 },
-    { id: 2, name: 'Pizza', price: 100, image: 'path/to/pizza.jpg', menuId: 1  },
-    { id: 3, name: 'Sprite', price: 50, image: 'path/to/sprite.jpg', menuId: 1  },
-    { id: 4, name: 'Chicken Tikka', price: 200, image: 'path/to/chicken-tikka.jpg', menuId: 1  },
-    { id: 5, name: 'Cheese Lover', price: 120, image: 'path/to/cheese-lover.jpg', menuId: 2 },
-    { id: 6, name: 'Double Zinger', price: 180, image: 'path/to/double-zinger.jpg', menuId: 2  },
-    { id: 7, name: 'Chicken Burger', price: 130, image: 'path/to/chicken-burger.jpg', menuId: 2 },
-    { id: 8, name: 'Beef Kebab', price: 100, image: 'path/to/beef-kebab.jpg', menuId: 2 },
-  ];
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchMenus = async () => {
@@ -32,10 +23,34 @@ const EmployeeLayout = ({ isLoggedIn, onLogout }) => {
         console.error('Error fetching menus:', error); // Log any errors
       }
     };
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/ClubCurry/menuItem/getAll'); // Use Axios to fetch menus
+        setProducts(response.data); // Access the data directly from response
+      } catch (error) {
+        console.error('Error fetching menu items:', error); // Log any errors
+      }
+    };
     fetchMenus();
+    fetchProducts();
   }, []);
 
   const onSubmitOrder = () => {
+    const submitOrder = async () => {
+      const newOrderSummary = [...orderSummary];
+      for(let i= 0; i<orderSummary.length; i++){
+
+        newOrderSummary[i].note = "N/A";
+        newOrderSummary[i].spiceLevel = "LOW";
+      }
+      const response = axios.post('http://localhost:8080/ClubCurry/cart/save', {customer: {email: "kay@email.com"}, items: [{}]});
+      const order = (await response).data;
+      order.items = newOrderSummary;
+      const response2 = axios.put("http://localhost:8080/ClubCurry/cart/updateItems", order);
+      console.log(response);
+      console.log(response2);
+    }
+    submitOrder();
     setOrderSummary([])
   };
 
@@ -53,17 +68,26 @@ const EmployeeLayout = ({ isLoggedIn, onLogout }) => {
   };
 
   const handleAddToOrder = (product) => {
-    if(orderSummary.includes(product)) {
+    const newOrderSummary = [...orderSummary];
+    if(newOrderSummary.find((item) => (item.menuItem.id === product.id))) {
+      const index = newOrderSummary.findIndex((item) => (item.menuItem.id === product.id));
+      newOrderSummary[index].quantity++;
+      setOrderSummary(newOrderSummary);
       return
     }
-    const newOrderSummary = [...orderSummary];
-    newOrderSummary.push(product)
+    const newItem = { menuItem: product, quantity: 1}
+    newOrderSummary.push(newItem)
     setOrderSummary(newOrderSummary)
   };
 
   const handleRemoveFromOrder = (product) => {
     const newOrderSummary = [...orderSummary];
-    const index = newOrderSummary.findIndex((item) => (item===product))
+    const index = newOrderSummary.findIndex((item) => (item.menuItem.id===product.menuItem.id), 0);
+    if(newOrderSummary[index].quantity>1){
+      newOrderSummary[index].quantity--;
+      setOrderSummary(newOrderSummary);
+      return
+    }
     newOrderSummary.splice(index,1);
     setOrderSummary(newOrderSummary);
   }
@@ -85,7 +109,7 @@ const EmployeeLayout = ({ isLoggedIn, onLogout }) => {
               </li>
               <li>
                 <Link to="/employee">
-                  <i className="fas fa-th-list"></i> All Categories
+                  <i className="fas fa-th-list"></i> Manage Bookings
                 </Link>
               </li>
               {menus.map((menu) => (
@@ -102,7 +126,7 @@ const EmployeeLayout = ({ isLoggedIn, onLogout }) => {
           </nav>
           <div className="employee-main-content">
           </div>
-          <Employee handleAddToOrder={handleAddToOrder} products={products} currentMenuId = {currentMenuId}/>
+        <Employee handleAddToOrder={handleAddToOrder} products={products} currentMenuId = {currentMenuId}/>
         <OrderSummary onSubmitOrder={onSubmitOrder} orderSummary={orderSummary} handleRemoveFromOrder={handleRemoveFromOrder}/>
       </div>
   );
