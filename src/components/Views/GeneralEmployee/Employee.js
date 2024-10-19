@@ -6,6 +6,7 @@ import './Employee.css';
 const Employee = (props) => {
 
     useEffect(() => {
+        console.log(props.decodeValue)
     }, []);
 
     return (
