@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import CustomerDashboardHeader from './CustomerDashboardHeader';
 import './CustomerCss/CustomerDashboard.css';
 import axios from 'axios';
+import Cart from './Cart'; // Import Cart component
 
 const CustomerDashboard = ({
   cartItems,
@@ -21,6 +22,7 @@ const CustomerDashboard = ({
   const [specials, setSpecials] = useState([]); // State to hold specials
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
+  const [showCart, setShowCart] = useState(false); // State to control cart modal visibility
   const navigate = useNavigate(); // Initialize useNavigate
 
   // Fetch specials data on component mount
@@ -38,7 +40,29 @@ const CustomerDashboard = ({
         if (specialsMenu) {
           // Filter items belonging to the "Specials" menu
           const specialItems = response.data.filter(item => item.menuId.id === specialsMenu.id);
-          setSpecials(specialItems);
+
+          // Fetch images for special items
+          const specialItemsWithImages = await Promise.all(specialItems.map(async (item) => {
+            try {
+              const imageResponse = await axios.get(`http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`, {
+                responseType: 'blob', // Expecting binary data
+              });
+              const imageUrl = URL.createObjectURL(imageResponse.data); // Create object URL for the image
+              
+              return {
+                ...item,
+                image: imageUrl, // Add image URL to the item
+              };
+            } catch (error) {
+              console.error('Error fetching image for item:', item.id, error);
+              return {
+                ...item,
+                image: 'path/to/default/image.png', // Set to default image if fetching fails
+              };
+            }
+          }));
+
+          setSpecials(specialItemsWithImages); // Update state with special items and their images
         } else {
           console.warn('Specials menu not found.');
         }
@@ -56,10 +80,18 @@ const CustomerDashboard = ({
     navigate('/menu'); // Navigate to the Menu route
   };
 
+  const handleShowCart = () => {
+    setShowCart(true); // Show the cart modal
+  };
+
+  const handleCloseCart = () => {
+    setShowCart(false); // Hide the cart modal
+  };
+
   return (
     <div className="customer-dashboard">
       {/* Header Section */}
-      <CustomerDashboardHeader isLoggedIn={isLoggedIn} onLogout={onLogout} />
+      <CustomerDashboardHeader isLoggedIn={isLoggedIn} onLogout={onLogout} onShowCart={handleShowCart} /> {/* Pass the handleShowCart function */}
 
       {/* Welcome Section */}
       <div className="welcome-section">
@@ -83,7 +115,7 @@ const CustomerDashboard = ({
                   <p>Price: R{item.price}</p>
                   <button onClick={() => addToCart(item)} className="order-now-btn">Order Now</button>
                 </div>
-                <img src={`http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`} alt={item.name} className="menu-item-image" />
+                <img src={item.image} alt={item.name} className="menu-item-image" /> {/* Use the object URL for the image */}
               </div>
             ))
           ) : (
@@ -91,6 +123,19 @@ const CustomerDashboard = ({
           )}
         </div>
       </div>
+
+      {/* Cart Modal */}
+      <Cart
+        cartItems={cartItems}
+        onRemoveItem={onRemoveItem}
+        onUpdateQuantity={onUpdateQuantity}
+        onCheckout={onCheckout}
+        showCart={showCart}
+        onCloseCart={handleCloseCart}
+        isLoggedIn={isLoggedIn}
+        onShowLogin={onShowLogin}
+        onShowSignup={onShowSignup}
+      />
     </div>
   );
 };
