@@ -1,0 +1,120 @@
+/* General container styling */
+.EBM-container {
+    padding: 20px;
+  }
+  
+  #btn-new-booking {
+    margin-bottom: 20px;
+  }
+  
+  /* Title/Heading styling */
+  .EBM-container h1 {
+    padding: 20px 30px;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #690b0b, #17151a);
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .EBM-container h1:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Search form styling */
+  .EBM-search-form {
+    margin-bottom: 20px;
+  }
+  
+  /* Table styling */
+  .EBM-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  /* Table header styling */
+  .EBM-table th {
+    background: #8fadd4;
+    color: #c02424; 
+    text-align: center;
+    padding: 15px;
+    font-size: 1.1rem;
+    border: 2px solid #dee2e6;
+  }
+  
+  /* Table data cell styling */
+  .EBM-table td {
+    text-align: center;
+    padding: 12px;
+    border: 2px solid #dee2e6;
+    background-color: #f8f9fa;
+    font-size: 1rem;
+    color: #343a40;
+  }
+  
+  /* Table row hover effect */
+  .EBM-table tr:hover {
+    background-color: #d1e7dd; 
+    transition: background-color 0.3s ease-in-out; 
+  }
+  
+  /* Zebra striping for rows */
+  .EBM-table tr:nth-child(even) {
+    background-color: #e2e3e5;
+  }
+  
+  /* Button styling */
+  .EBM-button {
+    margin-right: 10px;
+  }
+  
+  /* Modal styling */
+  .EBM-modal-header {
+    background-color: #6610f2;
+    color: white;
+  }
+  
+  .EBM-modal-title {
+    font-weight: bold;
+  }
+  
+  .EBM-modal-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Additional utility styles */
+  .EBM-text-center {
+    text-align: center;
+  }
+  
+  .EBM-d-flex {
+    display: flex;
+  }
+  
+  .EBM-flex-column {
+    flex-direction: column;
+  }
+  
+  .EBM-mb-4 {
+    margin-bottom: 1.5rem;
+  }
+  
+  .EBM-p-2 {
+    padding: 0.5rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .EBM-table {
+      font-size: 0.9rem;
+    }
+  }
+  
