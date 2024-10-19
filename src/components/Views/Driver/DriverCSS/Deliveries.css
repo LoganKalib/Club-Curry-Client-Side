@@ -1,0 +1,52 @@
+.deliveries-container {
+    padding: 20px;
+  }
+  
+  .deliveries-container h2 {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 50px;
+  }
+  
+  /* Summary Section */
+  .deliveries-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px; /* Adjusted for spacing */
+  }
+  
+  /* Progress Circle */
+  .progress-circle {
+    width: 100px; /* Adjust width as needed */
+    height: 100px; /* Adjust height as needed */
+  }
+  
+  /* Table Styles */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table-striped tbody tr:nth-child(odd) {
+    background-color: #f2f2f2; /* Light gray for odd rows */
+  }
+  
+  .table-striped th,
+  .table-striped td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table-striped th {
+    background-color: #4CAF50; /* Header background color */
+    color: white;
+  }
+  
+  
+  .btn:hover {
+    background-color: #741c25;
+    color: white;
+  }
+  

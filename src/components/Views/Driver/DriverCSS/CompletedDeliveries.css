@@ -1,0 +1,88 @@
+/* Existing Styles */
+.completed-deliveries {
+    max-width: 1200px;  /* Set max width to limit the width of the content */
+    margin: 0 auto;     /* Center the content horizontally */
+    padding: 20px;
+}
+
+.deliveries-summary h2 {
+    font-size: 40px;
+    margin-bottom: 20px; /* Adds spacing below the heading */
+    font-weight: bold;   /* Makes the heading bold */
+    margin-left: 50px;
+
+}
+
+.completed-deliveries p {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.deliveries-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 20px;  /* Space between each grid item */
+}
+
+.delivery-card {
+    border: 1px solid #ddd;   /* Adds a light border around each card */
+    padding: 20px;            /* Adds space inside the card */
+    border-radius: 8px;       /* Rounds the corners of each card */
+    background-color: #fff;   /* White background for the card */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow to add depth */
+}
+
+.delivery-card h3 {
+    font-size: 20px;         /* Font size for the order title */
+    font-weight: bold;       /* Makes the order title bold */
+    margin-bottom: 10px;     /* Adds space below the title */
+}
+
+.delivery-card p {
+    font-size: 16px;         /* Font size for the other text */
+    margin: 5px 0;           /* Adds spacing between paragraphs */
+}
+
+/* New Styles for the Total Deliveries Summary */
+.completed-deliveries-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.deliveries-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.total-deliveries {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.total-deliveries h4 {
+    color: #888;
+    font-size: 16px;
+    margin: 0;
+}
+
+.total-deliveries h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.percentage-change {
+    font-size: 18px;
+    margin-top: 8px;
+}
+
+.progress-circle {
+    width: 100px;
+    height: 100px;
+}

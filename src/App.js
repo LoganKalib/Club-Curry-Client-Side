@@ -12,7 +12,7 @@ import CustomerDashboardHeader from './components/Views/Customer/CustomerDashboa
 import LoginModal from './components/Common/LoginModal';
 import SignupModal from './components/Common/SignupModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
-import Deliveries from './components/Views/Driver/Deliveries';
+//import Deliveries from './components/Views/Driver/Deliveries';
 import BookingTest from './components/Common/BookingTest';
 import Employee from './components/Views/GeneralEmployee/Employee';
 import axios from 'axios';
@@ -60,11 +60,13 @@ function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
         </>
       )}
       <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard /> : <div>Page Not Found</div>} />
-      <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer /> : <div>Page Not Found</div>} />
+      <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer  onLogout={onLogout} /> : <div>Page Not Found</div>} />
+      
       <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee /> : <div>Page Not Found</div>} />
-      <Route path="/customer-dashboard-reviews" element={<CustomerReviews />} />
+      <Route path="/customer-dashboard-reviews" element={<CustomerReviews />}/>
       <Route path="/customer-dashboard-order-history" element={<OrderHistorySection />} />
       <Route path="/customer-dashboard-bookings" element={<BookingTest />} />
+      
       <Route path="/menu" element={<Menu />} />
       <Route path="*" element={<div>Page Not Found</div>} />
     </Routes>

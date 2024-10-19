@@ -3,7 +3,17 @@ import { Modal, Button, Accordion, Form, Alert } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-const Cart = ({ cartItems, onRemoveItem, onUpdateQuantity, onCheckout, showCart, onCloseCart, isLoggedIn, onShowLogin, onShowSignup }) => {
+const Cart = ({
+  cartItems = [], // Default to an empty array to avoid undefined error
+  onRemoveItem,
+  onUpdateQuantity,
+  onCheckout,
+  showCart,
+  onCloseCart,
+  isLoggedIn,
+  onShowLogin,
+  onShowSignup,
+}) => {
   const [orderType, setOrderType] = useState('');
   const [streetName, setStreetName] = useState('');
   const [streetNumber, setStreetNumber] = useState('');
