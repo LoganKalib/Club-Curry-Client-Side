@@ -6,7 +6,8 @@ import MenuAdmin from "./MenuAdmin";
 import ManageCustomers from "./ManageComponents/CustomerManagement/ManageCustomers";
 import ManageVehicles from "./VehicleManagement/ManageVehicles";
 
-const AdminDashboard = () => {
+const AdminDashboard = ({decodedValue}) => {
+    console.log(decodedValue);
     const [activeTab, setActiveTab] = useState('bookings');
 
     const renderActiveTab = () => {

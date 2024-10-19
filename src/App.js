@@ -24,7 +24,19 @@ import './CSS/HomePage.css';
 import AdminDashboard from './components/Views/Admin/AdminDashboard';
 import Cart from './components/Views/Customer/Cart'; // Import Cart component
 
-function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout,toggleCart }) {
+import { jwtDecode } from 'jwt-decode';
+
+const decodeJWT = (token) => {
+    try {
+        // Decode the JWT and return the resulting object
+        return jwtDecode(token);
+    } catch (error) {
+        console.error('Invalid token:', error);
+        return null; // Return null if the token is invalid
+    }
+};
+
+function AppRoutes({ isLoggedIn, userRole, decodedValue, setIsLoggedIn, onLogout }) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,19 +64,24 @@ function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout,toggleCart })
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      
-<Route path="/customer-dashboard" element={isLoggedIn && userRole === 'customer' ? 
-   <DashboardLayout 
-     isLoggedIn={isLoggedIn} 
-     onLogout={onLogout} 
-     onShowCart={toggleCart} // Pass the toggleCart function
-   /> : <div>Page Not Found</div>} 
-/>
-
-      <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard /> : <div>Page Not Found</div>} />
-      <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer  onLogout={onLogout} /> : <div>Page Not Found</div>} />
-      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee /> : <div>Page Not Found</div>} />
-      
+      {isLoggedIn && userRole === 'customer' && (
+        <>
+          <Route 
+            path="/customer-dashboard" 
+            element={<CustomerDashboard 
+              isLoggedIn={isLoggedIn} 
+              onLogout={onLogout} 
+              decodedValue={decodedValue} // Pass decodedValue to CustomerDashboard
+            />} 
+          />
+        </>
+      )}
+      <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
+      <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
+      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
+      <Route path="/customer-dashboard-reviews" element={<CustomerReviews decodedValue={decodedValue} />} />
+      <Route path="/customer-dashboard-order-history" element={<OrderHistorySection decodedValue={decodedValue} />} />
+      <Route path="/customer-dashboard-bookings" element={<BookingTest decodedValue={decodedValue} />} />
       <Route path="/menu" element={<Menu />} />
       <Route path="*" element={<div>Page Not Found</div>} />
     </Routes>
@@ -78,6 +95,7 @@ function App() {
   const [showSignup, setShowSignup] = useState(false);
   const [showCart, setShowCart] = useState(false); // State for cart modal
   const [cartItems, setCartItems] = useState([]); // State for cart items
+  const [decodedValue, setDecodedValue] = useState({})
 
   const handleLogin = async (userData) => {
     let role = null;
@@ -102,6 +120,8 @@ function App() {
       if (response.status === 200 && response.data) {
         console.log(`Successful login for role: ${role}`);
         localStorage.setItem('token', response.data);
+        const decoded = decodeJWT(localStorage.token);
+        setDecodedValue(decoded); // Set the decoded value
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
         setIsLoggedIn(true);
         setUserRole(role);
@@ -148,6 +168,7 @@ function App() {
           <AppRoutes 
             isLoggedIn={isLoggedIn}
             userRole={userRole}
+            decodedValue={decodedValue} // Pass decodedValue to AppRoutes
             setIsLoggedIn={setIsLoggedIn}
             onLogout={handleLogout}
             toggleCart={toggleCart} // Pass toggleCart here
