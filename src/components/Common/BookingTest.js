@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import BookingModal from './BookingModal'; // Adjust the import path as necessary
 import { Button, Table, Form, FormControl } from 'react-bootstrap';
-// import './EmployeeBookingManagement.css'; // Assuming you'll style this view
+import './EmployeeBookingManagement.css'; // Assuming you'll style this view
 
 const EmployeeBookingManagement = () => {
   const [showModal, setShowModal] = useState(false);
@@ -88,14 +88,13 @@ const EmployeeBookingManagement = () => {
   };
 
   return (
-    <div className="employee-booking-management-container">
-      <h1>Manage Employee Bookings</h1>
+    <div className="EBM-container">
+      <h1 class="EMB-title">Employee - Manage Bookings</h1>
 
-      {/* Welcome message and button to open the modal */}
+      {/* Welcome message and button to open the employee booking modal */}
       <div>
-        <h1>Welcome to Our Restaurant</h1>
-        <Button variant="primary" onClick={handleOpen}>
-          Employee Booking Modal
+        <Button variant="primary" id="btn-new-booking" onClick={handleOpen}>
+          Employee New Booking
         </Button>
 
         <BookingModal 
@@ -107,18 +106,18 @@ const EmployeeBookingManagement = () => {
       </div>
 
       {/* Search by Booking ID */}
-      <Form inline className="search-form mb-4">
+      <Form inline className="EBM-search-form mb-4">
         <FormControl
           type="text"
           placeholder="Search by Booking ID"
           value={searchTerm}
           onChange={handleSearch}
-          className="mr-sm-2"
+          className="EBM-mr-sm-2"
         />
       </Form>
 
       {/* Bookings Table */}
-      <Table striped bordered hover>
+      <Table striped bordered hover className="EBM-table">
         <thead>
           <tr>
             <th>Booking ID</th>

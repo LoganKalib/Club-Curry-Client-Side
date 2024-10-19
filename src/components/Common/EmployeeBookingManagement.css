@@ -1,164 +1,83 @@
-/* EmployeeBookingManagement.css */
-
-.employee-booking-management-container {
+.EBM-container {
     padding: 20px;
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f7fc;
-}
+  }
 
-h1 {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-/* Search Form */
-.search-form {
-    display: flex;
-    justify-content: center;
+#btn-new-booking {
     margin-bottom: 20px;
 }
 
-.search-form input {
-    width: 300px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
-}
-
-.search-form input:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-/* Bookings Table */
-table {
+  .EBM-search-form {
+    margin-bottom: 20px;
+  }
+  
+  .EBM-table {
     width: 100%;
-    border-collapse: collapse;
-    margin: 0 auto;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-table thead {
-    background-color: #007bff;
-    color: #fff;
-}
-
-table thead th {
-    padding: 15px;
-    text-align: left;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-table tbody td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-    text-align: left;
-}
-
-/* Action Button */
-button {
-    padding: 8px 15px;
-    font-size: 14px;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-}
-
-button:focus {
-    outline: none;
-}
-
-button:active {
-    transform: translateY(1px);
-}
-
-button.btn-warning {
-    background-color: #f0ad4e;
-}
-
-button.btn-warning:hover {
-    background-color: #ec971f;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    table thead {
-        display: none;
-    }
-
-    table, table tbody, table tr, table td {
-        display: block;
-        width: 100%;
-    }
-
-    table tr {
-        margin-bottom: 15px;
-    }
-
-    table td {
-        text-align: right;
-        padding-left: 50%;
-        position: relative;
-    }
-
-    table td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 15px;
-        width: 45%;
-        padding-right: 10px;
-        text-align: left;
-        font-weight: bold;
-        color: #333;
-    }
-}
-
-/* Modal Styling */
-.modal-content {
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-}
-
-.modal-header {
-    border-bottom: none;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.modal-body {
-    padding: 20px;
-}
-
-.modal-footer {
+    margin-top: 20px;
+  }
+  
+  .EBM-mr-sm-2 {
+    margin-right: 0.5rem;
+  }
+  
+  /* Styling for buttons */
+  .EBM-button {
+    margin-right: 10px; /* Add some space between buttons */
+  }
+  
+  /* Table styling */
+  .EBM-table th {
+    background-color: #f8f9fa; /* Light background for headers */
+    text-align: center; /* Center align header text */
+  }
+  
+  .EBM-table td {
+    text-align: center; /* Center align table data */
+  }
+  
+  .EBM-table tr:hover {
+    background-color: #e9ecef; /* Highlight row on hover */
+  }
+  
+  /* Modal styling */
+  .EBM-modal-header {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white; /* White text for header */
+  }
+  
+  .EBM-modal-title {
+    font-weight: bold; /* Bold title */
+  }
+  
+  .EBM-modal-footer {
     display: flex;
-    justify-content: flex-end;
-}
-
-.modal-footer button {
-    margin-left: 10px;
-}
-
-.modal-footer button.btn-primary {
-    background-color: #007bff;
-}
-
-.modal-footer button.btn-primary:hover {
-    background-color: #0056b3;
-}
+    justify-content: space-between; /* Space between buttons in footer */
+  }
+  
+  /* Additional utility styles */
+  .EBM-text-center {
+    text-align: center;
+  }
+  
+  .EBM-d-flex {
+    display: flex;
+  }
+  
+  .EBM-flex-column {
+    flex-direction: column;
+  }
+  
+  .EBM-mb-4 {
+    margin-bottom: 1.5rem;
+  }
+  
+  .EBM-p-2 {
+    padding: 0.5rem; /* Small padding for elements */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .EBM-table {
+      font-size: 0.9rem; /* Slightly smaller font on mobile */
+    }
+  }
+  
