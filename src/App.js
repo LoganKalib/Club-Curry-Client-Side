@@ -24,15 +24,15 @@ import './CSS/Footer.css';
 import './CSS/Overlay.css';
 import './CSS/HomePage.css';
 import AdminDashboard from './components/Views/Admin/AdminDashboard';
+import Cart from './components/Views/Customer/Cart'; // Import Cart component
 
 function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
   const navigate = useNavigate();
 
-  // This effect will run when userRole changes
   useEffect(() => {
     if (userRole) {
       console.log(`User role set to: ${userRole}`);
-      navigate(getDashboardRoute(userRole)); // Navigate to the appropriate dashboard
+      navigate(getDashboardRoute(userRole));
     }
   }, [userRole, navigate]);
 
@@ -47,7 +47,7 @@ function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
       case 'generalStaff':
         return '/employee';
       default:
-        return '/'; // Fallback route
+        return '/';
     }
   };
 
@@ -56,25 +56,15 @@ function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
       <Route path="/" element={<HomePage />} />
       {isLoggedIn && userRole === 'customer' && (
         <>
-          <Route
-            path="/customer-dashboard"
-            element={<CustomerDashboard isLoggedIn={isLoggedIn} onLogout={onLogout} />}
-          />
-                
-          
-         
+          <Route path="/customer-dashboard" element={<CustomerDashboard isLoggedIn={isLoggedIn} onLogout={onLogout} />} />
         </>
       )}
-
-     
       <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard /> : <div>Page Not Found</div>} />
       <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer /> : <div>Page Not Found</div>} />
-      
       <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee /> : <div>Page Not Found</div>} />
-      <Route path="/customer-dashboard-reviews" element={<CustomerReviews />}/>
+      <Route path="/customer-dashboard-reviews" element={<CustomerReviews />} />
       <Route path="/customer-dashboard-order-history" element={<OrderHistorySection />} />
       <Route path="/customer-dashboard-bookings" element={<BookingTest />} />
-      
       <Route path="/menu" element={<Menu />} />
       <Route path="*" element={<div>Page Not Found</div>} />
     </Routes>
@@ -86,11 +76,12 @@ function App() {
   const [userRole, setUserRole] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [showCart, setShowCart] = useState(false); // State for cart modal
+  const [cartItems, setCartItems] = useState([]); // State for cart items
 
   const handleLogin = async (userData) => {
     let role = null;
 
-    // Determine the role based on the email domain
     if (userData.email.endsWith('@ccadmin.com')) {
       role = 'admin';
     } else if (userData.email.endsWith('@ccdriver.com')) {
@@ -98,35 +89,29 @@ function App() {
     } else if (userData.email.endsWith('@ccstaff.com')) {
       role = 'generalStaff';
     } else {
-      role = 'customer'; // Default role if email doesn't match any specific case
+      role = 'customer';
     }
 
     try {
-      // Formulate loginData based on determined role
       const loginData = role === 'customer'
         ? { email: userData.email, password: userData.password }
         : { username: userData.email, password: userData.password };
 
-      // Attempt to login for the determined role
       const response = await axios.post(`http://localhost:8080/ClubCurry/${role}/login`, loginData);
 
-      // Successful login
       if (response.status === 200 && response.data) {
         console.log(`Successful login for role: ${role}`);
-
-        // Set the token and user state
         localStorage.setItem('token', response.data);
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
         setIsLoggedIn(true);
         setUserRole(role);
         setShowLogin(false);
-        return; // Exit the function after successful login
+        return;
       }
     } catch (error) {
       console.error(`Error logging in as ${role}:`, error.response ? error.response.data : error.message);
     }
 
-    // If we reach here, login has failed
     alert('Invalid username or password.');
     setShowLogin(false);
   };
@@ -137,48 +122,62 @@ function App() {
     localStorage.removeItem('token');
   };
 
-  return (
-   
-      <Router>
-        <div className="App">
-          {/* Conditionally render Header or CustomerDashboardHeader */}
-          {userRole === 'customer' ? (
-            <CustomerDashboardHeader
-              isLoggedIn={isLoggedIn}
-              onLogout={handleLogout}
-              onShowCart={() => console.log('Show Cart')} // Replace with your function to show cart
-            />
-          ) : (
-            <Header
-              isLoggedIn={isLoggedIn}
-              onShowLogin={() => setShowLogin(true)}
-              onShowSignup={() => setShowSignup(true)}
-              onLogout={handleLogout}
-            />
-          )}
-          
-          <Container>
-            <AppRoutes 
-              isLoggedIn={isLoggedIn}
-              userRole={userRole}
-              setIsLoggedIn={setIsLoggedIn}
-              onLogout={handleLogout} // Pass onLogout to AppRoutes
-            />
-          </Container>
+  const toggleCart = () => {
+    setShowCart(!showCart);
+  };
 
-          <Footer />
-          <LoginModal 
-            show={showLogin} 
-            handleClose={() => setShowLogin(false)} 
-            handleLogin={handleLogin} 
+  return (
+    <Router>
+      <div className="App">
+        {userRole === 'customer' ? (
+          <CustomerDashboardHeader
+            isLoggedIn={isLoggedIn}
+            onLogout={handleLogout}
+            onShowCart={toggleCart} // Show cart function
           />
-          <SignupModal 
-            show={showSignup} 
-            handleClose={() => setShowSignup(false)} 
+        ) : (
+          <Header
+            isLoggedIn={isLoggedIn}
+            onShowLogin={() => setShowLogin(true)}
+            onShowSignup={() => setShowSignup(true)}
+            onLogout={handleLogout}
+            onShowCart={toggleCart} // Show cart function
           />
-        </div>
-      </Router>
-  
+        )}
+        <Container>
+          <AppRoutes 
+            isLoggedIn={isLoggedIn}
+            userRole={userRole}
+            setIsLoggedIn={setIsLoggedIn}
+            onLogout={handleLogout}
+          />
+          {/* Pass cart-related props to Cart component */}
+          <Cart 
+            cartItems={cartItems} 
+            onRemoveItem={(id) => setCartItems(cartItems.filter(item => item.uniqueId !== id))}
+            onUpdateQuantity={(id, change) => {
+              setCartItems(cartItems.map(item => item.uniqueId === id ? { ...item, quantity: item.quantity + change } : item));
+            }}
+            onCheckout={() => alert('Checkout functionality to be implemented.')}
+            showCart={showCart}
+            onCloseCart={toggleCart}
+            isLoggedIn={isLoggedIn}
+            onShowLogin={() => setShowLogin(true)}
+            onShowSignup={() => setShowSignup(true)}
+          />
+        </Container>
+        <Footer />
+        <LoginModal 
+          show={showLogin} 
+          handleClose={() => setShowLogin(false)} 
+          handleLogin={handleLogin} 
+        />
+        <SignupModal 
+          show={showSignup} 
+          handleClose={() => setShowSignup(false)} 
+        />
+      </div>
+    </Router>
   );
 }
 

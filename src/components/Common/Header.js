@@ -32,9 +32,6 @@ const Header = ({ isLoggedIn, onShowLogin, onShowSignup, onLogout, onShowCart, o
           <Button variant="outline-light" onClick={onShowCart} className="ml-2">
             <i className="fas fa-shopping-cart"></i> Cart
           </Button>
-          <Button variant="outline-light" onClick={onShowBooking} className="ml-2">
-            <i className="fas fa-calendar-alt"></i> Book a Table
-          </Button>
         </Nav>
         <div className="buttons-container">
           {isLoggedIn ? (
