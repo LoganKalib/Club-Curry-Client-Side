@@ -12,7 +12,7 @@ import CustomerDashboardHeader from './components/Views/Customer/CustomerDashboa
 import LoginModal from './components/Common/LoginModal';
 import SignupModal from './components/Common/SignupModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
-import Deliveries from './components/Views/Driver/Deliveries';
+//import Deliveries from './components/Views/Driver/Deliveries';
 import BookingTest from './components/Common/BookingTest';
 import Employee from './components/Views/GeneralEmployee/Employee';
 import axios from 'axios';
