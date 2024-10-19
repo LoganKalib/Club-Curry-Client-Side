@@ -1,21 +1,8 @@
 import React from 'react';
 import { Navbar, Button, Nav } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import '../Customer/CustomerCss/CustomerDashboardHeader.css'; // Import the CSS file for styling
 
-const CustomerDashboardHeader = ({ isLoggedIn, onLogout, onShowCart }) => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    onLogout(); // Call the logout function passed as a prop
-    navigate('/'); // Redirect to the home page after logout
-  };
-
-  // Functions to handle navigation to specific sections
-  const handleGoToDashboard = () => navigate('/customer-dashboard');
-  const handleGoToOrderHistory = () => navigate('/customer-dashboard-order-history');
-  const handleGoToReviews = () => navigate('/customer-dashboard-reviews');
-
+const CustomerDashboardHeader = ({ isLoggedIn, onLogout, onShowCart, handleSectionSwitch }) => {
   return (
     <Navbar className="navbar" expand="lg" fixed="top">
       <Navbar.Brand href="#home">
@@ -28,14 +15,14 @@ const CustomerDashboardHeader = ({ isLoggedIn, onLogout, onShowCart }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          {/* Replace NavLinks with Buttons */}
-          <Button variant="outline-light" onClick={handleGoToDashboard} className="ml-2">
+          {/* Trigger section switch when buttons are clicked */}
+          <Button variant="outline-light" onClick={() => handleSectionSwitch('dashboard')} className="ml-2">
             Dashboard
           </Button>
-          <Button variant="outline-light" onClick={handleGoToOrderHistory} className="ml-2">
+          <Button variant="outline-light" onClick={() => handleSectionSwitch('order-history')} className="ml-2">
             Order History
           </Button>
-          <Button variant="outline-light" onClick={handleGoToReviews} className="ml-2">
+          <Button variant="outline-light" onClick={() => handleSectionSwitch('reviews')} className="ml-2">
             Reviews
           </Button>
         </Nav>
@@ -45,7 +32,7 @@ const CustomerDashboardHeader = ({ isLoggedIn, onLogout, onShowCart }) => {
               <Button variant="outline-light" onClick={onShowCart} className="ml-2">
                 <i className="fas fa-shopping-cart"></i> Cart
               </Button>
-              <Button variant="outline-light" onClick={handleLogout} className="ml-2">
+              <Button variant="outline-light" onClick={onLogout} className="ml-2">
                 Logout
               </Button>
             </>

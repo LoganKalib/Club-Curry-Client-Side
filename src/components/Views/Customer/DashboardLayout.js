@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CustomerDashboardHeader from './CustomerDashboardHeader';
 import CustomerDashboard from './CustomerDashboard';
 import CustomerReviews from './CustomerReviews';
@@ -6,6 +6,8 @@ import OrderHistorySection from './OrderHistorySection';
 import PropTypes from 'prop-types';
 
 const DashboardLayout = ({ isLoggedIn, onLogout, onShowCart }) => {
+  const [activeSection, setActiveSection] = useState('dashboard'); // Track the active section
+
   const handleAddReview = (newReview) => {
     console.log('New Review Added:', newReview);
   };
@@ -21,10 +23,39 @@ const DashboardLayout = ({ isLoggedIn, onLogout, onShowCart }) => {
         onLogout={onLogout} 
         onShowCart={onShowCart} 
       />
+      
+      {/* Navigation bar for customer sections */}
+      <div className="customer-navbar">
+        <button 
+          className={`customer-nav-button ${activeSection === 'dashboard' ? 'active' : ''}`} 
+          onClick={() => setActiveSection('dashboard')}
+        >
+          Dashboard
+        </button>
+        <button 
+          className={`customer-nav-button ${activeSection === 'reviews' ? 'active' : ''}`} 
+          onClick={() => setActiveSection('reviews')}
+        >
+          Reviews
+        </button>
+        <button 
+          className={`customer-nav-button ${activeSection === 'order-history' ? 'active' : ''}`} 
+          onClick={() => setActiveSection('order-history')}
+        >
+          Order History
+        </button>
+      </div>
+
       <div className="dashboard-content">
-        <CustomerDashboard />
-        <CustomerReviews onAddReview={handleAddReview} onDeleteReview={handleDeleteReview} />
-        <OrderHistorySection />
+        {/* Conditionally render the active section's component */}
+        {activeSection === 'dashboard' && <CustomerDashboard />}
+        {activeSection === 'reviews' && (
+          <CustomerReviews 
+            onAddReview={handleAddReview} 
+            onDeleteReview={handleDeleteReview} 
+          />
+        )}
+        {activeSection === 'order-history' && <OrderHistorySection />}
       </div>
     </div>
   );
