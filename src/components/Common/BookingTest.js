@@ -17,7 +17,7 @@ const BookingTest = () => {
     <div>
       <h1>Welcome to Our Restaurant</h1>
       <Button variant="primary" onClick={handleOpen}>
-        Booking Modal
+        Employee Booking Modal
       </Button>
 
       <BookingModal 

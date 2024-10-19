@@ -104,7 +104,7 @@ const BookingModal = ({ show, handleClose, booking }) => {
                   </Col>
                   <Col>
                     <Form.Group controlId="formBookedBy"> {/* Updated control ID */}
-                      <Form.Label>Booked By</Form.Label>
+                      <Form.Label>Booked By (Employee ID)</Form.Label>
                       <Form.Control
                         type="text"
                         value={bookedBy}
