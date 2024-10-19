@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import CustomerDashboardHeader from './CustomerDashboardHeader';
 import './CustomerCss/CustomerDashboard.css';
 import axios from 'axios';
+import Cart from './Cart'; // Import Cart component
 
 const CustomerDashboard = ({
   cartItems,
@@ -21,6 +22,7 @@ const CustomerDashboard = ({
   const [specials, setSpecials] = useState([]); // State to hold specials
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
+  const [showCart, setShowCart] = useState(false); // State to control cart modal visibility
   const navigate = useNavigate(); // Initialize useNavigate
 
   // Fetch specials data on component mount
@@ -78,10 +80,18 @@ const CustomerDashboard = ({
     navigate('/menu'); // Navigate to the Menu route
   };
 
+  const handleShowCart = () => {
+    setShowCart(true); // Show the cart modal
+  };
+
+  const handleCloseCart = () => {
+    setShowCart(false); // Hide the cart modal
+  };
+
   return (
     <div className="customer-dashboard">
       {/* Header Section */}
-      <CustomerDashboardHeader isLoggedIn={isLoggedIn} onLogout={onLogout} />
+      <CustomerDashboardHeader isLoggedIn={isLoggedIn} onLogout={onLogout} onShowCart={handleShowCart} /> {/* Pass the handleShowCart function */}
 
       {/* Welcome Section */}
       <div className="welcome-section">
@@ -113,6 +123,19 @@ const CustomerDashboard = ({
           )}
         </div>
       </div>
+
+      {/* Cart Modal */}
+      <Cart
+        cartItems={cartItems}
+        onRemoveItem={onRemoveItem}
+        onUpdateQuantity={onUpdateQuantity}
+        onCheckout={onCheckout}
+        showCart={showCart}
+        onCloseCart={handleCloseCart}
+        isLoggedIn={isLoggedIn}
+        onShowLogin={onShowLogin}
+        onShowSignup={onShowSignup}
+      />
     </div>
   );
 };
