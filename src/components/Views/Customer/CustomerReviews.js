@@ -16,7 +16,8 @@ const ratingValues = {
   5: 'FIVE',
 };
 
-const CustomerReviews = ({ onAddReview, onDeleteReview }) => {
+const CustomerReviews = ({ onAddReview, onDeleteReview, decodedValue }) => {
+  console.log(decodedValue);
   const [existingReviews, setExistingReviews] = useState([
     {
       id: '1',

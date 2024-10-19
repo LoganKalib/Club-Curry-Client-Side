@@ -17,8 +17,10 @@ const CustomerDashboard = ({
   customerId = null,
   addToCart,
   onLogout,
+  decodedValue,
   customerName = 'Aaniquah', // Default name for the customer
 }) => {
+  console.log(decodedValue)
   const [specials, setSpecials] = useState([]); // State to hold specials
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state

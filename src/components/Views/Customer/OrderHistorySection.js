@@ -5,7 +5,8 @@ import CustomerDashboardHeader from './CustomerDashboardHeader';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios'; 
 
-const OrderHistorySection = () => {
+const OrderHistorySection = ({decodedValue}) => {
+  console.log(decodedValue);
   const [showModal, setShowModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [deliveries, setDeliveries] = useState([]);
