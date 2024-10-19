@@ -5,7 +5,7 @@ import './OrderSummary.css'; // Assuming you have the CSS file for styling
 const OrderSummary = (props) => {// Use context to get addToOrder
     const [confirmationMessage, setConfirmationMessage] = useState('');
     // Calculate the total price of the order
-    const totalPrice = props.orderSummary.reduce((acc, product) => acc + product.price * product.quantity, 0);
+    const totalPrice = props.orderSummary.reduce((total, current) => (total + current.menuItem.price * current.quantity), 0);
 
     const handleSubmit = () => {
         if (props.orderSummary.length === 0) {
@@ -44,10 +44,10 @@ const OrderSummary = (props) => {// Use context to get addToOrder
                                     <td>
                                         <img src={item.image} alt={item.name} className="order-item-image"/>
                                     </td>
-                                    <td>{item.name}</td>
+                                    <td>{item.menuItem.name}</td>
                                     <td>{item.quantity}</td>
-                                    <td>{item.price}</td>
-                                    <td>{item.price * item.quantity}</td>
+                                    <td>{item.menuItem.price}</td>
+                                    <td>{item.menuItem.price * item.quantity}</td>
                                     <button className="submit-order-button"
                                             onClick={() => props.handleRemoveFromOrder(item)}>
                                         Delete

@@ -10,7 +10,7 @@ const Employee = (props) => {
 
     return (
         <div className="product-grid">
-            {props.products.map((product) => (product.menuId == props.currentMenuId ? (
+            {props.products.map((product) => (product.menuId.id == props.currentMenuId ? (
                 <div key={product.id} className="product-card" onClick={() => props.handleAddToOrder(product)}>
                     <img src={product.image} alt={product.name} className="product-image" />
                     <h3>{product.name}</h3>
