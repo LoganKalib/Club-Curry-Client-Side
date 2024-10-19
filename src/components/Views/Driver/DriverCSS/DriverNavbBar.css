@@ -1,6 +1,6 @@
 /* Style the driver navbar container */
 .driver-navbar {
-    margin-left: 1rem;
+   
     width: 18%;
     background-color: #fff;
     padding: 18px;
@@ -18,6 +18,7 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 /* Style for each button */
@@ -26,8 +27,8 @@
     border: 1px solid #dedede;
     color: #741c25; /* Initial text color */
     padding: 10px 20px;
-    margin-bottom: 10px;
-    width: 80%;
+    margin-bottom: 30px;
+    width: 90%;
     text-align: center;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -49,10 +50,11 @@
 
 /* Driver profile section */
 .driver-profile {
-    margin-top: auto; /* Push the profile to the bottom */
     text-align: center;
     padding: 1rem 0;
+    margin-top: 110%;
     border-top: 1px solid #ccc;
+    margin-bottom: 10px;
 }
 
 .profile-picture {
@@ -73,5 +75,6 @@
     flex-grow: 1; /* Allow this to take remaining space */
     padding: 0px;
     background-color: #f9f9f9; /* Light background for dashboard content */
-    border-left: 1px solid #dedede; /* Optional left border for separation */
+    height: 150%;
+   
 }

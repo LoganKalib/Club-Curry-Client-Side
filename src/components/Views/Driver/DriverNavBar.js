@@ -1,11 +1,12 @@
 import React from 'react';
 import '../Driver/DriverCSS/DriverNavbBar.css';
+import driverImage from '../../../images/driver.png'
 
 const DriverNavbar = ({ activeSection, setActiveSection }) => {
   // Driver profile data
   const driverProfile = {
     name: 'Jane Smith',
-    imageUrl: 'https://via.placeholder.com/50', // Replace with driver's actual image URL
+    imageUrl: driverImage// Replace with driver's actual image URL
   };
 
   return (

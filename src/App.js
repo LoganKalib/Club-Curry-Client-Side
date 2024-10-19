@@ -68,7 +68,7 @@ function AppRoutes({ isLoggedIn, userRole, setIsLoggedIn, onLogout }) {
 
      
       <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard /> : <div>Page Not Found</div>} />
-      <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer /> : <div>Page Not Found</div>} />
+      <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer  onLogout={onLogout} /> : <div>Page Not Found</div>} />
       
       <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee /> : <div>Page Not Found</div>} />
       <Route path="/customer-dashboard-reviews" element={<CustomerReviews />}/>
