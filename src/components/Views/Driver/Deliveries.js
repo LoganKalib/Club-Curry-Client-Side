@@ -12,14 +12,22 @@ const Deliveries = ({ deliveries = [], onUpdateStatus }) => {
   const totalPendingDeliveries = pendingDeliveries.length;
   const previousTotalDeliveries = 100; // Example previous value for total deliveries
   const percentagePending = ((totalPendingDeliveries / previousTotalDeliveries) * 100) || 0;
+  const percentageIncrease = ((totalPendingDeliveries - previousTotalDeliveries) / previousTotalDeliveries) * 100;
+
 
   return (
     <div className="deliveries-container">
+      <div className="deliveries-summary"></div>
       <h2>Pending Deliveries</h2>
-      
-      <div className="deliveries-summary">
+      <div className="total-pending-deliveries">
         <h4>Total Pending Deliveries</h4>
         <h1>{totalPendingDeliveries}</h1>
+        
+        <p className="percentage-change" style={{ color: percentageIncrease > 0 ? 'green' : 'red' }}>
+            {percentageIncrease > 0 ? '▲' : '▼'} {Math.abs(percentageIncrease).toFixed(2)}%
+          </p>
+          
+          
         <div className="progress-circle">
           <CircularProgressbar
             value={percentagePending}
@@ -33,6 +41,8 @@ const Deliveries = ({ deliveries = [], onUpdateStatus }) => {
         </div>
       </div>
 
+     
+     
       <table className="table table-striped">
         <thead>
           <tr>

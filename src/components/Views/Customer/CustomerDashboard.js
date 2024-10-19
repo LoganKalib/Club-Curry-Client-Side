@@ -51,7 +51,7 @@ const CustomerDashboard = ({
               
               return {
                 ...item,
-                image: imageUrl, // Add image URL to the item
+                image: imageUrl, 
               };
             } catch (error) {
               console.error('Error fetching image for item:', item.id, error);
