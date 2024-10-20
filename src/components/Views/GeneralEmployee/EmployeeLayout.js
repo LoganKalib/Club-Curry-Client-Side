@@ -64,11 +64,11 @@ const EmployeeLayout = ({ isLoggedIn, onLogout, decodedValue }) => {
         newOrderSummary[i].note = "N/A";
         newOrderSummary[i].spiceLevel = "LOW";
       }
-      const response = axios.post('http://localhost:8080/ClubCurry/cart/save', {customer: {email: "kay@email.com"}, items: [{}]});
+      const response = axios.post('http://localhost:8080/ClubCurry/cart/save', {customer: {email: "kay@email.com"}});
       const cart = (await response).data;
       cart.items = newOrderSummary;
       const response2 = axios.put("http://localhost:8080/ClubCurry/cart/updateItems", cart);
-      const order = {cart: {id: cart.id}, isComplete: false, ordered: new Date().toISOString(), collectionType: collectionType, paymentMethod: paymentMethod}
+      const order = {cart: {id: cart.id}, ordered: new Date().toISOString(), collectionType: collectionType, paymentMethod: paymentMethod, orderStatus: 'PENDING', time: new Date().toLocaleTimeString('it-IT')};
       const response3 = axios.post("http://localhost:8080/ClubCurry/orders/save", order);
       console.log(response3);
       console.log(response);
