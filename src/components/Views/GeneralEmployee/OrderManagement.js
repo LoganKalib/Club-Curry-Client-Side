@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './OrderManagement.css';
+import axios from "axios";
 
 // Modal component for viewing details
 const OrdersModal = ({ order, onClose }) => {
@@ -10,17 +11,17 @@ const OrdersModal = ({ order, onClose }) => {
       <div className="orders-modal">
         <h2>Order Details</h2>
         <div className="modal-content">
-          <p><strong>Order ID:</strong> {order.orderId}</p>
+          <p><strong>Order ID:</strong> {order.id}</p>
           <p><strong>Payment Type:</strong> {order.paymentMethod}</p>
-          <p><strong>Customer Name:</strong> {order.customerName ? order.customerName : 'Walk-in Customer'}</p>
-
+          <p><strong>Customer Name:</strong> {order.cart.customer.name ? order.cart.customer.name : 'Walk-in Customer'}</p>
+          <p><strong>Total:</strong> R{order.cart.items.reduce((total, current) => (total + current.menuItem.price * current.quantity), 0)}</p>
           <h3>Cart Items</h3>
           {order.cart && order.cart.items.length > 0 ? (
-            <ul>
+              <ul>
               {order.cart.items.map((item, index) => (
                 <li key={index}>
-                  <p><strong>{item.menuItemName}</strong> x {item.quantity}</p>
-                  <p>Price: R {item.price}</p>
+                  <p><strong>{item.menuItem.name}</strong> x {item.quantity}</p>
+                  <p>Price: R {item.menuItem.price}</p>
                 </li>
               ))}
             </ul>
@@ -36,15 +37,23 @@ const OrdersModal = ({ order, onClose }) => {
 
 const OrderManagement = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [orders, setOrders] = useState([
-    { id: 1, orderId: '12345', date: '2024-09-30', time: '12:30 PM', collectionType: 'Dine-in', customerName: 'John Doe', status: 'Pending', paymentMethod: 'Cash', cart: { items: [{ menuItemName: 'Burger', quantity: 2, price: '50.00' }, { menuItemName: 'Fries', quantity: 1, price: '20.00' }] } },
-    { id: 2, orderId: '23456', deliveryId: 'D001', date: '2024-09-30', time: '1:00 PM', collectionType: 'Delivery', customerName: 'Jane Smith', status: 'In Transit', paymentMethod: 'Card', cart: { items: [{ menuItemName: 'Pizza', quantity: 1, price: '100.00' }] } },
-    { id: 3, orderId: '34567', date: '2024-09-30', time: '1:30 PM', collectionType: 'Pickup', customerName: null, status: 'Pending', paymentMethod: 'Cash', cart: { items: [{ menuItemName: 'Salad', quantity: 1, price: '30.00' }] } },
-    { id: 4, orderId: '45678', deliveryId: 'D002', date: '2024-09-30', time: '2:00 PM', collectionType: 'Delivery', customerName: 'Bob Brown', status: 'Cancelled', paymentMethod: 'Card', cart: { items: [{ menuItemName: 'Soda', quantity: 1, price: '15.00' }] } },
-    { id: 5, orderId: '56789', date: '2024-09-30', time: '2:30 PM', collectionType: 'Dine-in', customerName: null, status: 'Preparing', paymentMethod: 'Card', cart: { items: [{ menuItemName: 'Steak', quantity: 1, price: '150.00' }] } },
-    { id: 6, orderId: '67890', date: '2024-09-30', time: '3:00 PM', collectionType: 'Pickup', customerName: 'Alice Green', status: 'Completed', paymentMethod: 'Cash', cart: { items: [{ menuItemName: 'Sandwich', quantity: 1, price: '40.00' }] } },
-  ]);
+  const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/ClubCurry/orders/getAll");
+        setOrders(response.data);
+        console.log("Loaded orders successfully" + orders)
+      }
+      catch (error){
+        console.log("Error fetching orders" + error);
+      }
+    }
+
+    fetchOrders();
+  }, []);
 
   const handleStatusChange = (orderId, newStatus) => {
     setOrders((prevOrders) =>
@@ -75,8 +84,8 @@ const OrderManagement = () => {
   };
 
   const filteredOrders = orders.filter(order =>
-    order.orderId.includes(searchQuery) ||
-    (order.customerName && order.customerName.toLowerCase().includes(searchQuery.toLowerCase()))
+    order.id.toString().includes(searchQuery) ||
+    (order.cart.customer.name && order.cart.customer.name.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   return (
@@ -109,13 +118,13 @@ const OrderManagement = () => {
           </thead>
           <tbody>
             {filteredOrders
-              .filter((order) => order.collectionType === 'Dine-in')
+              .filter((order) => order.collectionType === 'DINE_IN')
               .map((order) => (
                 <tr key={order.id}>
-                  <td>{order.orderId}</td>
-                  <td>{order.date}</td>
+                  <td>{order.id}</td>
+                  <td>{order.ordered}</td>
                   <td>{order.time}</td>
-                  <td>{order.customerName ? order.customerName : 'Walk-in Customer'}</td>
+                  <td>{order.cart.customer.name ? order.cart.customer.name : 'Walk-in Customer'}</td>
                   <td>{order.paymentMethod}</td>
                   <td>
                     <select class="status-dropdown"
@@ -159,14 +168,14 @@ const OrderManagement = () => {
           </thead>
           <tbody>
             {filteredOrders
-              .filter((order) => order.collectionType === 'Delivery')
+              .filter((order) => order.collectionType === 'DELIVERY')
               .map((order) => (
                 <tr key={order.id}>
-                  <td>{order.orderId}</td>
+                  <td>{order.id}</td>
                   <td>{order.deliveryId}</td>
-                  <td>{order.date}</td>
+                  <td>{order.ordered}</td>
                   <td>{order.time}</td>
-                  <td>{order.customerName}</td>
+                  <td>{order.cart.customer.name}</td>
                   <td>{order.paymentMethod}</td>
                   <td>
                     <select
@@ -209,13 +218,13 @@ const OrderManagement = () => {
           </thead>
           <tbody>
             {filteredOrders
-              .filter((order) => order.collectionType === 'Pickup')
+              .filter((order) => order.collectionType === 'PICKUP')
               .map((order) => (
                 <tr key={order.id}>
-                  <td>{order.orderId}</td>
-                  <td>{order.date}</td>
+                  <td>{order.id}</td>
+                  <td>{order.ordered}</td>
                   <td>{order.time}</td>
-                  <td>{order.customerName ? order.customerName : 'Walk-in Customer'}</td>
+                  <td>{order.cart.customer.name ? order.cart.customer.name : 'Walk-in Customer'}</td>
                   <td>{order.paymentMethod}</td>
                   <td>
                     <select
