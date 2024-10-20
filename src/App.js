@@ -10,7 +10,7 @@ import LoginModal from './components/Common/LoginModal';
 import SignupModal from './components/Common/SignupModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
 import BookingTest from './components/Common/BookingTest';
-import Employee from './components/Views/GeneralEmployee/Employee';
+import EmployeeLayout from './components/Views/GeneralEmployee/EmployeeLayout';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
@@ -78,7 +78,7 @@ function AppRoutes({ isLoggedIn, userRole, decodedValue, setIsLoggedIn, onLogout
       )}
       <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
       <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer decodedValue={decodedValue} onLogout={onLogout} isLoggedIn= {isLoggedIn}/> : <div>Page Not Found</div>} />
-      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
+      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <EmployeeLayout decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
       <Route path="/customer-dashboard-bookings" element={<BookingTest decodedValue={decodedValue} />} />
       <Route path="/menu" element={<Menu />} />
       <Route path="*" element={<div>Page Not Found</div>} />
