@@ -7,15 +7,16 @@ const BookingModal = ({ show, handleClose, booking, handleBooking }) => {
   const [tableNo, setTableNo] = useState(booking?.tableNo || 1);
   const [sectionNo, setSectionNo] = useState(booking?.sectionNo || 'A');
   const [status, setStatus] = useState(booking?.status || 'Pending');
-  const [bookedBy, setBookedBy] = useState(booking?.bookedBy || ''); // Updated from orderStatus to bookedBy
+  const [bookedBy, setBookedBy] = useState(booking?.bookedBy.id || ''); // Updated from orderStatus to bookedBy
   const [date, setDate] = useState(booking?.date || '');
   const [time, setTime] = useState(booking?.time || '');
-  const [fullName, setFullName] = useState(booking?.name || '');
+  const [fullName, setFullName] = useState(booking?.fullName || '');
   const [phoneNumber, setPhoneNumber] = useState(booking?.phoneNumber || '');
 
   const handleSubmit = () => {
     if (tableNo && sectionNo && date && time && status && bookedBy && fullName && phoneNumber) {
       const updatedBooking = {
+        bookingId: booking.bookingId,
         tableNo,
         sectionNo,
         status,
@@ -28,7 +29,7 @@ const BookingModal = ({ show, handleClose, booking, handleBooking }) => {
       };
 
       // Make an Axios request to the backend
-      const url = booking ? `http://localhost:8080/ClubCurry/booking/update/${booking.id}` : 'http://localhost:8080/ClubCurry/booking/save'; // URL for POST (new) or PUT (update)
+      const url = booking ? `http://localhost:8080/ClubCurry/booking/update` : 'http://localhost:8080/ClubCurry/booking/save'; // URL for POST (new) or PUT (update)
 
       const method = booking ? 'put' : 'post'; // Use PUT if updating, POST if creating new booking
 
@@ -63,7 +64,7 @@ const BookingModal = ({ show, handleClose, booking, handleBooking }) => {
                 {booking && (
                   <Form.Group controlId="formBookingId">
                     <Form.Label>Booking ID</Form.Label>
-                    <Form.Control type="text" value={booking.id} readOnly />
+                    <Form.Control type="text" value={booking.bookingId} readOnly />
                   </Form.Group>
                 )}
                 <Row>
@@ -113,7 +114,7 @@ const BookingModal = ({ show, handleClose, booking, handleBooking }) => {
                       <Form.Label>Booked By (Employee ID)</Form.Label>
                       <Form.Control
                         type="text"
-                        value={bookedBy}
+                        value={bookedBy.id}
                         onChange={(e) => setBookedBy(e.target.value)} // Updated to handle bookedBy
                       />
                     </Form.Group>
