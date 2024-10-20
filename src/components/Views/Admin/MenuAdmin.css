@@ -1,11 +1,15 @@
 /* MenuAdmin.css */
 
 .menu-admin-container {
-    margin: 20px;
-    padding: 20px;
-    background-color: #e58a93;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   /* Add a max-width and make sure margin auto is applied */
+   max-width: 1000px; /* Adjust the width as per your design */
+   width: 100%;
+   margin: 0 auto; /* This will center the container */
+   padding: 20px;
+   background-color: #e58a93;
+   border-radius: 8px;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   justify-content: center;
   }
   
   .menu-admin-heading {
@@ -16,17 +20,26 @@ font-weight: bold;;
     margin-bottom: 1rem;
   }
   
-  /* Add other styles as necessary */
   .add-item-section {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Center the button section */
     margin-bottom: 20px;
-  }
+}
 
-  .add-item-button {
+.add-item-button {
     background-color: #80212b !important;
     border-color: #80212b !important;
-  }
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-item-button:hover {
+    background-color: #a12d3d !important; /* Slight hover effect for better UI */
+}
+
   
   .menu-category {
     margin-bottom: 30px;

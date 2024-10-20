@@ -55,14 +55,24 @@ const OrderManagement = () => {
     fetchOrders();
   }, []);
 
-  const handleStatusChange = (orderId, newStatus) => {
-    setOrders((prevOrders) =>
-      prevOrders.map((order) =>
-        order.id === orderId && order.status !== 'Cancelled'
-          ? { ...order, status: newStatus }
-          : order
-      )
-    );
+  const handleStatusChange = (order, newStatus) => {
+    const updateStatus = async () => {
+      if(order.collectionType ==="DELIVERY") {
+        return;
+      }
+      try{
+        order.orderStatus = newStatus;
+        console.log(order.valueOf())
+        const response = await axios.put("http://localhost:8080/ClubCurry/orders/update", order);
+        const response2 = await axios.get("http://localhost:8080/ClubCurry/orders/getAll");
+        setOrders(response2.data);
+      }
+
+      catch (error){
+        console.log("Error while status update " + error);
+      }
+    }
+    updateStatus();
   };
 
   const handleViewDetails = (order) => {
@@ -74,12 +84,10 @@ const OrderManagement = () => {
   };
 
   const getStatusOptions = (collectionType) => {
-    if (collectionType === 'Delivery') {
-      return ['Pending', 'In Transit', 'Delivered', 'Cancelled'];
-    } else if (collectionType === 'Dine-in') {
-      return ['Pending', 'Preparing', 'Completed', 'Cancelled'];
+    if (collectionType === 'DELIVERY') {
+      return ['PENDING', 'IN_TRANSIT', 'DELIVERED'];
     } else {
-      return ['Pending', 'Ready for Pickup', 'Completed', 'Cancelled'];
+      return ['PENDING', 'PREPARING', 'CANCELLED', 'COMPLETED'];
     }
   };
 
@@ -128,8 +136,8 @@ const OrderManagement = () => {
                   <td>{order.paymentMethod}</td>
                   <td>
                     <select class="status-dropdown"
-                      value={order.status}
-                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                      value={order.orderStatus}
+                      onChange={(e) => handleStatusChange(order, e.target.value)}
                       disabled={order.status === 'Cancelled'}
                     >
                       {getStatusOptions(order.collectionType).map((statusOption) => (
