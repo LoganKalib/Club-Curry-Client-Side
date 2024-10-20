@@ -21,180 +21,186 @@ import './CSS/Overlay.css';
 import './CSS/HomePage.css';
 import AdminDashboard from './components/Views/Admin/AdminDashboard';
 import Cart from './components/Views/Customer/Cart'; // Import Cart component
-
 import { jwtDecode } from 'jwt-decode';
 
 const decodeJWT = (token) => {
     try {
-        // Decode the JWT and return the resulting object
         return jwtDecode(token);
     } catch (error) {
         console.error('Invalid token:', error);
-        return null; // Return null if the token is invalid
+        return null;
     }
 };
 
-function AppRoutes({ isLoggedIn, userRole, decodedValue, setIsLoggedIn, onLogout}) {
-  const navigate = useNavigate();
+function AppRoutes({ isLoggedIn, userRole, decodedValue, setIsLoggedIn, onLogout, addToCart }) {
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    if (userRole) {
-      console.log(`User role set to: ${userRole}`);
-      navigate(getDashboardRoute(userRole));
-    }
-  }, [userRole, navigate]);
+    useEffect(() => {
+        if (userRole) {
+            console.log(`User role set to: ${userRole}`);
+            navigate(getDashboardRoute(userRole));
+        }
+    }, [userRole, navigate]);
 
-  const getDashboardRoute = (role) => {
-    switch (role) {
-      case 'customer':
-        return '/customer-dashboard';
-      case 'admin':
-        return '/admin';
-      case 'driver':
-        return '/driver';
-      case 'generalStaff':
-        return '/employee';
-      default:
-        return '/';
-    }
-  };
+    const getDashboardRoute = (role) => {
+        switch (role) {
+            case 'customer':
+                return '/customer-dashboard';
+            case 'admin':
+                return '/admin';
+            case 'driver':
+                return '/driver';
+            case 'generalStaff':
+                return '/employee';
+            default:
+                return '/';
+        }
+    };
 
-  return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      {isLoggedIn && userRole === 'customer' && (
-        <>
-          <Route 
-            path="/customer-dashboard" 
-            element={<DashboardLayout
-              isLoggedIn={isLoggedIn} 
-              onLogout={onLogout} 
-              decodedValue={decodedValue} // Pass decodedValue to CustomerDashboard
-         
-
-            />} 
-          />
-        </>
-      )}
-      <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
-      <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer decodedValue={decodedValue} onLogout={onLogout} isLoggedIn= {isLoggedIn}/> : <div>Page Not Found</div>} />
-      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <EmployeeLayout decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
-      <Route path="/customer-dashboard-bookings" element={<BookingTest decodedValue={decodedValue} />} />
-      <Route path="/menu" element={<Menu />} />
-      <Route path="*" element={<div>Page Not Found</div>} />
-    </Routes>
-  );
+    return (
+        <Routes>
+            <Route path="/" element={<HomePage />} />
+            {isLoggedIn && userRole === 'customer' && (
+                <Route 
+                    path="/customer-dashboard" 
+                    element={<DashboardLayout
+                        isLoggedIn={isLoggedIn} 
+                        onLogout={onLogout} 
+                        decodedValue={decodedValue}
+                    />} 
+                />
+            )}
+            <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
+            <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer decodedValue={decodedValue} onLogout={onLogout} isLoggedIn={isLoggedIn} /> : <div>Page Not Found</div>} />
+            <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <EmployeeLayout decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
+            <Route path="/customer-dashboard-bookings" element={<BookingTest decodedValue={decodedValue} />} />
+            <Route path="/menu" element={<Menu addToCart={addToCart} />} />
+            <Route path="*" element={<div>Page Not Found</div>} />
+        </Routes>
+    );
 }
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userRole, setUserRole] = useState(null);
-  const [showLogin, setShowLogin] = useState(false);
-  const [showSignup, setShowSignup] = useState(false);
-  const [showCart, setShowCart] = useState(false); // State for cart modal
-  const [cartItems, setCartItems] = useState([]); // State for cart items
-  const [decodedValue, setDecodedValue] = useState({});
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userRole, setUserRole] = useState(null);
+    const [showLogin, setShowLogin] = useState(false);
+    const [showSignup, setShowSignup] = useState(false);
+    const [showCart, setShowCart] = useState(false);
+    const [cartItems, setCartItems] = useState([]);
+    const [decodedValue, setDecodedValue] = useState({});
 
-  
-  const handleLogin = async (userData) => {
-    let role = null;
+    const handleLogin = async (userData) => {
+        let role = null;
 
-    if (userData.email.endsWith('@ccadmin.com')) {
-      role = 'admin';
-    } else if (userData.email.endsWith('@ccdriver.com')) {
-      role = 'driver';
-    } else if (userData.email.endsWith('@ccstaff.com')) {
-      role = 'generalStaff';
-    } else {
-      role = 'customer';
-    }
+        if (userData.email.endsWith('@ccadmin.com')) {
+            role = 'admin';
+        } else if (userData.email.endsWith('@ccdriver.com')) {
+            role = 'driver';
+        } else if (userData.email.endsWith('@ccstaff.com')) {
+            role = 'generalStaff';
+        } else {
+            role = 'customer';
+        }
 
-    try {
-      const loginData = role === 'customer'
-        ? { email: userData.email, password: userData.password }
-        : { username: userData.email, password: userData.password };
+        try {
+            const loginData = role === 'customer'
+                ? { email: userData.email, password: userData.password }
+                : { username: userData.email, password: userData.password };
 
-      const response = await axios.post(`http://localhost:8080/ClubCurry/${role}/login`, loginData);
+            const response = await axios.post(`http://localhost:8080/ClubCurry/${role}/login`, loginData);
 
-      if (response.status === 200 && response.data) {
-        console.log(`Successful login for role: ${role}`);
-        localStorage.setItem('token', response.data);
-        const decoded = decodeJWT(localStorage.token);
-        setDecodedValue(decoded); // Set the decoded value
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
-        setIsLoggedIn(true);
-        setUserRole(role);
+            if (response.status === 200 && response.data) {
+                console.log(`Successful login for role: ${role}`);
+                localStorage.setItem('token', response.data);
+                const decoded = decodeJWT(localStorage.token);
+                setDecodedValue(decoded);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data}`;
+                setIsLoggedIn(true);
+                setUserRole(role);
+                setShowLogin(false);
+                return;
+            }
+        } catch (error) {
+            console.error(`Error logging in as ${role}:`, error.response ? error.response.data : error.message);
+        }
+
+        alert('Invalid username or password.');
         setShowLogin(false);
-        return;
-      }
-    } catch (error) {
-      console.error(`Error logging in as ${role}:`, error.response ? error.response.data : error.message);
-    }
+    };
 
-    alert('Invalid username or password.');
-    setShowLogin(false);
-  };
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        setUserRole(null);
+        localStorage.removeItem('token');
+    };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUserRole(null);
-    localStorage.removeItem('token');
-  };
+    const toggleCart = () => {
+        setShowCart(prevShowCart => !prevShowCart);
+    };
 
-  const toggleCart = () => {
-    setShowCart(prevShowCart => !prevShowCart);
-  };
+    const addToCart = (item) => {
+        setCartItems(prevItems => {
+            const existingItem = prevItems.find(cartItem => cartItem.id === item.id);
+            if (existingItem) {
+                return prevItems.map(cartItem =>
+                    cartItem.id === item.id
+                        ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+                        : cartItem
+                );
+            } else {
+                return [...prevItems, { ...item, uniqueId: Date.now() }];
+            }
+        });
+    };
 
-  return (
-    <Router>
-      <div className="App">
-        {userRole !== 'customer' && (
-          <Header
-            isLoggedIn={isLoggedIn}
-            onShowLogin={() => setShowLogin(true)}
-            onShowSignup={() => setShowSignup(true)}
-            onLogout={handleLogout}
-            onShowCart={toggleCart}
-          />
-        )}
-        <Container>
-          <AppRoutes 
-            isLoggedIn={isLoggedIn}
-            userRole={userRole}
-            decodedValue={decodedValue} // Pass decodedValue to AppRoutes
-            setIsLoggedIn={setIsLoggedIn}
-            onLogout={handleLogout}
-            toggleCart={toggleCart} // Pass toggleCart here
-
-          />
-          {/* Pass cart-related props to Cart component */}
-          <Cart 
-            cartItems={cartItems} 
-            onRemoveItem={(id) => setCartItems(cartItems.filter(item => item.uniqueId !== id))}
-            onUpdateQuantity={(id, change) => {
-              setCartItems(cartItems.map(item => item.uniqueId === id ? { ...item, quantity: item.quantity + change } : item));
-            }}
-            onCheckout={() => alert('Checkout functionality to be implemented.')}
-            showCart={showCart}
-            onCloseCart={toggleCart}
-            isLoggedIn={isLoggedIn}
-            onShowLogin={() => setShowLogin(true)}
-            onShowSignup={() => setShowSignup(true)}
-          />
-        </Container>
-        <Footer />
-        <LoginModal 
-          show={showLogin} 
-          handleClose={() => setShowLogin(false)} 
-          handleLogin={handleLogin} 
-        />
-        <SignupModal 
-          show={showSignup} 
-          handleClose={() => setShowSignup(false)} 
-        />
-      </div>
-    </Router>
-  );
+    return (
+        <Router>
+            <div className="App">
+                {userRole !== 'customer' && (
+                    <Header
+                        isLoggedIn={isLoggedIn}
+                        onShowLogin={() => setShowLogin(true)}
+                        onShowSignup={() => setShowSignup(true)}
+                        onLogout={handleLogout}
+                        onShowCart={toggleCart}
+                    />
+                )}
+                <Container>
+                    <AppRoutes 
+                        isLoggedIn={isLoggedIn}
+                        userRole={userRole}
+                        decodedValue={decodedValue}
+                        setIsLoggedIn={setIsLoggedIn}
+                        onLogout={handleLogout}
+                        addToCart={addToCart}  // Pass addToCart here
+                    />
+                    <Cart 
+                        cartItems={cartItems} 
+                        onRemoveItem={(id) => setCartItems(cartItems.filter(item => item.uniqueId !== id))}
+                        onUpdateQuantity={(id, change) => {
+                            setCartItems(cartItems.map(item => item.uniqueId === id ? { ...item, quantity: item.quantity + change } : item));
+                        }}
+                        onCheckout={() => alert('Checkout functionality to be implemented.')}
+                        showCart={showCart}
+                        onCloseCart={toggleCart}
+                        isLoggedIn={isLoggedIn}
+                        onShowLogin={() => setShowLogin(true)}
+                        onShowSignup={() => setShowSignup(true)}
+                    />
+                </Container>
+                <Footer />
+                <LoginModal 
+                    show={showLogin} 
+                    handleClose={() => setShowLogin(false)} 
+                    handleLogin={handleLogin} 
+                />
+                <SignupModal 
+                    show={showSignup} 
+                    handleClose={() => setShowSignup(false)} 
+                />
+            </div>
+        </Router>
+    );
 }
 
 export default App;
