@@ -4,7 +4,7 @@ import '../Driver/DriverCSS/ActiveDeliveries.css'; // Make sure you have this CS
 
 const ActiveDeliveries = ({ deliveries = [], onUpdateStatus }) => {
   // Filter only deliveries that are in transit
-  const inTransitDeliveries = deliveries.filter(delivery => delivery.status === 'in transit');
+  const inTransitDeliveries = deliveries;
 
   return (
     <div className="active-deliveries-container">
@@ -27,7 +27,8 @@ const ActiveDeliveries = ({ deliveries = [], onUpdateStatus }) => {
                 Mark as Delivered
               </button>
             </div>
-          ))
+          )) 
+          // <p> test</p>
         )}
       </div>
     </div>
