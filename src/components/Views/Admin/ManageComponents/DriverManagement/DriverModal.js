@@ -10,9 +10,9 @@ const DriverModal = ({ isOpen, onClose, driver = null, onSubmit }) => {
         username: "",
         password: "",
         petrolAllowance: "",
-        registration: { id: "", model: "", color: "", make: "" } // Updated structure
+        registration: { id: "", model: "", color: "", make: "" }
     });
-    const [currentTab, setCurrentTab] = useState(1); // Track current tab
+    const [currentTab, setCurrentTab] = useState(1); 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -42,19 +42,19 @@ const DriverModal = ({ isOpen, onClose, driver = null, onSubmit }) => {
             username: "",
             password: "",
             petrolAllowance: "",
-            registration: { id: "", model: "", color: "", make: "" } // Reset registration fields
+            registration: { id: "", model: "", color: "", make: "" }
         });
         setError("");
-        setCurrentTab(1); // Reset to first tab
+        setCurrentTab(1); 
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (["id", "model", "color", "make"].includes(name)) {
-            // Handle changes for registration fields
+        if (name.startsWith('registration')) {
+            const regName = name.split('.')[1]; // Getting the specific registration field name
             setFormData(prevState => ({
                 ...prevState,
-                registration: { ...prevState.registration, [name]: value }
+                registration: { ...prevState.registration, [regName]: value }
             }));
         } else {
             setFormData(prevState => ({ ...prevState, [name]: value }));
@@ -66,9 +66,8 @@ const DriverModal = ({ isOpen, onClose, driver = null, onSubmit }) => {
         setLoading(true);
         setError("");
 
-        // Check if registration ID is filled in, if not, set it to an empty string for the API request
         if (!formData.registration.id) {
-            setError("Registration ID is required."); // This can be adjusted based on your validation needs
+            setError("Registration ID is required.");
             setLoading(false);
             return;
         }
@@ -86,7 +85,7 @@ const DriverModal = ({ isOpen, onClose, driver = null, onSubmit }) => {
     };
 
     const validateFirstTab = () => {
-        return formData.name && formData.surname && formData.username && formData.password && formData.petrolAllowance;
+        return formData.name && formData.surname && formData.username && formData.password && formData.petrolAllowance && formData.id; 
     };
 
     const handleNext = () => {
@@ -115,9 +114,10 @@ const DriverModal = ({ isOpen, onClose, driver = null, onSubmit }) => {
                                 <input
                                     type="text"
                                     name="id"
-                                    value={formData.id}
+                                    value={formData.id} // Make sure this is bound to state
                                     onChange={handleChange}
-                                    placeholder="ID" // Removed required
+                                    placeholder="ID" 
+                                    required
                                 />
                                 <input
                                     type="text"
@@ -166,31 +166,32 @@ const DriverModal = ({ isOpen, onClose, driver = null, onSubmit }) => {
                             <>
                                 <input
                                     type="text"
-                                    name="id"
-                                    value={formData.registration.id || ""}
+                                    name="registration.id"
+                                    value={formData.registration.id}
                                     onChange={handleChange}
-                                    placeholder="Registration Id" // Removed required
+                                    placeholder="Registration ID"
+                                    required
                                 />
                                 <input
                                     type="text"
-                                    name="model"
-                                    value={formData.registration.model || ""}
+                                    name="registration.model"
+                                    value={formData.registration.model}
                                     onChange={handleChange}
                                     placeholder="Model"
                                     required
                                 />
                                 <input
                                     type="text"
-                                    name="color"
-                                    value={formData.registration.color || ""}
+                                    name="registration.color"
+                                    value={formData.registration.color}
                                     onChange={handleChange}
                                     placeholder="Color"
                                     required
                                 />
                                 <input
                                     type="text"
-                                    name="make"
-                                    value={formData.registration.make || ""}
+                                    name="registration.make"
+                                    value={formData.registration.make}
                                     onChange={handleChange}
                                     placeholder="Make"
                                     required
