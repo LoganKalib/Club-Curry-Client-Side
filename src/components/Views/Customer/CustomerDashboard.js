@@ -6,7 +6,7 @@ import axios from 'axios';
 import Cart from './Cart'; // Import Cart component
 
 const CustomerDashboard = ({
-  cartItems,
+  // cartItems,
   onRemoveItem,
   onUpdateQuantity,
   onCheckout,
@@ -15,12 +15,13 @@ const CustomerDashboard = ({
   onShowSignup,
   bookings = [],
   customerId = null,
-  addToCart,
+  //addToCart,
   onLogout,
   decodedValue,
   customerName = 'Aaniquah', // Default name for the customer
 }) => {
   console.log(decodedValue)
+  const [cartItems, setCartItems] = useState([]);
   const [specials, setSpecials] = useState([]); // State to hold specials
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
@@ -82,6 +83,53 @@ const CustomerDashboard = ({
     navigate('/menu'); // Navigate to the Menu route
   };
 
+  // Function to handle adding an item to the cart
+  const addToCart = async (item) => {
+    const cartItemData = {
+      menuItem: {
+        id: item.id,  // The ID of the menu item
+        name: item.name,  // The name of the menu item
+        description: item.description,  // Description of the menu item
+        price: item.price,  // Price of the menu item
+        menuId: { id: item.menuId.id } // Assuming menuId is an object; adjust if necessary
+      },
+      quantity: item.quantity || 1, // Default quantity
+      note: item.note || 'Add your note', // Optional note, adjust as necessary
+      spiceLevel: item.spiceLevel || 'MED', // Use a default spice level if not provided
+   
+    };
+
+    console.log('Cart Item Data:', cartItemData) // Log cart item data
+
+    try {
+      // Call the API to save the cart item
+      const response = await axios.post('http://localhost:8080/ClubCurry/cartMenuItems/save', cartItemData);
+      console.log('API Response:', response); // Log API response
+
+      if (response.status === 200) {
+        // If successful, update local cart items state
+        setCartItems((prevItems) => {
+          const existingItem = prevItems.find(cartItem => cartItem.menuItem.id === item.id);
+          if (existingItem) {
+            // Update the quantity if the item already exists
+            return prevItems.map(cartItem =>
+              cartItem.menuItem.id === item.id
+                ? { ...cartItem, quantity: cartItem.quantity + 1 }
+                : cartItem
+            );
+          }
+          // If item doesn't exist, add it to the cart with a quantity of 1
+          return [...prevItems, { ...cartItemData }];
+        });
+        alert('Item added to cart successfully!');
+      }
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+      alert('Failed to add item to cart. Please try again.');
+    }
+
+  }; 
+  
   const handleShowCart = () => {
     setShowCart(true); // Show the cart modal
   };
@@ -89,7 +137,7 @@ const CustomerDashboard = ({
   const handleCloseCart = () => {
     setShowCart(false); // Hide the cart modal
   };
-
+  
   return (
     <div className="customer-dashboard">
       {/* Header Section */}
@@ -140,6 +188,7 @@ const CustomerDashboard = ({
       />
     </div>
   );
+
 };
 
 export default CustomerDashboard;

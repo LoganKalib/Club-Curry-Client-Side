@@ -34,7 +34,7 @@ const Cart = ({
   };
 
   const getTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   const handleCheckout = () => {
@@ -81,7 +81,7 @@ const Cart = ({
                     <span>{item.name}</span>
                     <span>{item.spiceLevel}</span>
                     <span>Special Instructions: {item.specialNote}</span>
-                    <span>R{item.price.toFixed(2)}</span>
+                    
                   </div>
                   <div className="cart-item-actions">
                     <div className="item-quantity">
