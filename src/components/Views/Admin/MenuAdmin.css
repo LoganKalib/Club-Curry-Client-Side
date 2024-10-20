@@ -1,0 +1,62 @@
+/* MenuAdmin.css */
+
+.menu-admin-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #e58a93;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .menu-admin-heading {
+font-weight: bold;;
+    text-align: center;
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Add other styles as necessary */
+  .add-item-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .add-item-button {
+    background-color: #80212b !important;
+    border-color: #80212b !important;
+  }
+  
+  .menu-category {
+    margin-bottom: 30px;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .menu-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+  
+  .menu-item h5 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #80212b;
+  }
+  
+  .menu-item p {
+    text-align: center;
+    margin: 5px 0;
+  }
+  

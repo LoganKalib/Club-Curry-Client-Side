@@ -48,7 +48,7 @@ const ManageDriver = () => {
     };
 
     return (
-        <div className="manage-drivers-container mt-5 pt-5 w-100">
+        <div className="manage-drivers-container ">
             <h2 className="driver-table-heading">Driver Management</h2>
             <button className="btn btn-primary mb-3" onClick={() => openModal()}>
                 Add New Driver
