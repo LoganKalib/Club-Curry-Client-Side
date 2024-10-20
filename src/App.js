@@ -4,6 +4,8 @@ import { Container } from 'react-bootstrap';
 import Header from './components/Common/Header';
 import Footer from './components/Common/Footer';
 import Menu from './components/Views/Customer/Menu';
+import CustomerReviews from './components/Views/Customer/CustomerReviews';
+import OrderHistorySection from './components/Views/Customer/OrderHistorySection';
 import DashboardLayout from './components/Views/Customer/DashboardLayout';
 import HomePage from './components/Views/Customer/HomePage';
 import CustomerDashboard from './components/Views/Customer/CustomerDashboard';
@@ -142,7 +144,7 @@ function App() {
   };
 
   const toggleCart = () => {
-    setShowCart(prevShowCart => !prevShowCart);
+    setShowCart(!showCart);
   };
 
   return (
@@ -170,7 +172,6 @@ function App() {
             decodedValue={decodedValue} // Pass decodedValue to AppRoutes
             setIsLoggedIn={setIsLoggedIn}
             onLogout={handleLogout}
-            toggleCart={toggleCart} // Pass toggleCart here
 
           />
           {/* Pass cart-related props to Cart component */}
