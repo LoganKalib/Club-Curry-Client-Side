@@ -28,40 +28,50 @@ const OrderSummary = (props) => {// Use context to get addToOrder
     return (
         <div className="order-summary-container">
             <h2>Order Summary</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Product Image</th>
-                                <th>Product Name</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {props.orderSummary.map((item) => (
-                                <tr key={item.id}>
-                                    <td>
-                                        <img src={item.image} alt={item.name} className="order-item-image"/>
-                                    </td>
-                                    <td>{item.menuItem.name}</td>
-                                    <td>{item.quantity}</td>
-                                    <td>{item.menuItem.price}</td>
-                                    <td>{item.menuItem.price * item.quantity}</td>
-                                    <button className="submit-order-button"
-                                            onClick={() => props.handleRemoveFromOrder(item)}>
-                                        Delete
-                                    </button>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+            <table>
+                <thead>
+                <tr>
+                    <th>Product Image</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                {props.orderSummary.map((item) => (
+                    <tr key={item.id}>
+                        <td>
+                            <img src={item.image} alt={item.name} className="order-item-image"/>
+                        </td>
+                        <td>{item.menuItem.name}</td>
+                        <td>{item.quantity}</td>
+                        <td>{item.menuItem.price}</td>
+                        <td>{item.menuItem.price * item.quantity}</td>
+                        <button className="submit-order-button"
+                                onClick={() => props.handleRemoveFromOrder(item)}>
+                            Delete
+                        </button>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
             <div className="order-total">
-            <h3>Total Price: {totalPrice}</h3>
-                    </div>
-                    <button className="submit-order-button" onClick={handleSubmit}>
-                        Submit Order
-                    </button>
+                <h3>Total Price: {totalPrice}</h3>
+            </div>
+            <select onChange={(e) => props.handleCollectionChange(e.target.value)}>
+                <option value="DINE_IN">Dine-In</option>
+                <option value="PICKUP">Pickup</option>
+                <option value="DELIVERY">Delivery</option>
+            </select>
+            <select onChange={(e) => props.handlePaymentChange(e.target.value)}>
+                <option value="CARD">Card</option>
+                <option value="CASH">Cash</option>
+            </select>
+            <button className="submit-order-button" onClick={handleSubmit}>
+                Submit Order
+            </button>
+
         </div>
     );
 };

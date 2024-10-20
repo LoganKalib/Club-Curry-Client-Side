@@ -17,8 +17,10 @@ const CustomerDashboard = ({
   customerId = null,
   addToCart,
   onLogout,
+  decodedValue,
   customerName = 'Aaniquah', // Default name for the customer
 }) => {
+  console.log(decodedValue)
   const [specials, setSpecials] = useState([]); // State to hold specials
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
@@ -51,7 +53,7 @@ const CustomerDashboard = ({
               
               return {
                 ...item,
-                image: imageUrl, // Add image URL to the item
+                image: imageUrl, 
               };
             } catch (error) {
               console.error('Error fetching image for item:', item.id, error);
