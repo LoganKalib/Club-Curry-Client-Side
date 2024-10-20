@@ -57,7 +57,7 @@ const ManageDriver = () => {
         } else {
             // Add new driver
             try {
-                const response = await axios.post('http://localhost:8080/ClubCurry/driver/create', driverData);
+                const response = await axios.post('http://localhost:8080/ClubCurry/driver/save', driverData);
                 setDrivers([...drivers, response.data]); // Add new driver to state
             } catch (error) {
                 console.error("Error adding new driver", error);
@@ -98,9 +98,9 @@ const ManageDriver = () => {
                             <td>{driver.username}</td>
                             <td>{driver.petrolAllowance}</td>
                             <td>{driver.registration.id}</td>
-                            <td>{driver.model}</td>
-                            <td>{driver.color}</td>
-                            <td>{driver.make}</td>
+                            <td>{driver.registration.model}</td>
+                            <td>{driver.registration.color}</td>
+                            <td>{driver.registration.make}</td>
                             <td>
                                 <button className="btn btn-warning mr-2" onClick={() => openModal(driver)}>EDIT</button>
                                 <button className="btn btn-danger" onClick={() => handleDelete(driver.id)}>DELETE</button>

@@ -10,7 +10,7 @@ import LoginModal from './components/Common/LoginModal';
 import SignupModal from './components/Common/SignupModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
 import BookingTest from './components/Common/BookingTest';
-import Employee from './components/Views/GeneralEmployee/Employee';
+import Employee from './components/Views/GeneralEmployee/EmployeeLayout';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
