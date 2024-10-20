@@ -14,11 +14,12 @@ const ActiveDeliveries = ({ deliveries = [], onUpdateStatus }) => {
           <p>No active deliveries</p>
         ) : (
           inTransitDeliveries.map(delivery => (
-            <div key={delivery.deliveryId} className="active-delivery-card">
-              <h3>Order #{delivery.orderId}</h3>
-              <p><strong>Customer Name:</strong> {delivery.customerName}</p>
-              <p><strong>Customer Contact:</strong> {delivery.customerContact}</p>
-              <p><strong>Address:</strong> {delivery.address}</p>
+            <div key={delivery.id} className="active-delivery-card">
+              <h3>Order #{delivery.id}</h3>
+              <p><strong>Customer Name:</strong> {delivery.order.cart.customer.name} {delivery.order.cart.customer.surname}</p>
+              <p><strong>Customer Contact:</strong> {delivery.order.cart.customer.mobileNo}</p>
+              <p><strong>Customer Address:</strong> {delivery.address.streetNo} {delivery.address.streetName},{delivery.address.suburb.suburbName} ,{delivery.address.suburb.postalCode}</p>
+              {/* <p><strong>Address:</strong> {delivery.address}</p> */}
               <p><strong>Status:</strong> {delivery.status}</p>
               <button
                 className="active-delivery-btn delivered-btn"
