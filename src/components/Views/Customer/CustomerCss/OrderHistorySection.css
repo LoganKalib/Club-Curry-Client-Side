@@ -1,30 +1,60 @@
 /* OrderHistorySection.css */
 
 .order-history-section {
-    padding: 20px;
-  }
-  
-  .order-history-section h2 {
-    text-align: left;
-    margin-bottom: 20px;
-  }
-  
-  /* Container for the orders, with horizontal scrolling */
-  .orders-container {
-    display: flex;
-    overflow-x: scroll;
-    white-space: nowrap;
-    padding-bottom: 10px; /* Optional, to space out bottom */
-  }
-  
-  .order-card {
-    display: inline-block;
-    margin-right: 16px;
-    width: 18rem; /* Adjust width if necessary */
-  }
-  
-  /* Delivery status card container */
-  .delivery-status-container {
-    margin-top: 30px;
-  }
-  
+  padding: 20px;
+  width: 1200px;
+  margin-left: -57px;
+  margin-right: 0px;
+}
+
+.order-history-section h2 {
+  text-align: left;
+  margin-bottom: 20px;
+  font-family: 'Chonburi', sans-serif; /* Use a cohesive font */
+  font-size: 2.5rem; /* Adjust size for prominence */
+  color: #741c25; /* Primary dark red color */
+  text-transform: uppercase; /* Make text uppercase for emphasis */
+  letter-spacing: 1px; /* Slightly increase spacing between letters */
+  border-bottom: 2px solid #741c25; /* Underline effect */
+  padding-bottom: 10px; /* Space between text and underline */
+}
+
+/* Container for the orders, with horizontal scrolling */
+.orders-container {
+  display: flex;
+  overflow-x: scroll; /* Enables horizontal scrolling */
+  white-space: nowrap; /* Prevents items from wrapping */
+  padding-bottom: 10px; /* Optional, to space out bottom */
+}
+
+.order-card {
+  display: inline-block; /* Allows cards to be displayed in a row */
+  margin-right: 16px; /* Spacing between cards */
+  width: 18rem; /* Adjust width as necessary */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+  border-radius: 8px; /* Rounded corners for the cards */
+  transition: transform 0.2s ease; /* Smooth scaling on hover */
+}
+
+.order-card:hover {
+  transform: scale(1.02); /* Slightly scale up the card on hover */
+}
+
+/* Delivery status card container */
+.delivery-status-container {
+  margin-top: 30px; /* Space above delivery status section */
+}
+
+/* Additional styles for buttons to maintain consistency */
+.order-card .btn {
+  width: 100%; /* Full width for the button */
+}
+
+/* Modal styles for a cohesive look */
+.modal-title {
+  font-family: 'Chonburi', sans-serif; /* Same font as headings */
+}
+
+.modal-body {
+  font-size: 1rem; /* Base font size for readability */
+}
