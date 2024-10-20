@@ -1,0 +1,73 @@
+.manage-admins-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #e58a93;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-table-heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: white;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.admin-table th, .admin-table td {
+    border: 1px solid #dee2e6;
+    padding: 8px;
+    text-align: left;
+}
+
+.admin-table th {
+    background-color: #80212b;
+    color: white;
+    text-align: center;
+}
+
+.admin-table tbody tr:nth-child(odd) {
+    background-color: #f8f9fa;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.btn {
+    margin-right: 0.5rem;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}

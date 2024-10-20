@@ -1,0 +1,67 @@
+.manage-employees-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #e58a93;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.employee-table-heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: white;
+}
+
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.employee-table th, .employee-table td {
+    border: 1px solid #dee2e6;
+    padding: 8px;
+    text-align: left;
+}
+
+.employee-table th {
+    background-color: #80212b;
+    color: white;
+    text-align: center;
+}
+
+.employee-table tbody tr:nth-child(odd) {
+    background-color: #f8f9fa;
+}
+
+.employee-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.btn-warning, .btn-danger {
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: white;
+    border: none;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}

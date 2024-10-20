@@ -252,12 +252,6 @@ const MenuAdmin = () => {
         <Button className="add-item-button" onClick={handleAddItemShow}>
           Add New Item
         </Button>
-        <Button className="add-item-button" onClick={handleAddMenuShow}>
-          Create Ingredient
-        </Button>
-        <Button className="add-item-button" onClick={handleAddItemShow}>
-          Assign Ingredients
-        </Button>
       </div>
 
       <div className="menu-items">
