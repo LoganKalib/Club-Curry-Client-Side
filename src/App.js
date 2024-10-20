@@ -14,7 +14,6 @@ import SignupModal from './components/Common/SignupModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
 //import Deliveries from './components/Views/Driver/Deliveries';
 import BookingTest from './components/Common/BookingTest';
-import Employee from './components/Views/GeneralEmployee/Employee';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './CSS/App.css';
@@ -25,8 +24,8 @@ import './CSS/Overlay.css';
 import './CSS/HomePage.css';
 import AdminDashboard from './components/Views/Admin/AdminDashboard';
 import Cart from './components/Views/Customer/Cart'; // Import Cart component
-
 import { jwtDecode } from 'jwt-decode';
+import EmployeeLayout from "./components/Views/GeneralEmployee/EmployeeLayout";
 
 const decodeJWT = (token) => {
     try {
@@ -80,7 +79,7 @@ function AppRoutes({ isLoggedIn, userRole, decodedValue, setIsLoggedIn, onLogout
       )}
       <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
       <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
-      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
+      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <EmployeeLayout decodedValue={decodedValue} onLogout={onLogout} isLoggedIn={isLoggedIn} /> : <div>Page Not Found</div>} />
       <Route path="/customer-dashboard-reviews" element={<CustomerReviews decodedValue={decodedValue} />} />
       <Route path="/customer-dashboard-order-history" element={<OrderHistorySection decodedValue={decodedValue} />} />
       <Route path="/customer-dashboard-bookings" element={<BookingTest decodedValue={decodedValue} />} />
