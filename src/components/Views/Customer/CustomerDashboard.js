@@ -8,21 +8,15 @@ import Cart from './Cart'; // Import Cart component
 import RestaurantDetails from './RestaurantDetails';
 
 const CustomerDashboard = ({
-  // cartItems,
+  customer, // Receive customer object from props
   onRemoveItem,
   onUpdateQuantity,
   onCheckout,
   isLoggedIn,
   onShowLogin,
   onShowSignup,
-  bookings = [],
-  customerId = null,
-  //addToCart,
   onLogout,
-  decodedValue,
-  customerName = 'Aaniquah', // Default name for the customer
 }) => {
-  console.log(decodedValue)
   const [cartItems, setCartItems] = useState([]);
   const [specials, setSpecials] = useState([]); // State to hold specials
   const [loading, setLoading] = useState(true); // Loading state
@@ -35,35 +29,24 @@ const CustomerDashboard = ({
     const fetchSpecials = async () => {
       setLoading(true); // Set loading to true when starting the fetch
       try {
-        // Fetch all menu items
         const response = await axios.get('http://localhost:8080/ClubCurry/menuItem/getAll');
-        
-        // Fetch all menus to get the ID for "Specials"
         const menuResponse = await axios.get('http://localhost:8080/ClubCurry/menu/getAll');
         const specialsMenu = menuResponse.data.find(menu => menu.name === "Specials");
         
         if (specialsMenu) {
-          // Filter items belonging to the "Specials" menu
           const specialItems = response.data.filter(item => item.menuId.id === specialsMenu.id);
 
-          // Fetch images for special items
           const specialItemsWithImages = await Promise.all(specialItems.map(async (item) => {
             try {
               const imageResponse = await axios.get(`http://localhost:8080/ClubCurry/image/getByMenuId/${item.id}`, {
-                responseType: 'blob', // Expecting binary data
+                responseType: 'blob',
               });
-              const imageUrl = URL.createObjectURL(imageResponse.data); // Create object URL for the image
+              const imageUrl = URL.createObjectURL(imageResponse.data);
               
-              return {
-                ...item,
-                image: imageUrl, 
-              };
+              return { ...item, image: imageUrl };
             } catch (error) {
               console.error('Error fetching image for item:', item.id, error);
-              return {
-                ...item,
-                image: 'path/to/default/image.png', // Set to default image if fetching fails
-              };
+              return { ...item, image: 'path/to/default/image.png' };
             }
           }));
 
@@ -72,7 +55,7 @@ const CustomerDashboard = ({
           console.warn('Specials menu not found.');
         }
       } catch (error) {
-        setError('Error fetching specials. Please try again later.'); // Set error state
+        setError('Error fetching specials. Please try again later.');
       } finally {
         setLoading(false); // Set loading to false after fetching
       }
@@ -85,42 +68,33 @@ const CustomerDashboard = ({
     navigate('/menu'); // Navigate to the Menu route
   };
 
-  // Function to handle adding an item to the cart
   const addToCart = async (item) => {
     const cartItemData = {
       menuItem: {
-        id: item.id,  // The ID of the menu item
-        name: item.name,  // The name of the menu item
-        description: item.description,  // Description of the menu item
-        price: item.price,  // Price of the menu item
-        menuId: { id: item.menuId.id } // Assuming menuId is an object; adjust if necessary
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        menuId: { id: item.menuId.id }
       },
-      quantity: item.quantity || 1, // Default quantity
-      note: item.note || 'Add your note', // Optional note, adjust as necessary
-      spiceLevel: item.spiceLevel || 'MED', // Use a default spice level if not provided
-   
+      quantity: item.quantity || 1,
+      note: item.note || 'Add your note',
+      spiceLevel: item.spiceLevel || 'MED',
     };
 
-    console.log('Cart Item Data:', cartItemData) // Log cart item data
-
     try {
-      // Call the API to save the cart item
       const response = await axios.post('http://localhost:8080/ClubCurry/cartMenuItems/save', cartItemData);
-      console.log('API Response:', response); // Log API response
 
       if (response.status === 200) {
-        // If successful, update local cart items state
         setCartItems((prevItems) => {
           const existingItem = prevItems.find(cartItem => cartItem.menuItem.id === item.id);
           if (existingItem) {
-            // Update the quantity if the item already exists
             return prevItems.map(cartItem =>
               cartItem.menuItem.id === item.id
                 ? { ...cartItem, quantity: cartItem.quantity + 1 }
                 : cartItem
             );
           }
-          // If item doesn't exist, add it to the cart with a quantity of 1
           return [...prevItems, { ...cartItemData }];
         });
         alert('Item added to cart successfully!');
@@ -129,9 +103,8 @@ const CustomerDashboard = ({
       console.error('Error adding item to cart:', error);
       alert('Failed to add item to cart. Please try again.');
     }
+  };
 
-  }; 
-  
   const handleShowCart = () => {
     setShowCart(true); // Show the cart modal
   };
@@ -139,25 +112,24 @@ const CustomerDashboard = ({
   const handleCloseCart = () => {
     setShowCart(false); // Hide the cart modal
   };
-  
+
   return (
     <div className="customer-dashboard">
-      {/* Header Section */}
-      <CustomerDashboardHeader isLoggedIn={isLoggedIn} onLogout={onLogout} onShowCart={handleShowCart} /> {/* Pass the handleShowCart function */}
+      <CustomerDashboardHeader isLoggedIn={isLoggedIn} onLogout={onLogout} onShowCart={handleShowCart} />
 
       {/* Welcome Section */}
       <div className="welcome-section">
-        <h2>Welcome Back, {customerName}!</h2>
+        <h2>Welcome Back, {customer ? customer.name : 'Guest'}!</h2> {/* Display customer's name if available */}
         <p>Discover our delicious specials and manage your orders with ease.</p>
-        <button onClick={handleViewMenu} className="view-menu-btn">View Menu</button> {/* View Menu Button */}
+        <button onClick={handleViewMenu} className="view-menu-btn">View Menu</button>
       </div>
 
       {/* Specials Section */}
       <div className="menu-section">
         <h3>ClubCurry Specials</h3>
         <div className="menu-grid">
-          {loading && <p>Loading specials...</p>} {/* Loading Indicator */}
-          {error && <p className="error-message">{error}</p>} {/* Error Message */}
+          {loading && <p>Loading specials...</p>}
+          {error && <p className="error-message">{error}</p>}
           {specials.length > 0 ? (
             specials.map(item => (
               <div key={item.id} className="menu-item">
@@ -167,7 +139,7 @@ const CustomerDashboard = ({
                   <p>Price: R{item.price}</p>
                   <button onClick={() => addToCart(item)} className="order-now-btn">Order Now</button>
                 </div>
-                <img src={item.image} alt={item.name} className="menu-item-image" /> {/* Use the object URL for the image */}
+                <img src={item.image} alt={item.name} className="menu-item-image" />
               </div>
             ))
           ) : (
@@ -188,14 +160,11 @@ const CustomerDashboard = ({
         onShowLogin={onShowLogin}
         onShowSignup={onShowSignup}
       />
-    {/* FAQ Section */}
-    <FAQ /> {/* Insert FAQ component here */}
 
-    <RestaurantDetails></RestaurantDetails>
-
-</div>
+      <FAQ />
+      <RestaurantDetails />
+    </div>
   );
-
 };
 
 export default CustomerDashboard;
