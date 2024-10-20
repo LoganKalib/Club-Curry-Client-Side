@@ -4,6 +4,7 @@ import './CustomerCss/OrderHistorySection.css'; // Import the CSS file
 import CustomerDashboardHeader from './CustomerDashboardHeader';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios'; 
+import RestaurantDetails from './RestaurantDetails';
 
 const OrderHistorySection = ({decodedValue}) => {
   console.log(decodedValue);
@@ -127,6 +128,8 @@ const OrderHistorySection = ({decodedValue}) => {
           </Modal.Footer>
         </Modal>
       )}
+          <RestaurantDetails></RestaurantDetails>
+
     </div>
   );
 };

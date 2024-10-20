@@ -1,0 +1,112 @@
+/* FAQ Section Styling */
+.faq-section {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #fff; /* Clean white background for a professional look */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.faq-content {
+    flex: 1;
+    padding-right: 10px; /* Add space between content and image */
+}
+
+.faq-image {
+    flex-shrink: 0;
+}
+
+.faq-image img {
+    max-width: 600px;
+    height: auto;
+    margin-top: 70px;
+}
+
+.faq-section h2 {
+    font-size: 1.8rem;
+    color: #2c3e50; /* Darker color for a more serious tone */
+    margin-bottom: 25px;
+}
+
+/* FAQ Item Styling */
+.faq-item {
+    margin: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 15px;
+    transition: background-color 0.3s ease;
+}
+
+/* FAQ Question Styling */
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background-color: #f8f8f8; /* Light gray background for question */
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+    background-color: #f1f1f1; /* Slight hover effect */
+}
+
+.faq-question h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: #2c3e50;
+}
+
+.faq-icon {
+    font-size: 1.25rem;
+    color: #2980b9; /* Blue accent color for icon */
+    transition: transform 0.3s ease;
+}
+
+.rotate {
+    transform: rotate(180deg); /* Rotate icon when expanded */
+}
+
+/* FAQ Answer Styling */
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; /* Ensure smooth transitions */
+    padding-left: 0; /* No padding when closed */
+    padding-right: 0;
+    padding-top: 0;
+    line-height: 0; /* Prevent text from showing when closed */
+    color: #555;
+    font-size: 0.9rem;
+    background-color: #f8f8f8;
+    border-left: 3px solid #2980b9;
+    border-radius: 0 0 4px 4px;
+}
+
+/* Expanded FAQ Answer */
+.faq-question.open + .faq-answer {
+    max-height: 300px; /* Set an appropriate height for expanded answers */
+    padding: 10px 15px; /* Add padding when open */
+    line-height: 1.5; /* Reset line-height when open */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .faq-section {
+        flex-direction: column;
+        margin: 20px 10px;
+        padding: 15px;
+    }
+
+    .faq-image {
+        display: none;
+    }
+
+    .faq-content {
+        padding-right: 0;
+    }
+}

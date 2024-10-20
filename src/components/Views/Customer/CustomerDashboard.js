@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import CustomerDashboardHeader from './CustomerDashboardHeader';
 import './CustomerCss/CustomerDashboard.css';
 import axios from 'axios';
+import FAQ from './FAQ';
 import Cart from './Cart'; // Import Cart component
+import RestaurantDetails from './RestaurantDetails';
 
 const CustomerDashboard = ({
   // cartItems,
@@ -186,7 +188,12 @@ const CustomerDashboard = ({
         onShowLogin={onShowLogin}
         onShowSignup={onShowSignup}
       />
-    </div>
+    {/* FAQ Section */}
+    <FAQ /> {/* Insert FAQ component here */}
+
+    <RestaurantDetails></RestaurantDetails>
+
+</div>
   );
 
 };

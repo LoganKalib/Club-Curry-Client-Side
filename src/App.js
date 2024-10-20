@@ -8,8 +8,6 @@ import CustomerReviews from './components/Views/Customer/CustomerReviews';
 import OrderHistorySection from './components/Views/Customer/OrderHistorySection';
 //import DashboardLayout from './components/Views/Customer/DashboardLayout';
 import HomePage from './components/Views/Customer/HomePage';
-import CustomerDashboard from './components/Views/Customer/CustomerDashboard';
-import CustomerDashboardHeader from './components/Views/Customer/CustomerDashboardHeader';
 import LoginModal from './components/Common/LoginModal';
 import SignupModal from './components/Common/SignupModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
@@ -63,29 +61,31 @@ function AppRoutes({ isLoggedIn, userRole, decodedValue, setIsLoggedIn, onLogout
         }
     };
 
-    return (
-        <Routes>
-            <Route path="/" element={<HomePage />} />
-            {isLoggedIn && userRole === 'customer' && (
-                <Route
-                    path="/customer-dashboard"
-                    element={<CustomerDashboard 
-                        isLoggedIn={isLoggedIn} 
-                        onLogout={onLogout} 
-                        decodedValue={decodedValue} // Pass decodedValue to CustomerDashboard
-                    />} 
-                />
-            )}
-            <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
-            <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
-            <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <EmployeeLayout decodedValue={decodedValue} onLogout={onLogout} isLoggedIn={isLoggedIn} /> : <div>Page Not Found</div>} />
-            <Route path="/customer-dashboard-reviews" element={<CustomerReviews decodedValue={decodedValue} />} />
-            <Route path="/customer-dashboard-order-history" element={<OrderHistorySection decodedValue={decodedValue} />} />
-            <Route path="/customer-dashboard-bookings" element={<BookingTest decodedValue={decodedValue} />} />
-            <Route path="/menu" element={<Menu addToCart={addToCart} />} />
-            <Route path="*" element={<div>Page Not Found</div>} />
-        </Routes>
-    );
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      {isLoggedIn && userRole === 'customer' && (
+        <>
+          <Route 
+            path="/customer-dashboard" 
+            element={<DashboardLayout
+              isLoggedIn={isLoggedIn} 
+              onLogout={onLogout} 
+              decodedValue={decodedValue} // Pass decodedValue to CustomerDashboard
+         
+
+            />} 
+          />
+        </>
+      )}
+      <Route path="/admin" element={isLoggedIn && userRole === 'admin' ? <AdminDashboard decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
+      <Route path="/driver" element={isLoggedIn && userRole === 'driver' ? <DriverDashboardContainer decodedValue={decodedValue} onLogout={onLogout} isLoggedIn= {isLoggedIn}/> : <div>Page Not Found</div>} />
+      <Route path="/employee" element={isLoggedIn && userRole === 'generalStaff' ? <Employee decodedValue={decodedValue} /> : <div>Page Not Found</div>} />
+      <Route path="/customer-dashboard-bookings" element={<BookingTest decodedValue={decodedValue} />} />
+      <Route path="/menu" element={<Menu />} />
+      <Route path="*" element={<div>Page Not Found</div>} />
+    </Routes>
+  );
 }
 
 function App() {

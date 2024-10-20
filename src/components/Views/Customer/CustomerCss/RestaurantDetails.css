@@ -1,0 +1,95 @@
+/* Restaurant Details Section */
+.restaurant-details-section {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1800px; /* Adjust based on your layout needs */
+    color: #fff;
+    overflow: hidden; /* Ensure content stays within bounds */
+    
+  }
+  
+  /* Restaurant Details Left Column */
+  .details-left {
+    flex: 1;
+    padding: 50px;
+    background-color: rgba(255, 255, 255, 0.8); /* Light background for contrast */
+    color: #000;
+    font-family: 'Chonburi', sans-serif;
+  }
+  
+  /* Restaurant Details Right Column */
+  .details-right {
+    flex: 1;
+    padding: 50px;
+    background-color: rgba(255, 255, 255, 0.8); /* Light background for contrast */
+  }
+  
+  /* Address, Phone, and Email Sections */
+  .address-section,
+  .phone-section,
+  .email-section {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Stack items vertically */
+  }
+  
+  /* Heading Styles */
+  .address-section h3,
+  .phone-section h3,
+  .email-section h3 {
+    font-family: 'Chonburi', sans-serif;
+    font-size: 1.75rem; /* Slightly larger for emphasis */
+    color: #292728; /* Dark color for headings */
+    margin-bottom: 10px; /* Space below headings */
+    display: flex; /* Make heading a flex container */
+    align-items: center; /* Center align heading items */
+  }
+  
+  /* Paragraph Styles */
+  .address-section p,
+  .phone-section p,
+  .email-section p {
+    margin: 5px 0 0 30px; /* Add space above paragraph and left alignment */
+    padding: 5; /* Remove default padding */
+    font-size: 1rem; /* Adjust text size */
+    line-height: 1.5; /* Ensure readability */
+  }
+  
+  /* Icon Background Style */
+  .address-section p i,
+  .phone-section p i,
+  .email-section p i,
+  .address-section h3 i,
+  .phone-section h3 i,
+  .email-section h3 i {
+    margin-right: 8px; /* Gap between icon and text */
+    font-size: 1.5rem; /* Smaller size for icons */
+    width: 2.5rem; /* Adjust width of the circle */
+    height: 2.5rem; /* Adjust height of the circle */
+    border-radius: 50%; /* Makes the background circular */
+    background: linear-gradient(45deg, #741c25, #741c25) !important; /* Adjust the colors as needed */
+    color: #fff; /* Icon color (white) */
+    text-align: center; /* Center the icon inside the circle */
+    line-height: 2.5rem; /* Align icon vertically */
+    margin-top: 5px;
+  }
+  
+  /* Map Container */
+  .map-container {
+    margin-top: 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .map-container iframe {
+    width: 100%;
+    height: 450px; /* Adjust as needed */
+    border: 0;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }

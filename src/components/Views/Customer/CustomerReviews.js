@@ -5,6 +5,8 @@ import StarRating from '../../Common/StarRating';
 import '../Customer/CustomerCss/CustomerReviews.css';
 import review from '../../../images/review.png';
 import QR from '../../../images/QR.png';
+import RestaurantDetails from './RestaurantDetails';
+
 
 // Mapping numeric ratings to enum values
 const ratingValues = {
@@ -107,24 +109,7 @@ const CustomerReviews = ({ onAddReview, onDeleteReview, decodedValue }) => {
             alt="review header"
             className="review-image"
              />
-      {/* Feedback Section */}
-  <div className="feedback-section">
-  <div className="feedback-text">
-  <h3>Thank you for being part of our family!</h3>
-    <p>
-      As a token of appreciation, every reviewer will receive a <strong>10% discount</strong> on their next visit. Don't forget to ask us about it!
-    </p>
-    <p>
-      Your insights are vital to our journey of culinary excellence. 
-    </p>
-    
-    <Button variant="primary" onClick={handleOpenModal} className="add-review-button">
-      Add Review
-    </Button>
-    </div>
-    <img src={QR} alt="QR code" className="qr-image" />
-    
-  </div>
+  
   <div className="reviews-container">
       <h3>Your Reviews</h3>
       
@@ -176,48 +161,26 @@ const CustomerReviews = ({ onAddReview, onDeleteReview, decodedValue }) => {
       )}
       </div>
 
-      {/* Restaurant Details Section */}
-      <div className="restaurant-details-section">
-        <div className="details-left">
-          <div className="map-container">
-            {/* Embed Google Maps */}
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3309.872085711296!2d18.419742215223726!3d-33.92486898064242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc6765df2fa921%3A0x73daccbd1e24d63d!2sCape%20Town%20City%20Centre%2C%20Cape%20Town%2C%208000!5e0!3m2!1sen!2sza!4v1691409942597!5m2!1sen!2sza"
-              width="100%"
-              height="100%"
-              allowFullScreen=""
-              loading="lazy"
-              title="Google Maps"
-            ></iframe>
-          </div>
-          <p>Click map to view Google Maps</p>
-        </div>
-        <div className="details-right">
-          <div className="address-section">
-            <p>
-              <i className="fas fa-map-marker-alt"></i>
-              <strong>Address</strong>
-            </p>
-            <p className="address-description">Come say hello and enjoy some good food!</p>
-            <p className="address-details">123 Spice Avenue, Cape Town, 8000</p>
-          </div>
-          <div className="phone-section">
-            <p>
-              <i className="fas fa-phone"></i>
-              <strong>Phone</strong>
-            </p>
-            <p className="phone-details">+27 21 123 4567</p>
-          </div>
-          <div className="email-section">
-            <p>
-              <i className="fas fa-envelope"></i>
-              <strong>Email</strong>
-            </p>
-            <p className="email-description">Chat with us</p>
-            <p className="email-details">contact@clubcurry.co.za</p>
-          </div>
-        </div>
-      </div>
+          {/* Feedback Section */}
+  <div className="feedback-section">
+  <div className="feedback-text">
+  <h3>Thank you for being part of our family!</h3>
+    <p>
+      As a token of appreciation, every reviewer will receive a <strong>10% discount</strong> on their next visit. Don't forget to ask us about it!
+    </p>
+    <p>
+      Your insights are vital to our journey of culinary excellence. 
+    </p>
+    
+    <Button variant="primary" onClick={handleOpenModal} className="add-review-button">
+      Add Review
+    </Button>
+    </div>
+    <img src={QR} alt="QR code" className="qr-image" />
+    
+  </div>
+
+      <RestaurantDetails></RestaurantDetails>
 
       {/* Modal for adding a review */}
       <Modal show={showModal} onHide={handleCloseModal}>
