@@ -13,6 +13,7 @@ import CustomerDashboardHeader from './components/Views/Customer/CustomerDashboa
 import LoginModal from './components/Common/LoginModal';
 import SignupModal from './components/Common/SignupModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
+import AdminHeader from './components/Common/AdminHeader';
 import BookingTest from './components/Common/BookingTest';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -156,6 +157,8 @@ function App() {
             onLogout={handleLogout}
             onShowCart={toggleCart} // Show cart function
           />
+        ) : userRole === 'admin' ? (
+          <AdminHeader onLogout={handleLogout} />  // Render AdminHeader for admin users
         ) : (
           <Header
             isLoggedIn={isLoggedIn}
