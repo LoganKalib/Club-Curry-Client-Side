@@ -61,7 +61,7 @@ const EmployeeBookingManagement = () => {
 
   return (
     <div className="EBM-container">
-      <h1 class="EMB-title">Employee - Manage Bookings</h1>
+      <h1>Employee - Manage Bookings</h1>
 
       {/* Welcome message and button to open the employee booking modal */}
       <div>
