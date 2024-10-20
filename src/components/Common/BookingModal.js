@@ -114,7 +114,7 @@ const BookingModal = ({ show, handleClose, booking, handleBooking }) => {
                       <Form.Label>Booked By (Employee ID)</Form.Label>
                       <Form.Control
                         type="text"
-                        value={bookedBy.id}
+                        value={bookedBy}
                         onChange={(e) => setBookedBy(e.target.value)} // Updated to handle bookedBy
                       />
                     </Form.Group>
