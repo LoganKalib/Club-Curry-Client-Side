@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import '../Driver/DriverCSS/DriverDashboardContainer.css';
 import DriverDashboardHeader from './DriverDashboardHeader';
@@ -11,60 +11,39 @@ import DriverProfile from '../Driver/DriverProfile';
 const DriverDashboardContainer = ({ onLogout, decodedValue }) => {
   console.log(decodedValue);
   // State to manage the list of deliveries
-  const [deliveries, setDeliveries] = useState([
-    {
-      deliveryId: 1,
-      orderId: 101,
-      order: 'Pizza',
-      price: 12.99,
-      customerName: 'John Doe',
-      customerContact: '123-456-7890',
-      address: '123 Main St',
-      status: 'pending',
-      deliveryTime: null,
-      deliveryNote: 'Please ring the doorbell',
-    },
-    {
-      deliveryId: 2,
-      orderId: 102,
-      order: 'Burger',
-      price: 9.99,
-      customerName: 'Jane Smith',
-      customerContact: '987-654-3210',
-      address: '456 Elm St',
-      status: 'in transit',
-      deliveryTime: null,
-      deliveryNote: 'Leave at the doorstep',
-    },
-    {
-      deliveryId: 3,
-      orderId: 103,
-      order: 'Sushi',
-      price: 15.99,
-      customerName: 'Emily Johnson',
-      customerContact: '555-123-4567',
-      address: '789 Oak St',
-      status: 'delivered',
-      deliveryTime: '13:25',
-      deliveryNote: '',
-    },
-  ]);
-
+  const [deliveries, setDeliveries] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeSection, setActiveSection] = useState('active-deliveries'); // Track the active section
 
-  // Example state for performance metrics
-  const [activeDeliveries, setActiveDeliveries] = useState(125);
-  const [activeChange, setActiveChange] = useState(-5); // Example percentage change
-  const [averageDeliveries, setAverageDeliveries] = useState(80);
-  const [averageChange, setAverageChange] = useState(-3);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // console.log(decodedValue.sub)
+        const userResponse = await fetch(`http://localhost:8080/ClubCurry/driver/readByUsername/${decodedValue.sub}`);
+        // console.log(userResponse.data)
+        const userData = await userResponse.json();
+        
+        // Assuming userData contains an id property for the user
+        const userId = userData.id;
+        
+        const deliveriesResponse = await fetch(`http://localhost:8080/ClubCurry/delivery/getByDriverId/${userId}`);
+        const deliveriesData = await deliveriesResponse.json();
+        console.log(deliveriesData)
+        setDeliveries(deliveriesData);
+      } catch (error) {
+        console.error('Error fetching user data or deliveries:', error);
+      }
+    };
+
+    fetchUserData();
+  }, [decodedValue]);
 
   // Function to update the status of a delivery
   const handleUpdateStatus = (deliveryId, newStatus) => {
     const currentTime = newStatus === 'delivered' ? new Date().toLocaleString() : null;
     setDeliveries((prevDeliveries) =>
       prevDeliveries.map((delivery) =>
-        delivery.deliveryId === deliveryId
+        delivery.id === deliveryId
           ? { ...delivery, status: newStatus, deliveryTime: currentTime }
           : delivery
       )
@@ -76,18 +55,18 @@ const DriverDashboardContainer = ({ onLogout, decodedValue }) => {
   };
 
   // Filter deliveries to get outstanding (not delivered) deliveries
-  const outstandingDeliveries = deliveries.filter(
-    (delivery) => delivery.status !== 'delivered'
-  );
+  // const outstandingDeliveries = deliveries.filter(
+  //   (delivery) => delivery.delivered === false
+  // );
 
-  // Filter deliveries to get completed (delivered) deliveries
-  const deliveredDeliveries = deliveries.filter(
-    (delivery) => delivery.status === 'delivered'
-  );
+  // // Filter deliveries to get completed (delivered) deliveries
+  // const deliveredDeliveries = deliveries.filter(
+  //   (delivery) => delivery.delivered === true
+  // );
 
-  const filteredDeliveredDeliveries = deliveredDeliveries.filter(delivery =>
-    delivery.orderId.toString().includes(searchTerm)
-  );
+  // const filteredDeliveredDeliveries = deliveredDeliveries.filter(delivery =>
+  //   delivery.order.id.toString().includes(searchTerm)
+  // );
 
   return (
     <div className="driver-dashboard-container">
@@ -104,13 +83,13 @@ const DriverDashboardContainer = ({ onLogout, decodedValue }) => {
           <div className="tabs-container">
             {activeSection === 'active-deliveries' && (
               <ActiveDeliveries
-                deliveries={outstandingDeliveries}
+                deliveries={deliveries}
                 handleUpdateStatus={handleUpdateStatus}
               />
             )}
             {activeSection === 'completed-deliveries' && (
               <CompletedDeliveries
-                deliveries={filteredDeliveredDeliveries}
+                deliveries={deliveries}
                 handleSearchChange={handleSearchChange}
                 searchTerm={searchTerm}
               />
@@ -127,19 +106,9 @@ const DriverDashboardContainer = ({ onLogout, decodedValue }) => {
                         <div className="delivery-metrics">
                           <div>
                             <h3 className="metric-title">Active Deliveries</h3>
-                            <h1 className="metric-value">{activeDeliveries}</h1>
-                            <span className={`metric-change ${activeChange < 0 ? 'down' : 'up'}`}>
-                              {activeChange}% {activeChange < 0 ? '▼' : '▲'}
-                            </span>
+                            <h1 className="metric-value">{deliveries.length}</h1>
                           </div>
-                          <div className="metric-graph">
-                            <div className="bar-graph">
-                              <div className="bar" style={{ height: '70%' }}></div>
-                              <div className="bar" style={{ height: '50%' }}></div>
-                              <div className="bar" style={{ height: '80%' }}></div>
-                              <div className="bar" style={{ height: '60%' }}></div>
-                            </div>
-                          </div>
+                          {/* Metric graph implementation can go here */}
                         </div>
                       </Card.Body>
                     </Card>
@@ -148,21 +117,11 @@ const DriverDashboardContainer = ({ onLogout, decodedValue }) => {
                     <Card className="overview-card">
                       <Card.Body>
                         <div className="delivery-metrics">
-                          <div>
+                          {/* <div>
                             <h3 className="metric-title">Average Deliveries</h3>
                             <h1 className="metric-value">{averageDeliveries}</h1>
-                            <span className={`metric-change ${averageChange < 0 ? 'down' : 'up'}`}>
-                              {averageChange}% {averageChange < 0 ? '▼' : '▲'}
-                            </span>
-                          </div>
-                          <div className="metric-graph">
-                            <div className="bar-graph">
-                              <div className="bar" style={{ height: '70%' }}></div>
-                              <div className="bar" style={{ height: '60%' }}></div>
-                              <div className="bar" style={{ height: '50%' }}></div>
-                              <div className="bar" style={{ height: '80%' }}></div>
-                            </div>
-                          </div>
+                          </div> */}
+                          {/* Metric graph implementation can go here */}
                         </div>
                       </Card.Body>
                     </Card>
