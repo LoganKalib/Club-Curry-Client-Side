@@ -12,6 +12,7 @@ const ManageDriver = () => {
         fetchDrivers();
     }, []);
 
+    // Fetch the list of drivers from the backend
     const fetchDrivers = async () => {
         try {
             const response = await axios.get('http://localhost:8080/ClubCurry/driver/getAll'); 
@@ -21,6 +22,7 @@ const ManageDriver = () => {
         }
     };
 
+    // Delete a driver
     const handleDelete = async (id) => {
         try {
             await axios.delete(`http://localhost:8080/ClubCurry/driver/delete/${id}`);
@@ -36,19 +38,38 @@ const ManageDriver = () => {
         setIsModalOpen(true);
     };
 
-       // Function to close the modal and reset the current driver
+    // Function to close the modal and reset the current driver
     const closeModal = () => {
         setCurrentDriver(null);
         setIsModalOpen(false);
     };
 
-    const handleFormSubmit = () => {
-        fetchDrivers(); // Refresh list after form submission
+    // Handle form submission for both adding and updating drivers
+    const handleFormSubmit = async (driverData) => {
+        if (currentDriver) {
+            // Update existing driver
+            try {
+                const response = await axios.put(`http://localhost:8080/ClubCurry/driver/update/${currentDriver.id}`, driverData);
+                setDrivers(drivers.map(driver => driver.id === currentDriver.id ? response.data : driver)); // Update the driver in state
+            } catch (error) {
+                console.error("Error updating driver", error);
+            }
+        } else {
+            // Add new driver
+            try {
+                const response = await axios.post('http://localhost:8080/ClubCurry/driver/create', driverData);
+                setDrivers([...drivers, response.data]); // Add new driver to state
+            } catch (error) {
+                console.error("Error adding new driver", error);
+            }
+        }
 
+        // Close modal and refresh the list of drivers
+        closeModal();
     };
 
     return (
-        <div className="manage-drivers-container mt-5 pt-5 w-100">
+        <div className="manage-drivers-container">
             <h2 className="driver-table-heading">Driver Management</h2>
             <button className="btn btn-primary mb-3" onClick={() => openModal()}>
                 Add New Driver
@@ -93,7 +114,7 @@ const ManageDriver = () => {
                 isOpen={isModalOpen}
                 onClose={closeModal}
                 driver={currentDriver}
-                onSubmit={handleFormSubmit}
+                onSubmit={handleFormSubmit} // Submit form with data to backend
             />
         </div>
     );

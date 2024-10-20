@@ -4,6 +4,8 @@ import ManageDriver from "./ManageComponents/DriverManagement/ManageDriver";
 import './AdminDashboard.css';
 import MenuAdmin from "./MenuAdmin";
 import ManageCustomers from "./ManageComponents/CustomerManagement/ManageCustomers";
+import ManageAdmin from "./ManageComponents/AdminManagement/ManageAdmin";
+import ManageEmployees from "./ManageComponents/EmployeeManagement/ManageEmployee";
 
 const AdminDashboard = ({decodedValue}) => {
     console.log(decodedValue);
@@ -19,6 +21,10 @@ const AdminDashboard = ({decodedValue}) => {
                 return <MenuAdmin />; // Use MenuAdmin component here
             case 'customers':
                 return <ManageCustomers />;
+            case 'employees':
+                return <ManageEmployees />;
+            case 'admins':
+                return <ManageAdmin />;
             
         
             default:
@@ -32,6 +38,8 @@ const AdminDashboard = ({decodedValue}) => {
                 <button onClick={() => setActiveTab('bookings')}>Manage Bookings</button>
                 <button onClick={() => setActiveTab('menu')}>Manage Menu</button>
                 <button onClick={() => setActiveTab('drivers')}>Manage Drivers</button>
+                <button onClick={() => setActiveTab('employees')}>Manage Employees</button>
+                <button onClick={() => setActiveTab('admins')}>Manage Admins</button>
                 <button onClick={() => setActiveTab('customers')}>Manage Customers</button>
                 
             </div>

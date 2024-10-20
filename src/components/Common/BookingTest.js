@@ -11,45 +11,17 @@ const EmployeeBookingManagement = () => {
   const [currentBooking, setCurrentBooking] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
+
   useEffect(() => {
     fetchBookings();
   }, []);
 
   const fetchBookings = async () => {
     // Dummy data for demonstration
-    const dummyData = [
-      {
-        bookingId: 1,
-        date: '2024-10-19',
-        time: '18:00',
-        tableNo: 5,
-        sectionNo: 2,
-        status: 'Confirmed',
-        bookedBy: { name: 'Alice Johnson' },
-      },
-      {
-        bookingId: 2,
-        date: '2024-10-20',
-        time: '19:00',
-        tableNo: 3,
-        sectionNo: 1,
-        status: 'Pending',
-        bookedBy: { name: 'Bob Smith' },
-      },
-      {
-        bookingId: 3,
-        date: '2024-10-21',
-        time: '20:00',
-        tableNo: 4,
-        sectionNo: 3,
-        status: 'Cancelled',
-        bookedBy: { name: 'Charlie Brown' },
-      },
-    ];
-    
+    const response = await axios.get("http://localhost:8080/ClubCurry/booking/getAll")
     // Set the dummy data to the state
-    setBookings(dummyData);
-    setFilteredBookings(dummyData); // Initialize filtered bookings
+    setBookings(response.data);
+    setFilteredBookings(response.data); // Initialize filtered bookings
   };
 
   const handleSearch = (e) => {
@@ -89,7 +61,7 @@ const EmployeeBookingManagement = () => {
 
   return (
     <div className="EBM-container">
-      <h1 class="EMB-title">Employee - Manage Bookings</h1>
+      <h1>Employee - Manage Bookings</h1>
 
       {/* Welcome message and button to open the employee booking modal */}
       <div>

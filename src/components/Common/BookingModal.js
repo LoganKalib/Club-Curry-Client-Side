@@ -3,27 +3,32 @@ import axios from 'axios'; // Import Axios for API requests
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import '../../CSS/BookingModal.css'; // Import your CSS for additional custom styling
 
-const BookingModal = ({ show, handleClose, booking }) => {
+const BookingModal = ({ show, handleClose, booking, handleBooking }) => {
   const [tableNo, setTableNo] = useState(booking?.tableNo || 1);
   const [sectionNo, setSectionNo] = useState(booking?.sectionNo || 'A');
   const [status, setStatus] = useState(booking?.status || 'Pending');
   const [bookedBy, setBookedBy] = useState(booking?.bookedBy || ''); // Updated from orderStatus to bookedBy
   const [date, setDate] = useState(booking?.date || '');
   const [time, setTime] = useState(booking?.time || '');
+  const [fullName, setFullName] = useState(booking?.name || '');
+  const [phoneNumber, setPhoneNumber] = useState(booking?.phoneNumber || '');
 
   const handleSubmit = () => {
-    if (tableNo && sectionNo && date && time && status && bookedBy) {
+    if (tableNo && sectionNo && date && time && status && bookedBy && fullName && phoneNumber) {
       const updatedBooking = {
         tableNo,
         sectionNo,
         status,
-        bookedBy, // Include bookedBy instead of orderStatus
+        bookedBy: {id: bookedBy}, // Include bookedBy instead of orderStatus
         date,
         time,
+        fullName,
+        phoneNumber,
+        orderStatus: "PENDING"
       };
 
       // Make an Axios request to the backend
-      const url = booking ? `/api/bookings/${booking.id}` : '/api/bookings'; // URL for POST (new) or PUT (update)
+      const url = booking ? `http://localhost:8080/ClubCurry/booking/update/${booking.id}` : 'http://localhost:8080/ClubCurry/booking/save'; // URL for POST (new) or PUT (update)
 
       const method = booking ? 'put' : 'post'; // Use PUT if updating, POST if creating new booking
 
@@ -35,6 +40,7 @@ const BookingModal = ({ show, handleClose, booking }) => {
         .then((response) => {
           console.log('Booking successful:', response.data);
           handleClose(); // Close the modal after successful booking
+          handleBooking(updatedBooking);
         })
         .catch((error) => {
           console.error('There was an error creating/updating the booking!', error);
@@ -96,9 +102,9 @@ const BookingModal = ({ show, handleClose, booking }) => {
                         value={status}
                         onChange={(e) => setStatus(e.target.value)}
                       >
-                        <option value="Pending">Pending</option>
-                        <option value="Confirmed">Confirmed</option>
-                        <option value="Cancelled">Cancelled</option>
+                        <option value="DENIED">DENIED</option>
+                        <option value="PENDING">PENDING</option>
+                        <option value="APPROVED">APPROVED</option>
                       </Form.Control>
                     </Form.Group>
                   </Col>
@@ -131,6 +137,28 @@ const BookingModal = ({ show, handleClose, booking }) => {
                         type="time"
                         value={time}
                         onChange={(e) => setTime(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form.Group controlId="formFullName">
+                      <Form.Label>Full Name</Form.Label>
+                      <Form.Control
+                          type="text"
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group controlId="formPhoneNumber">
+                      <Form.Label>Phone Number</Form.Label>
+                      <Form.Control
+                          type="text"
+                          value={phoneNumber}
+                          onChange={(e) => setPhoneNumber(e.target.value)}
                       />
                     </Form.Group>
                   </Col>

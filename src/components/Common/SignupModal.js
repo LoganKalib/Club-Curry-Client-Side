@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Row, Col, Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../../CSS/SignupModal.css';
 import curryCollage from '../../images/currycollage.jpg'; // Import the image
 
@@ -55,11 +56,39 @@ const SignupModal = ({ show, handleClose, onSignup }) => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSignup({ name, surname, email, password, phoneNumber: `${selectedCountry.code}${phoneNumber}` });
-    navigate('/'); // Redirect to HomePage after signup
-  };
+  
+  // Function to handle form submission
+     const handleSubmit = async (e) => {
+      e.preventDefault();
+      const signupData = {
+        email: email,
+        name: name,
+        surname: surname,
+        mobileNo: phoneNumber,
+        password: password
+      };
+  
+      console.log(signupData)
+      try {
+        const response = await axios.post("http://localhost:8080/ClubCurry/customer/save", signupData);
+        alert('Signup Successful');
+  
+          // Clear input fields
+          setName('');
+          setSurname('');
+          setEmail('');
+          setPassword('');
+          setPhoneNumber('');
+  
+        handleClose(); // Close the modal
+        navigate('/'); // Redirect to HomePage after signup
+  
+      } catch (error) {
+        console.error('Error during signup:', error);
+        alert(`Signup failed: ${error.response?.data || 'Signup Failed'}`); // Display error message from the response
+      }
+  
+    }; 
 
   return (
     <>

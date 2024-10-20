@@ -1,4 +1,4 @@
-.manage-drivers-container {
+.manage-admins-container {
     margin: 20px;
     padding: 20px;
     background-color: #e58a93;
@@ -6,7 +6,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.driver-table-heading {
+.admin-table-heading {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -14,29 +14,29 @@
     color: white;
 }
 
-.driver-table {
+.admin-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
 }
 
-.driver-table th, .driver-table td {
+.admin-table th, .admin-table td {
     border: 1px solid #dee2e6;
     padding: 8px;
     text-align: left;
 }
 
-.driver-table th {
+.admin-table th {
     background-color: #80212b;
     color: white;
     text-align: center;
 }
 
-.driver-table tbody tr:nth-child(odd) {
+.admin-table tbody tr:nth-child(odd) {
     background-color: #f8f9fa;
 }
 
-.driver-table tbody tr:hover {
+.admin-table tbody tr:hover {
     background-color: #e9ecef;
 }
 

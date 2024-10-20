@@ -45,12 +45,12 @@ const ManageBooking = () => {
     };
 
     return (
-        <div className="manage-bookings-container mt-5 pt-5 w-100">
+        <div className="manage-bookings-container ">
             <h2 className="booking-table-heading">Booking Management</h2>
-            <button className="btn btn-primary mb-3" onClick={() => openModal()}>
+            <button className="btn btn-primary" onClick={() => openModal()}>
                 Add New Booking
             </button>
-            <table className="booking-table w-100">
+            <table className="booking-table ">
                 <thead>
                     <tr>
                         <th>Booking ID</th>

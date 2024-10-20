@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, Button, Form } from 'react-bootstrap';
+import './MenuAdmin.css';
 
 const MenuAdmin = () => {
   // Existing state hooks
@@ -242,19 +243,14 @@ const MenuAdmin = () => {
   };
 
   return (
-    <div className="menu-admin-container mt-5 p-5">
+    <div className="menu-admin-container">
+      <h2 className="menu-admin-heading">Menu Management</h2>
       <div className="add-item-section">
         <Button className="add-item-button" onClick={handleAddMenuShow}>
           Add New Menu
         </Button>
         <Button className="add-item-button" onClick={handleAddItemShow}>
           Add New Item
-        </Button>
-        <Button className="add-item-button" onClick={handleAddMenuShow}>
-          Create Ingredient
-        </Button>
-        <Button className="add-item-button" onClick={handleAddItemShow}>
-          Assign Ingredients
         </Button>
       </div>
 
@@ -263,9 +259,9 @@ const MenuAdmin = () => {
           <div key={category} className="menu-category">
             <div style={{ alignItems: 'center', paddingBottom: '20px' }}>
               <h4>{category}</h4>
-              {/* <Button variant="danger" onClick={() => handleDeleteCategory(category)}>
+              <Button variant="danger" onClick={() => handleDeleteCategory(category)}>
                 Delete whole menu
-              </Button> */}
+              </Button>
             </div>
             {structuredMenu[category].map(item => (
               <div 
@@ -277,8 +273,9 @@ const MenuAdmin = () => {
                 <div>
                   <h5>{item.name}</h5>
                   <p>{item.description}</p>
+                  <p>Price: R{item.price}</p>
                 </div>
-                <p>Price: R{item.price}</p>
+                
                 <Button 
                   variant="danger" 
                   onClick={(e) => { e.stopPropagation(); handleDeleteShow(item.id); }}
