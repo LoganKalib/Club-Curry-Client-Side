@@ -4,15 +4,13 @@ import { Container } from 'react-bootstrap';
 import Header from './components/Common/Header';
 import Footer from './components/Common/Footer';
 import Menu from './components/Views/Customer/Menu';
-import CustomerReviews from './components/Views/Customer/CustomerReviews';
-import OrderHistorySection from './components/Views/Customer/OrderHistorySection';
+import DashboardLayout from './components/Views/Customer/DashboardLayout';
 import HomePage from './components/Views/Customer/HomePage';
 import CustomerDashboard from './components/Views/Customer/CustomerDashboard';
 import CustomerDashboardHeader from './components/Views/Customer/CustomerDashboardHeader';
 import LoginModal from './components/Common/LoginModal';
 import SignupModal from './components/Common/SignupModal';
 import DriverDashboardContainer from './components/Views/Driver/DriverDashboardContainer';
-//import Deliveries from './components/Views/Driver/Deliveries';
 import BookingTest from './components/Common/BookingTest';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -144,7 +142,7 @@ function App() {
   };
 
   const toggleCart = () => {
-    setShowCart(!showCart);
+    setShowCart(prevShowCart => !prevShowCart);
   };
 
   return (
@@ -172,6 +170,8 @@ function App() {
             decodedValue={decodedValue} // Pass decodedValue to AppRoutes
             setIsLoggedIn={setIsLoggedIn}
             onLogout={handleLogout}
+            toggleCart={toggleCart} // Pass toggleCart here
+
           />
           {/* Pass cart-related props to Cart component */}
           <Cart 
