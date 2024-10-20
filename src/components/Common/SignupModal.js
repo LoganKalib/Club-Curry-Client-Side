@@ -56,39 +56,37 @@ const SignupModal = ({ show, handleClose, onSignup }) => {
     }
   };
 
-  
   // Function to handle form submission
-     const handleSubmit = async (e) => {
-      e.preventDefault();
-      const signupData = {
-        email: email,
-        name: name,
-        surname: surname,
-        mobileNo: phoneNumber,
-        password: password
-      };
-  
-      console.log(signupData)
-      try {
-        const response = await axios.post("http://localhost:8080/ClubCurry/customer/save", signupData);
-        alert('Signup Successful');
-  
-          // Clear input fields
-          setName('');
-          setSurname('');
-          setEmail('');
-          setPassword('');
-          setPhoneNumber('');
-  
-        handleClose(); // Close the modal
-        navigate('/'); // Redirect to HomePage after signup
-  
-      } catch (error) {
-        console.error('Error during signup:', error);
-        alert(`Signup failed: ${error.response?.data || 'Signup Failed'}`); // Display error message from the response
-      }
-  
-    }; 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const signupData = {
+      email: email,
+      name: name,
+      surname: surname,
+      mobileNo: phoneNumber,
+      password: password
+    };
+
+    console.log(signupData);
+    try {
+      const response = await axios.post("http://localhost:8080/ClubCurry/customer/save", signupData);
+      alert('Signup Successful');
+
+      // Clear input fields
+      setName('');
+      setSurname('');
+      setEmail('');
+      setPassword('');
+      setPhoneNumber('');
+
+      handleClose(); // Close the modal
+      navigate('/'); // Redirect to HomePage after signup
+
+    } catch (error) {
+      console.error('Error during signup:', error);
+      alert(`Signup failed: ${error.response?.data || 'Signup Failed'}`); // Display error message from the response
+    }
+  };
 
   return (
     <>
@@ -107,7 +105,18 @@ const SignupModal = ({ show, handleClose, onSignup }) => {
             
             {/* Signup form column */}
             <Col md={8} className="form-column">
-              <Button className="custom-close-button" onClick={handleClose}>&times;</Button>
+
+              {/* Close button inside the form */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <button
+                  type="button"
+                  className="btn-close"
+                  aria-label="Close"
+                  onClick={handleClose}
+                  style={{ position: 'absolute', right: '10px', top: '10px' }}
+                ></button>
+              </div>
+
               <div className="form-title">Sign Up</div>
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicName">

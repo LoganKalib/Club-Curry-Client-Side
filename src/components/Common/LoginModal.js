@@ -65,7 +65,18 @@ const LoginModal = ({ show, handleClose, handleLogin }) => {
             
             {/* Login form column */}
             <Col md={8} className="form-column">
-            <Button className="custom-close-button" onClick={handleClose}>&times;</Button>
+
+              {/* Close button inside the form */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <button
+                  type="button"
+                  className="btn-close"
+                  aria-label="Close"
+                  onClick={handleClose}
+                  style={{ position: 'absolute', right: '10px', top: '10px' }}
+                ></button>
+              </div>
+
               <div className="form-title">Login</div>
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail">

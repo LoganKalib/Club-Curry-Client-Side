@@ -7,15 +7,7 @@ body {
   background-color: rgb(255, 252, 252) !important; /* Adjust text color for contrast if needed */
 }
 
-.container {
-  display: flex;
-  margin-left: 0px !important;
-  margin-right: 0px !important;
-  width: 100% !important;
-  max-width: none !important;
-  padding: 0px !important;
-  text-align: center;
-}
+
 
 /* App Styles */
 .App {

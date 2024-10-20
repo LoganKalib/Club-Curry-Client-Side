@@ -71,16 +71,3 @@
     background-color: rgb(239, 66, 66) !important ; /* Darker shade of maroon on hover */
 }
 
-/* Custom close button styles */
-.custom-close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: white !important;
-    border: none;
-    background: none !important;
-    border: none !important;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
