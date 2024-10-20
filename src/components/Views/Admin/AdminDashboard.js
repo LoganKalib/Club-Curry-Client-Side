@@ -4,7 +4,6 @@ import ManageDriver from "./ManageComponents/DriverManagement/ManageDriver";
 import './AdminDashboard.css';
 import MenuAdmin from "./MenuAdmin";
 import ManageCustomers from "./ManageComponents/CustomerManagement/ManageCustomers";
-import ManageVehicles from "./VehicleManagement/ManageVehicles";
 
 const AdminDashboard = ({decodedValue}) => {
     console.log(decodedValue);
@@ -20,8 +19,7 @@ const AdminDashboard = ({decodedValue}) => {
                 return <MenuAdmin />; // Use MenuAdmin component here
             case 'customers':
                 return <ManageCustomers />;
-            case 'vehicles':
-                return <ManageVehicles />;
+            
         
             default:
                 return <ManageBooking />;
@@ -32,10 +30,10 @@ const AdminDashboard = ({decodedValue}) => {
         <div className="admin-dashboard-container">
             <div className="admin-dashboard-tabs">
                 <button onClick={() => setActiveTab('bookings')}>Manage Bookings</button>
-                <button onClick={() => setActiveTab('drivers')}>Manage Drivers</button>
                 <button onClick={() => setActiveTab('menu')}>Manage Menu</button>
+                <button onClick={() => setActiveTab('drivers')}>Manage Drivers</button>
                 <button onClick={() => setActiveTab('customers')}>Manage Customers</button>
-                <button onClick={() => setActiveTab('vehicles')}>Manage Vehicles</button>
+                
             </div>
             <div className="admin-dashboard-content">
                 {renderActiveTab()}

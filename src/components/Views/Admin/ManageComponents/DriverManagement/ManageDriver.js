@@ -62,6 +62,9 @@ const ManageDriver = () => {
                         <th>Username</th>
                         <th>Petrol Allowance</th>
                         <th>Registration ID</th>
+                        <th>Model</th>
+                        <th>Color</th>
+                        <th>Make</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -74,6 +77,9 @@ const ManageDriver = () => {
                             <td>{driver.username}</td>
                             <td>{driver.petrolAllowance}</td>
                             <td>{driver.registration.id}</td>
+                            <td>{driver.model}</td>
+                            <td>{driver.color}</td>
+                            <td>{driver.make}</td>
                             <td>
                                 <button className="btn btn-warning mr-2" onClick={() => openModal(driver)}>EDIT</button>
                                 <button className="btn btn-danger" onClick={() => handleDelete(driver.id)}>DELETE</button>
