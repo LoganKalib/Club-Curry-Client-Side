@@ -1,7 +1,7 @@
 .manage-drivers-container {
     margin: 20px;
     padding: 20px;
-    background-color: #f8f9fa;
+    background-color: #e58a93;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -11,6 +11,7 @@
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
+    color: white;
 }
 
 .driver-table {
@@ -26,7 +27,7 @@
 }
 
 .driver-table th {
-    background-color: #007bff;
+    background-color: #80212b;
     color: white;
     text-align: center;
 }
