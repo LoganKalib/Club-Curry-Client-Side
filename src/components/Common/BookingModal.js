@@ -16,7 +16,7 @@ const BookingModal = ({ show, handleClose, booking, handleBooking }) => {
   const handleSubmit = () => {
     if (tableNo && sectionNo && date && time && status && bookedBy && fullName && phoneNumber) {
       const updatedBooking = {
-        bookingId: booking.bookingId,
+        bookingId: booking?.bookingId,
         tableNo,
         sectionNo,
         status,
