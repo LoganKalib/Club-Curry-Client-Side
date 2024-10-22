@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, Button, Modal, ProgressBar } from 'react-bootstrap';
 import './CustomerCss/OrderHistorySection.css'; // Import the CSS file
-import CustomerDashboardHeader from './CustomerDashboardHeader';
+//import CustomerDashboardHeader from './CustomerDashboardHeader';
 //import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios'; 
 import RestaurantDetails from './RestaurantDetails';
@@ -55,7 +55,7 @@ const OrderHistorySection = ({decodedValue}) => {
 
   return (
     <div className="order-history-section">
-      <CustomerDashboardHeader /> {/* Add this line */}
+      
       <h2>Your Orders</h2>
       <div className="orders-container">
         {deliveries

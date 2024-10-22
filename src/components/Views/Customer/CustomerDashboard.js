@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
-import CustomerDashboardHeader from './CustomerDashboardHeader';
+//import CustomerDashboardHeader from './CustomerDashboardHeader';
 import './CustomerCss/CustomerDashboard.css';
 import Cart from './Cart';
 import Menu from './Menu';
@@ -51,7 +51,7 @@ const CustomerDashboard = ({
 
   return (
     <div className="customer-dashboard">
-      <CustomerDashboardHeader isLoggedIn={isLoggedIn} onLogout={onLogout} onShowCart={handleShowCart} />
+      
 
       <div className="welcome-section">
         <h2>Welcome Back, {customer ? customer.name : 'Guest'}!</h2>
