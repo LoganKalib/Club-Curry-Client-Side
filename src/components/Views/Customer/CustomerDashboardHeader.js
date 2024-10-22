@@ -1,9 +1,8 @@
-import React from 'react';
 import { Navbar, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import '../Customer/CustomerCss/CustomerDashboardHeader.css';
 
-const CustomerDashboardHeader = ({ isLoggedIn, onLogout }) => {
+const CustomerDashboardHeader = ({ isLoggedIn, onLogout, onShowCart }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -23,11 +22,14 @@ const CustomerDashboardHeader = ({ isLoggedIn, onLogout }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <div className="buttons-container">
-          {isLoggedIn && (
-            <Button variant="outline-light" onClick={handleLogout}>
+          {/* Display Cart Button */}
+          <Button variant="outline-light" onClick={onShowCart}>
+            Cart
+          </Button>
+
+          <Button variant="outline-light" onClick={handleLogout}>
               Logout
             </Button>
-          )}
         </div>
       </Navbar.Collapse>
     </Navbar>
