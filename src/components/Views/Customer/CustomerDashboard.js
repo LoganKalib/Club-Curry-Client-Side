@@ -18,7 +18,7 @@ const CustomerDashboard = ({
   onLogout,
   addToCart,
 }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems] = useState([]);
   const [showMenu, setShowMenu] = useState(false); // State to control Menu visibility
   const [showCart, setShowCart] = useState(false);
   //const navigate = useNavigate();
