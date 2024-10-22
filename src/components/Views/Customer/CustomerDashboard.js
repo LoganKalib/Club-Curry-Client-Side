@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
 //import CustomerDashboardHeader from './CustomerDashboardHeader';
 import './CustomerCss/CustomerDashboard.css';
-import Cart from './Cart';
+import Cart from "./Cart";
 import Menu from './Menu';
 import FAQ from './FAQ';
 import RestaurantDetails from './RestaurantDetails';
@@ -16,38 +16,26 @@ const CustomerDashboard = ({
   onShowLogin,
   onShowSignup,
   onLogout,
+  addToCart
 }) => {
   const [cartItems, setCartItems] = useState([]);
   const [showMenu, setShowMenu] = useState(false); // State to control Menu visibility
   const [showCart, setShowCart] = useState(false);
   //const navigate = useNavigate();
+ 
+  
 
+  const handleCloseCart = () => {
+    setShowCart(false);
+    
+  };
   const handleViewMenu = () => {
     setShowMenu(true); // Show the menu when the button is clicked
   };
 
-  const addToCart = (item) => {
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(cartItem => cartItem.id === item.id);
-      if (existingItem) {
-        return prevItems.map(cartItem =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
-            : cartItem
-        );
-      } else {
-        return [...prevItems, { ...item, uniqueId: Date.now() }];
-      }
-    });
-  };
+ 
 
-  const handleShowCart = () => {
-    setShowCart(true);
-  };
-
-  const handleCloseCart = () => {
-    setShowCart(false);
-  };
+ 
 
   return (
     <div className="customer-dashboard">
@@ -61,6 +49,7 @@ const CustomerDashboard = ({
       {showMenu && (
         <Menu addToCart={addToCart} />
       )}
+      
       </div>
 
       

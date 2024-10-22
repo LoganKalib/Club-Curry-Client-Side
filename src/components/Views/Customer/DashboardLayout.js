@@ -16,6 +16,28 @@ const DashboardLayout = ({ isLoggedIn, onLogout, decodedValue }) => {
     const [showCart, setShowCart] = useState(false); // State to toggle cart visibility
     const [error, setError] = useState(null);
 
+    const addToCart = (item) => {
+      setCartItems(prevItems => {
+        const existingItem = prevItems.find(cartItem => cartItem.id === item.id);
+        if (existingItem) {
+          return prevItems.map(cartItem =>
+            cartItem.id === item.id
+              ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+              : cartItem
+          );
+        } else {
+          return [...prevItems, { ...item, uniqueId: Date.now() }];
+        }
+      });
+    };
+    const handleShowCart = () => {
+      setShowCart(true);
+    };
+    const handleCloseCart = () => {
+      setShowCart(false);
+      
+    };
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -35,30 +57,17 @@ const DashboardLayout = ({ isLoggedIn, onLogout, decodedValue }) => {
         }
     }, [decodedValue]);
 
-    const toggleCart = () => setShowCart(!showCart);
+   // const toggleCart = () => setShowCart(!showCart);
 
-    const addToCart = (item) => {
-        setCartItems(prevItems => {
-            const existingItem = prevItems.find(cartItem => cartItem.id === item.id);
-            if (existingItem) {
-                return prevItems.map(cartItem =>
-                    cartItem.id === item.id
-                        ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
-                        : cartItem
-                );
-            } else {
-                return [...prevItems, { ...item, uniqueId: Date.now() }];
-            }
-        });
-    };
+    
 
     return (
         <div className="dashboard-layout">
-            <CustomerDashboardHeader isLoggedIn={isLoggedIn} onLogout={onLogout} onShowCart={toggleCart} />
+            <CustomerDashboardHeader isLoggedIn={isLoggedIn} onLogout={onLogout} onShowCart={handleShowCart}/>
             <CustomerNavbar activeSection={activeSection} setActiveSection={setActiveSection} />
             <div className="dashboard-content">
                 {error && <div className="error-message">{error}</div>}
-                {activeSection === 'dashboard' && <CustomerDashboard customer={customer} />}
+                {activeSection === 'dashboard' && <CustomerDashboard customer={customer} addToCart={addToCart}/>}
                 {activeSection === 'reviews' && <CustomerReviews customer={customer} />}
                 {activeSection === 'order-history' && <OrderHistorySection customer={customer} />}
             </div>
@@ -70,7 +79,8 @@ const DashboardLayout = ({ isLoggedIn, onLogout, decodedValue }) => {
                 }}
                 onCheckout={() => alert('Checkout functionality to be implemented.')}
                 showCart={showCart}
-                onCloseCart={toggleCart}
+                onCloseCart={handleCloseCart}
+                isLoggedIn={isLoggedIn}
             />
         </div>
     );
