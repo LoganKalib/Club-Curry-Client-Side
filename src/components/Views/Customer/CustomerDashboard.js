@@ -64,41 +64,20 @@ const CustomerDashboard = ({
     navigate('/menu');
   };
 
-  const addToCart = async (item) => {
-    const cartItemData = {
-      menuItem: {
-        id: item.id,
-        name: item.name,
-        description: item.description,
-        price: item.price,
-        menuId: { id: item.menuId.id },
-      },
-      quantity: item.quantity || 1,
-      note: item.note || 'Add your note',
-      spiceLevel: item.spiceLevel || 'MED',
-    };
-
-    try {
-      const response = await axios.post('http://localhost:8080/ClubCurry/cartMenuItems/save', cartItemData);
-      if (response.status === 200) {
-        setCartItems((prevItems) => {
-          const existingItem = prevItems.find(cartItem => cartItem.menuItem.id === item.id);
-          if (existingItem) {
+  const addToCart = (item) => {
+    setCartItems(prevItems => {
+        const existingItem = prevItems.find(cartItem => cartItem.id === item.id);
+        if (existingItem) {
             return prevItems.map(cartItem =>
-              cartItem.menuItem.id === item.id
-                ? { ...cartItem, quantity: cartItem.quantity + 1 }
-                : cartItem
+                cartItem.id === item.id
+                    ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+                    : cartItem
             );
-          }
-          return [...prevItems, { ...cartItemData }];
-        });
-        alert('Item added to cart successfully!');
-      }
-    } catch (error) {
-      console.error('Error adding item to cart:', error);
-      alert('Failed to add item to cart. Please try again.');
-    }
-  };
+        } else {
+            return [...prevItems, { ...item, uniqueId: Date.now() }];
+        }
+    });
+};
 
   const handleShowCart = () => {
     setShowCart(true);

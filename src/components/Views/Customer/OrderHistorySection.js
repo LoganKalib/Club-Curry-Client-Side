@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, Button, Modal, ProgressBar } from 'react-bootstrap';
 import './CustomerCss/OrderHistorySection.css'; // Import the CSS file
 import CustomerDashboardHeader from './CustomerDashboardHeader';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+//import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios'; 
 import RestaurantDetails from './RestaurantDetails';
 
@@ -11,7 +11,7 @@ const OrderHistorySection = ({decodedValue}) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [deliveries, setDeliveries] = useState([]);
-  const navigate = useNavigate(); // Initialize useNavigate
+  //const navigate = useNavigate(); // Initialize useNavigate
 
   const customerEmail = "customer@example.com"; // Replace this with the actual logged-in customer's email
 
